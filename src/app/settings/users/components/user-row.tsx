@@ -12,6 +12,8 @@ interface UserRowProps {
 }
 
 export function UserRow({ user, onAssignRoles }: UserRowProps) {
+  const roles = user.userRoles?.map((ur) => ur.role) ?? [];
+
   return (
     <TableRow>
       <TableCell>
@@ -30,14 +32,14 @@ export function UserRow({ user, onAssignRoles }: UserRowProps) {
       </TableCell>
       <TableCell>
         <div className="flex flex-wrap gap-1">
-          {user.roles && user.roles.length > 0 ? (
-            user.roles.map((role) => (
+          {roles.length > 0 ? (
+            roles.map((role) => (
               <Badge key={role.id} variant="secondary" className="text-xs">
                 {role.name}
               </Badge>
             ))
           ) : (
-            <span className="text-muted-foreground text-sm">Sin roles</span>
+            <span className="text-muted-foreground text-sm">No roles</span>
           )}
         </div>
       </TableCell>
@@ -45,13 +47,13 @@ export function UserRow({ user, onAssignRoles }: UserRowProps) {
         <span className="text-muted-foreground text-sm">
           {user.lastVisit
             ? new Date(user.lastVisit).toLocaleDateString()
-            : "Nunca"}
+            : "Never"}
         </span>
       </TableCell>
       <TableCell>
         <Button variant="outline" size="sm" onClick={() => onAssignRoles(user)}>
           <Shield className="h-4 w-4 mr-2" />
-          Asignar Roles
+          Assign Roles
         </Button>
       </TableCell>
     </TableRow>
