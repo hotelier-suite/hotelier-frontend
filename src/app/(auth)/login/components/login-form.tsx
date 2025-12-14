@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { useAuth } from "@/hooks/use-auth";
+import { useAuthContext } from "@/contexts/auth-context";
 import Link from "next/link";
 
 const loginSchema = z.object({
@@ -26,7 +26,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const { login, isLoading } = useAuth();
+  const { login, isLoading } = useAuthContext();
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -42,7 +42,19 @@ export function LoginForm() {
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        void form.handleSubmit(onSubmit)(e);
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          void form.handleSubmit(onSubmit)();
+        }
+      }}
+      className="space-y-4"
+    >
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
         <Input
@@ -107,7 +119,12 @@ export function LoginForm() {
         </Label>
       </div>
 
-      <Button type="submit" className="w-full" disabled={isLoading}>
+      <Button
+        type="button"
+        className="w-full"
+        disabled={isLoading}
+        onClick={() => void form.handleSubmit(onSubmit)()}
+      >
         {isLoading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
