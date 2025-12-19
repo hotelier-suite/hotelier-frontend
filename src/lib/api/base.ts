@@ -73,14 +73,9 @@ async function refreshAccessToken(): Promise<string | null> {
       authCookies.setTokens(data.accessToken, data.refreshToken);
 
       return data.accessToken;
-    } catch (error) {
-      console.error("Token refresh failed:", error);
+    } catch {
       // Clear invalid tokens
       authCookies.clearAll();
-      // Redirect to login
-      if (typeof window !== "undefined") {
-        window.location.href = "/login";
-      }
       return null;
     } finally {
       isRefreshing = false;
@@ -96,6 +91,8 @@ export async function apiRequest<T>(
   options: RequestOptions = {},
 ): Promise<T> {
   const url = `${getAPIBaseURL()}${endpoint}`;
+  const isAuthEndpoint =
+    endpoint.includes("/auth/login") || endpoint.includes("/auth/register");
 
   // Get the access token using the authCookies helper
   let authHeader = {};
@@ -118,7 +115,11 @@ export async function apiRequest<T>(
 
     if (!response.ok) {
       // If we get a 401, try to refresh the token
-      if (response.status === 401 && !endpoint.includes("/auth/refresh")) {
+      if (
+        response.status === 401 &&
+        !endpoint.includes("/auth/refresh") &&
+        !isAuthEndpoint
+      ) {
         const newToken = await refreshAccessToken();
         if (newToken) {
           // Retry the original request with the new token
@@ -143,16 +144,13 @@ export async function apiRequest<T>(
           }
         }
 
-        // If refresh failed or retry failed, redirect to login
-        console.error("Authentication failed after token refresh attempt");
-        if (typeof window !== "undefined") {
-          window.location.href = "/login";
-        }
+        // If refresh failed or retry failed, let the UI decide how to handle it
       }
 
-      // Only log errors that are not expected application errors
-      if (![409, 422].includes(response.status)) {
-        console.error(`API request failed:`, {
+      // Intentionally avoid console.error here to prevent Next/Turbopack overlay noise.
+      // Errors are surfaced to the UI via thrown exceptions and handled by callers.
+      if (![401, 409, 422].includes(response.status) && !isAuthEndpoint) {
+        console.debug(`API request failed:`, {
           url,
           method: config.method || "GET",
           status: response.status,
@@ -179,14 +177,14 @@ export async function apiRequest<T>(
           }
         }
       } catch {
-        console.error("Could not read error response body");
+        console.debug("Could not read error response body");
       }
 
       // Add specific error messages for common HTTP status codes
       if (response.status === 403) {
         errorMessage =
           "Access denied. You don't have permission to perform this action.";
-      } else if (response.status === 401) {
+      } else if (response.status === 401 && !isAuthEndpoint) {
         errorMessage = "Authentication required. Please login again.";
       } else if (response.status === 404) {
         errorMessage = "The requested resource was not found.";
@@ -211,13 +209,15 @@ export async function apiRequest<T>(
     }
     return response.json();
   } catch (error: unknown) {
-    // Only log errors that are not expected
-    if (
-      !(error instanceof Error) ||
-      (!error.message?.includes("not available") &&
-        !error.message?.includes("validation failed"))
-    ) {
-      console.error(`API request failed for ${endpoint}:`, error);
+    // Avoid console noise for expected auth failures (e.g. wrong credentials)
+    if (!isAuthEndpoint) {
+      if (
+        !(error instanceof Error) ||
+        (!error.message?.includes("not available") &&
+          !error.message?.includes("validation failed"))
+      ) {
+        console.debug(`API request failed for ${endpoint}:`, error);
+      }
     }
     throw error;
   }

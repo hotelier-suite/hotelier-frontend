@@ -204,7 +204,6 @@ export function useAuth() {
       // Navigate immediately - let React handle state updates naturally
       router.push("/");
     } catch (error: unknown) {
-      console.error("Login error:", error);
       setAuthState((prev) => ({ ...prev, isLoading: false }));
       toast.error("Authentication error", {
         description:

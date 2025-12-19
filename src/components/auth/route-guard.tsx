@@ -26,7 +26,7 @@ function AuthLoadingSpinner() {
 // Hook to track client-side hydration
 function useIsClient() {
   return useSyncExternalStore(
-    () => () => { }, // subscribe (no-op since this never changes)
+    () => () => {}, // subscribe (no-op since this never changes)
     () => true, // getSnapshot (client-side)
     () => false, // getServerSnapshot (server-side)
   );
@@ -41,7 +41,8 @@ export function RouteGuard({ children }: RouteGuardProps) {
   const isHydrated = useIsClient();
 
   // Check if current path is an auth page
-  const isAuthPage = pathname === "/login" || pathname === "/register";
+  const isAuthPage =
+    pathname.startsWith("/login") || pathname.startsWith("/register");
 
   // Check if user should be redirected based on role and current path
   const checkRoleBasedRedirection = useCallback(() => {
@@ -124,7 +125,7 @@ export function RouteGuard({ children }: RouteGuardProps) {
   }
 
   // Show loading spinner while checking authentication
-  if (isLoading) {
+  if (isLoading && !isAuthPage) {
     return <AuthLoadingSpinner />;
   }
 

@@ -5,6 +5,7 @@ import { useAuthContext } from "@/contexts/auth-context";
 import ProfileDashboard from "./components/profile-dashboard";
 import { usersApi, type UserResponseDto } from "@/lib/api/users";
 import { authApi } from "@/lib/api/auth";
+import { useRouter } from "next/navigation";
 
 interface ProfileData {
   name: string;
@@ -31,7 +32,8 @@ function safeParsePrefs(prefs?: string | null): UserPreferences {
 }
 
 export default function ProfilePage() {
-  const { user, isLoading: authLoading } = useAuthContext();
+  const router = useRouter();
+  const { user, isLoading: authLoading, logout } = useAuthContext();
   const [loading, setLoading] = useState(true);
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -42,6 +44,7 @@ export default function ProfilePage() {
     if (!user) {
       setError("Authentication required");
       setLoading(false);
+      router.replace("/login");
       return;
     }
 
@@ -76,6 +79,13 @@ export default function ProfilePage() {
           setProfileData(fallbackData);
           setError(null);
         } catch (e) {
+          if (
+            e instanceof Error &&
+            e.message?.toLowerCase().includes("authentication required")
+          ) {
+            await logout();
+            return;
+          }
           console.error("Error fetching profile:", e);
           setError("Error loading profile data");
         }
@@ -85,7 +95,7 @@ export default function ProfilePage() {
     };
 
     fetchProfileData();
-  }, [user, authLoading]);
+  }, [user, authLoading, router, logout]);
 
   if (authLoading || loading) {
     return (
