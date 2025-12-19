@@ -33,13 +33,13 @@ export function CreateInventoryItemDialog({
     try {
       await inventoryApi.createInventoryItem(data);
 
-      toast.success("Producto creado exitosamente");
+      toast.success("Product created successfully");
 
       setOpen(false);
       onItemCreated?.();
     } catch (error) {
       console.error("Error creating inventory item:", error);
-      toast.error("No se pudo crear el producto. Por favor intenta de nuevo.");
+      toast.error("Could not create product. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -56,15 +56,15 @@ export function CreateInventoryItemDialog({
       <DialogTrigger asChild>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
-          Agregar Producto
+          Add Product
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Agregar Nuevo Producto al Inventario</DialogTitle>
+          <DialogTitle>Add New Product to Inventory</DialogTitle>
           <DialogDescription>
-            Completa la información del nuevo producto. Los campos marcados son
-            obligatorios.
+            Complete the information for the new product. Marked fields are
+            required.
           </DialogDescription>
         </DialogHeader>
 
@@ -72,7 +72,7 @@ export function CreateInventoryItemDialog({
           onSubmit={handleSubmit}
           onCancel={handleCancel}
           isSubmitting={isSubmitting}
-          submitLabel="Crear Producto"
+          submitLabel="Create Product"
         />
       </DialogContent>
     </Dialog>

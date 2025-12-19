@@ -43,7 +43,7 @@ export interface BeverageInventoryItem {
   unitCost: number;
   supplier: string;
   lastPurchase: string;
-  status: "available" | "low_stock" | "agotado";
+  status: "available" | "low_stock" | "out_of_stock";
 }
 
 // Backend data types
@@ -204,7 +204,7 @@ const transformBeverageItem = (
     : "",
   status:
     backendItem.status === "OUT_OF_STOCK"
-      ? "agotado"
+      ? "out_of_stock"
       : backendItem.status === "LOW_STOCK"
         ? "low_stock"
         : "available",

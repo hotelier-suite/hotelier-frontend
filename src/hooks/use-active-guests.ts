@@ -18,13 +18,13 @@ export function useActiveGuests() {
   useEffect(() => {
     const fetchGuests = async () => {
       try {
-        // Obtener habitaciones y reservaciones
+        // Get rooms and reservations
         const [rooms, reservations] = await Promise.all([
           roomsApi.getAll(),
           reservationsApi.getAll(),
         ]);
 
-        // Filtrar reservaciones activas (checked in o confirmed para hoy)
+        // Filter active reservations (checked in or confirmed for today)
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
@@ -42,14 +42,14 @@ export function useActiveGuests() {
           );
         });
 
-        // Mapear las reservaciones activas a huéspedes activos
+        // Map active reservations to active guests
         const activeGuests = activeReservations.map((reservation) => {
           const room = rooms.find((r) => r.id === reservation.roomId);
           return {
             id: reservation.id.toString(),
-            name: reservation.guestName || "Sin nombre",
-            email: reservation.guestEmail || "No disponible",
-            roomNumber: room?.number || "No asignada",
+            name: reservation.guestName || "No name",
+            email: reservation.guestEmail || "Not available",
+            roomNumber: room?.number || "Not assigned",
             checkOut: reservation.checkOutDate,
           };
         });
@@ -57,7 +57,7 @@ export function useActiveGuests() {
         setGuests(activeGuests);
         setError(null);
       } catch (err) {
-        setError("Error al cargar los huéspedes activos");
+        setError("Error loading active guests");
         console.error("Error fetching occupied rooms:", err);
       } finally {
         setLoading(false);

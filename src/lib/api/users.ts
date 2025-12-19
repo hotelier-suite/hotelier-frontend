@@ -6,6 +6,11 @@ export interface UserRoleDto {
   description?: string;
 }
 
+export interface UserRoleAssignmentDto {
+  id: number;
+  role: UserRoleDto;
+}
+
 export interface UserResponseDto {
   id: number;
   email: string;
@@ -21,7 +26,7 @@ export interface UserResponseDto {
   firstVisit?: string | null;
   isActive: boolean;
   lastLogin?: string | null;
-  roles: UserRoleDto[];
+  userRoles?: UserRoleAssignmentDto[];
   permissions?: string[];
 }
 

@@ -20,13 +20,13 @@ interface BackendOperationalReport {
   id: number;
   date: string;
   department:
-    | "FRONT_DESK"
-    | "HOUSEKEEPING"
-    | "RESTAURANT"
-    | "MAINTENANCE"
-    | "ACCOUNTING"
-    | "MANAGEMENT"
-    | "SECURITY";
+  | "FRONT_DESK"
+  | "HOUSEKEEPING"
+  | "RESTAURANT"
+  | "MAINTENANCE"
+  | "ACCOUNTING"
+  | "MANAGEMENT"
+  | "SECURITY";
   checkInsCompleted?: number;
   checkOutsCompleted?: number;
   averageCheckInTime?: string;
@@ -145,7 +145,7 @@ function transformOperationalReport(
   return {
     id: backendReport.id.toString(),
     date: backendReport.date.split("T")[0],
-    department: getDepartmentInSpanish(backendReport.department),
+    department: getDepartmentLabel(backendReport.department),
     checkInsCompleted: backendReport.checkInsCompleted,
     checkOutsCompleted: backendReport.checkOutsCompleted,
     averageCheckInTime: backendReport.averageCheckInTime,
@@ -174,29 +174,29 @@ function transformCustomerReport(
     averageRevenue: backendReport.averageRevenue,
     averageStay: backendReport.averageStay,
     satisfaction: backendReport.satisfaction,
-    loyalty: getLoyaltyInSpanish(backendReport.loyalty),
+    loyalty: getLoyaltyLabel(backendReport.loyalty),
   };
 }
 
 // Translation helper functions
-function getDepartmentInSpanish(department: string): string {
+function getDepartmentLabel(department: string): string {
   const departmentMap: Record<string, string> = {
-    FRONT_DESK: "Recepción",
-    HOUSEKEEPING: "Limpieza",
-    RESTAURANT: "Restaurante",
-    MAINTENANCE: "Mantenimiento",
-    MANAGEMENT: "Gerencia",
-    SECURITY: "Seguridad",
+    FRONT_DESK: "Front Desk",
+    HOUSEKEEPING: "Housekeeping",
+    RESTAURANT: "Restaurant",
+    MAINTENANCE: "Maintenance",
+    MANAGEMENT: "Management",
+    SECURITY: "Security",
   };
   return departmentMap[department] || department;
 }
 
-function getLoyaltyInSpanish(loyalty: string): string {
+function getLoyaltyLabel(loyalty: string): string {
   const loyaltyMap: Record<string, string> = {
-    BRONZE: "Bronce",
-    SILVER: "Plata",
-    GOLD: "Oro",
-    PLATINUM: "Platino",
+    BRONZE: "Bronze",
+    SILVER: "Silver",
+    GOLD: "Gold",
+    PLATINUM: "Platinum",
   };
   return loyaltyMap[loyalty] || loyalty;
 }
@@ -266,12 +266,12 @@ export const reportsApi = {
     department: string,
   ): Promise<OperationalReport[]> => {
     const departmentMap: Record<string, string> = {
-      Recepción: "FRONT_DESK",
-      Limpieza: "HOUSEKEEPING",
-      Restaurante: "RESTAURANT",
-      Mantenimiento: "MAINTENANCE",
-      Gerencia: "MANAGEMENT",
-      Seguridad: "SECURITY",
+      "Front Desk": "FRONT_DESK",
+      Housekeeping: "HOUSEKEEPING",
+      Restaurant: "RESTAURANT",
+      Maintenance: "MAINTENANCE",
+      Management: "MANAGEMENT",
+      Security: "SECURITY",
     };
     const backendDepartment =
       departmentMap[department] || department.toUpperCase();
@@ -476,7 +476,7 @@ export const reportsApi = {
 
       const blob = await response.blob();
       const contentDisposition = response.headers.get("content-disposition");
-      let filename = `reporte-financiero-${year}${month ? `-${month}` : ""}.pdf`;
+      let filename = `financial-report-${year}${month ? `-${month}` : ""}.pdf`;
 
       if (contentDisposition) {
         const filenameMatch = contentDisposition.match(

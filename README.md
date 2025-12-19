@@ -193,15 +193,25 @@ npm run lint:fix
 
 The application will be available at `http://localhost:3001`
 
-### Using Docker
+### Using Docker (Standalone)
 
 ```bash
 # Build the image
 docker build -t hotelier-frontend .
 
-# Run the container
+# Run the container (uses default env baked into the image or .env* files)
 docker run -p 3001:3000 hotelier-frontend
 ```
+
+### Using Hotelier Infra (Docker Compose)
+
+For running the **full Hotelier platform** (database, backend, frontend, and
+future microservices) with Docker, use the dedicated infra repository:
+
+- [`hotelier-infra`](https://github.com/hotelier-suite/hotelier-infra)
+
+That repository contains the canonical Docker Compose configuration and the
+step-by-step onboarding guide for spinning up the complete stack.
 
 ---
 

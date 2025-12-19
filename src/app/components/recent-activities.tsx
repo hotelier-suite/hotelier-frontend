@@ -23,8 +23,8 @@ export function RecentActivities({ activities }: RecentActivitiesProps) {
   return (
     <Card className="h-full">
       <CardHeader>
-        <CardTitle>Actividad Reciente</CardTitle>
-        <CardDescription>Últimas actividades del hotel</CardDescription>
+        <CardTitle>Recent Activity</CardTitle>
+        <CardDescription>Latest hotel activities</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -44,7 +44,7 @@ export function RecentActivities({ activities }: RecentActivitiesProps) {
                       ? "secondary"
                       : activity.type === "service"
                         ? "outline"
-                        : activity.type === "reservation"
+                        : activity.type === "reservationtion"
                           ? "default"
                           : "destructive"
                 }
@@ -52,11 +52,11 @@ export function RecentActivities({ activities }: RecentActivitiesProps) {
                 {activity.type === "checkin"
                   ? "Check-in"
                   : activity.type === "cleaning"
-                    ? "Limpieza"
+                    ? "Cleaning"
                     : activity.type === "service"
-                      ? "Servicio"
+                      ? "Service"
                       : activity.type === "reservation"
-                        ? "Reserva"
+                        ? "Reservation"
                         : "Check-out"}
               </Badge>
             </div>

@@ -23,8 +23,8 @@ export function UpcomingEvents({ events }: UpcomingEventsProps) {
   return (
     <Card className="h-full">
       <CardHeader>
-        <CardTitle>Próximos Eventos</CardTitle>
-        <CardDescription>Eventos programados</CardDescription>
+        <CardTitle>Upcoming Events</CardTitle>
+        <CardDescription>Scheduled events</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -34,7 +34,7 @@ export function UpcomingEvents({ events }: UpcomingEventsProps) {
               <div className="text-xs text-muted-foreground">{event.date}</div>
               <div className="text-xs">
                 <Badge variant="outline">
-                  {event.attendees ?? 0} asistentes
+                  {event.attendees ?? 0} attendees
                 </Badge>
               </div>
             </div>

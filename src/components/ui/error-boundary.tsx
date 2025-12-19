@@ -63,9 +63,9 @@ export class ErrorBoundary extends React.Component<
               <div className="mx-auto w-12 h-12 rounded-full bg-destructive/10 flex items-center justify-center mb-4">
                 <AlertTriangle className="w-6 h-6 text-destructive" />
               </div>
-              <CardTitle className="text-xl">Algo salió mal</CardTitle>
+              <CardTitle className="text-xl">Something went wrong</CardTitle>
               <CardDescription>
-                Ha ocurrido un error inesperado. Por favor, intenta nuevamente.
+                An unexpected error has occurred. Please try again.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -79,11 +79,11 @@ export class ErrorBoundary extends React.Component<
               <div className="flex gap-3 justify-center">
                 <Button variant="outline" onClick={this.handleRetry}>
                   <RefreshCw className="w-4 h-4 mr-2" />
-                  Reintentar
+                  Retry
                 </Button>
                 <Button onClick={() => (window.location.href = "/")}>
                   <Home className="w-4 h-4 mr-2" />
-                  Ir al inicio
+                  Go to home
                 </Button>
               </div>
             </CardContent>
@@ -96,10 +96,10 @@ export class ErrorBoundary extends React.Component<
   }
 }
 
-// Hook para usar error boundary con componentes funcionales
+// Hook for using error boundary with functional components
 export function useErrorHandler() {
   return (error: Error, errorInfo?: React.ErrorInfo) => {
     console.error("Error caught by error handler:", error, errorInfo);
-    // Aquí podrías enviar el error a un servicio de monitoreo como Sentry
+    // Here you could send the error to a monitoring service like Sentry
   };
 }

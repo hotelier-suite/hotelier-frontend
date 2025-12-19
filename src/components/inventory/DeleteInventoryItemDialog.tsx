@@ -37,14 +37,14 @@ export function DeleteInventoryItemDialog({
     try {
       await inventoryApi.deleteInventoryItem(item.id);
 
-      toast.success("Producto eliminado exitosamente");
+      toast.success("Product deleted successfully");
 
       onOpenChange(false);
       onItemDeleted?.();
     } catch (error) {
       console.error("Error deleting inventory item:", error);
       toast.error(
-        "No se pudo eliminar el producto. Por favor intenta de nuevo.",
+        "Could not delete product. Please try again.",
       );
     } finally {
       setIsDeleting(false);
@@ -57,27 +57,26 @@ export function DeleteInventoryItemDialog({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>¿Eliminar producto?</AlertDialogTitle>
+          <AlertDialogTitle>Delete product?</AlertDialogTitle>
           <AlertDialogDescription>
-            Esta acción no se puede deshacer. Se eliminará permanentemente el
-            producto &quot;{item.name}&quot; del inventario.
+            This action cannot be undone. The product &quot;{item.name}&quot; will be permanently deleted from inventory.
             {item.currentStock > 0 && (
               <span className="block mt-2 text-amber-600 font-medium">
-                ⚠️ Advertencia: Este producto tiene {item.currentStock}{" "}
-                {item.unit} en stock.
+                ⚠️ Warning: This product has {item.currentStock}{" "}
+                {item.unit} in stock.
               </span>
             )}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isDeleting}>Cancelar</AlertDialogCancel>
+          <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
             disabled={isDeleting}
             className="bg-red-600 hover:bg-red-700"
           >
             {isDeleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Eliminar
+            Delete
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

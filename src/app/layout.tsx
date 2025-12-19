@@ -9,13 +9,13 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Hotelier",
   description:
-    "Sistema integral de gestión hotelera. Simplifica la administración de tu hotel con herramientas modernas y eficientes.",
+    "Comprehensive hotel management system. Simplify your hotel administration with modern and efficient tools.",
   keywords: [
     "hotel",
     "management",
-    "gestión hotelera",
+    "hotel management",
     "PMS",
-    "sistema hotelero",
+    "hotel system",
     "hotelier",
   ],
   authors: [{ name: "Hotelier Team" }],
@@ -29,15 +29,15 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
   openGraph: {
     title: "Hotelier",
-    description: "Sistema integral de gestión hotelera",
+    description: "Comprehensive hotel management system",
     type: "website",
-    locale: "es_ES",
+    locale: "en_US",
     siteName: "Hotelier",
   },
   twitter: {
     card: "summary_large_image",
     title: "Hotelier",
-    description: "Sistema integral de gestión hotelera",
+    description: "Comprehensive hotel management system",
   },
   robots: "index, follow",
 };
@@ -49,7 +49,7 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className} suppressHydrationWarning>
         <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
       </body>

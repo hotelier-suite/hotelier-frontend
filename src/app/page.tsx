@@ -11,7 +11,7 @@ import { StatsGrid } from "./components/stats-grid";
 import { RecentActivities } from "./components/recent-activities";
 import { UpcomingEvents } from "./components/upcoming-events";
 import { OccupancyChart } from "./components/occupancy-chart";
-import { RevenueChart } from "./reportes/components/revenue-chart";
+import { RevenueChart } from "./reports/components/revenue-chart";
 import { QuickActions } from "./components/quick-actions";
 
 interface Reservation {
@@ -67,8 +67,8 @@ export default function Dashboard() {
     return (
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold">Panel de Control Hotelier</h1>
-          <p className="text-muted-foreground">Cargando datos del hotel...</p>
+          <h1 className="text-3xl font-bold">Hotelier Control Panel</h1>
+          <p className="text-muted-foreground">Loading hotel data...</p>
         </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {[1, 2, 3, 4].map((i) => (
@@ -131,36 +131,36 @@ export default function Dashboard() {
 
   const stats = [
     {
-      title: "Total Reservas",
+      title: "Total Reservations",
       value: reservations.length.toString(),
-      description: "Reservas registradas",
+      description: "Registered reservations",
       iconName: "calendar",
       color: "text-blue-600 dark:text-blue-400",
-      roles: ["administrador"],
+      roles: ["administrator"],
     },
     {
-      title: "Habitaciones",
+      title: "Rooms",
       value: availableRooms.toString(),
-      description: "Total disponibles",
+      description: "Total available",
       iconName: "bed",
       color: "text-green-600 dark:text-green-400",
-      roles: ["administrador"],
+      roles: ["administrator"],
     },
     {
-      title: "Ocupación",
+      title: "Occupancy",
       value: `${rooms.length > 0 ? Math.round((activeReservations.length / rooms.length) * 100) : 0}%`,
-      description: "Tasa de ocupación",
+      description: "Occupancy rate",
       iconName: "users",
       color: "text-purple-600 dark:text-purple-400",
-      roles: ["administrador"],
+      roles: ["administrator"],
     },
     {
-      title: "Ingresos del Mes",
+      title: "Monthly Revenue",
       value: formattedMonthlyRevenue,
-      description: "Ingresos generados",
+      description: "Generated income",
       iconName: "dollar-sign",
       color: "text-green-600 dark:text-green-400",
-      roles: ["administrador"],
+      roles: ["administrator"],
     },
   ];
 
@@ -172,10 +172,10 @@ export default function Dashboard() {
     .slice(0, 5)
     .map((r) => ({
       id: r.id.toString(),
-      guestName: r.guestName || "Sin nombre",
+      guestName: r.guestName || "No name",
       checkInDate: r.checkInDate,
       guests: r.guests || 1,
-      room: { number: r.room?.number || "Sin asignar" },
+      room: { number: r.room?.number || "Not assigned" },
     }));
 
   const upcomingDepartures = reservations
@@ -186,10 +186,10 @@ export default function Dashboard() {
     .slice(0, 5)
     .map((r) => ({
       id: r.id.toString(),
-      guestName: r.guestName || "Sin nombre",
+      guestName: r.guestName || "No name",
       checkOutDate: r.checkOutDate,
       guests: r.guests || 1,
-      room: { number: r.room?.number || "Sin asignar" },
+      room: { number: r.room?.number || "Not assigned" },
     }));
 
   const recentReservations = reservations
@@ -203,45 +203,45 @@ export default function Dashboard() {
         hour: "2-digit",
         minute: "2-digit",
       }),
-      activity: `Nueva reserva - ${r.guestName || "Sin nombre"}`,
+      activity: `New reservation - ${r.guestName || "No name"}`,
       type: "reservation" as const,
     }));
 
   const upcomingEvents = [
     ...upcomingArrivals.slice(0, 3).map((arrival) => ({
-      date: `Hoy ${new Date(arrival.checkInDate).toLocaleTimeString("es", {
+      date: `Today ${new Date(arrival.checkInDate).toLocaleTimeString("en", {
         hour: "2-digit",
         minute: "2-digit",
       })}`,
-      event: `Check-in - ${arrival.guestName} - Habitación ${arrival.room?.number}`,
+      event: `Check-in - ${arrival.guestName} - Room ${arrival.room?.number}`,
       attendees: arrival.guests,
     })),
     ...upcomingDepartures.slice(0, 2).map((departure) => ({
-      date: `Hoy ${new Date(departure.checkOutDate).toLocaleTimeString("es", {
+      date: `Today ${new Date(departure.checkOutDate).toLocaleTimeString("en", {
         hour: "2-digit",
         minute: "2-digit",
       })}`,
-      event: `Check-out - ${departure.guestName} - Habitación ${departure.room?.number}`,
+      event: `Check-out - ${departure.guestName} - Room ${departure.room?.number}`,
       attendees: departure.guests,
     })),
   ];
 
   if (upcomingEvents.length === 0) {
     upcomingEvents.push({
-      date: "Hoy",
-      event: "No hay eventos programados",
+      date: "Today",
+      event: "No scheduled events",
       attendees: 0,
     });
   }
 
   const occupancyData = [
     {
-      name: "Ocupadas",
+      name: "Occupied",
       value: activeReservations.length,
       fill: "hsl(var(--chart-1))",
     },
     {
-      name: "Disponibles",
+      name: "Available",
       value: availableRooms,
       fill: "hsl(var(--chart-2))",
     },
@@ -250,8 +250,8 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Panel de Control Hotelier</h1>
-        <p className="text-muted-foreground">Resumen general del hotel</p>
+        <h1 className="text-3xl font-bold">Hotelier Control Panel</h1>
+        <p className="text-muted-foreground">Hotel overview</p>
       </div>
 
       <StatsGrid stats={stats} />

@@ -15,9 +15,9 @@ export default function RegisterPage() {
         <div className="flex items-center justify-center mb-6">
           <HotelierLogo variant="full" size="xl" showBackground={false} />
         </div>
-        <CardTitle className="text-2xl">Crear Cuenta</CardTitle>
+        <CardTitle className="text-2xl">Create Account</CardTitle>
         <CardDescription>
-          Únete a Hotelier como cliente y disfruta de nuestros servicios
+          Join Hotelier as a customer and enjoy our services
         </CardDescription>
       </CardHeader>
       <CardContent>

@@ -5,10 +5,10 @@ import { Invoice, InvoiceItem, PaymentMethod } from "../types";
 export type { Invoice, InvoiceItem, PaymentMethod };
 
 export type PaymentStatus =
-  | "completado"
-  | "pendiente"
-  | "fallido"
-  | "reembolsado";
+  | "completed"
+  | "pending"
+  | "failed"
+  | "refunded";
 
 export interface Payment {
   id: string;
@@ -73,11 +73,11 @@ interface BackendInvoice {
   total: number;
   status: "PENDING" | "PAID" | "OVERDUE" | "CANCELLED";
   paymentMethod?:
-    | "CASH"
-    | "CREDIT_CARD"
-    | "DEBIT_CARD"
-    | "BANK_TRANSFER"
-    | "CHECK";
+  | "CASH"
+  | "CREDIT_CARD"
+  | "DEBIT_CARD"
+  | "BANK_TRANSFER"
+  | "CHECK";
   reservationId: number;
   reservation?: {
     room: {
@@ -139,25 +139,25 @@ function transformInvoiceItem(backendItem: BackendInvoiceItem): InvoiceItem {
 
 function transformInvoiceStatus(
   status: string,
-): "pagada" | "pendiente" | "vencida" | "cancelada" {
+): "paid" | "pending" | "overdue" | "cancelled" {
   switch (status) {
     case "PAID":
-      return "pagada";
+      return "paid";
     case "PENDING":
-      return "pendiente";
+      return "pending";
     case "OVERDUE":
-      return "vencida";
+      return "overdue";
     case "CANCELLED":
-      return "cancelada";
+      return "cancelled";
     default:
-      return "pendiente";
+      return "pending";
   }
 }
 
 function transformPaymentMethod(method?: string): PaymentMethod | undefined {
   if (!method) return undefined;
 
-  // Asegurarse de que el método de pago sea uno de los valores válidos
+  // Ensure the payment method is one of the valid values
   const validMethods: PaymentMethod[] = [
     "CASH",
     "CREDIT_CARD",
@@ -169,23 +169,23 @@ function transformPaymentMethod(method?: string): PaymentMethod | undefined {
 
   return validMethods.includes(method as PaymentMethod)
     ? (method as PaymentMethod)
-    : "CASH"; // Valor por defecto si el método no es válido
+    : "CASH"; // Default value if method is invalid
 }
 
 function transformPaymentStatus(
   status: string,
-): "completado" | "pendiente" | "fallido" | "reembolsado" {
+): "completed" | "pending" | "failed" | "refunded" {
   switch (status) {
     case "COMPLETED":
-      return "completado";
+      return "completed";
     case "PENDING":
-      return "pendiente";
+      return "pending";
     case "FAILED":
-      return "fallido";
+      return "failed";
     case "REFUNDED":
-      return "reembolsado";
+      return "refunded";
     default:
-      return "pendiente";
+      return "pending";
   }
 }
 
@@ -198,7 +198,7 @@ function transformBillingStatsToReport(
   const profit = revenue - expenses;
 
   return {
-    period: "Mes actual",
+    period: "Current month",
     revenue: revenue,
     expenses: expenses,
     profit: profit,
@@ -222,10 +222,10 @@ export const billingApi = {
 
   getInvoicesByStatus: async (status: string): Promise<Invoice[]> => {
     const statusMap: Record<string, string> = {
-      pagada: "PAID",
-      pendiente: "PENDING",
-      vencida: "OVERDUE",
-      cancelada: "CANCELLED",
+      paid: "PAID",
+      pending: "PENDING",
+      overdue: "OVERDUE",
+      cancelled: "CANCELLED",
     };
     const backendStatus = statusMap[status] || status.toUpperCase();
     const backendInvoices = (await apiRequest(
@@ -263,7 +263,7 @@ export const billingApi = {
   },
 
   createInvoice: async (invoiceData: CreateInvoiceDto): Promise<Invoice> => {
-    // Asegurarse de que las fechas se envíen como ISO strings
+    // Ensure dates are sent as ISO strings
     const backendData = {
       ...invoiceData,
       issueDate: invoiceData.issueDate.toISOString(),
@@ -339,7 +339,7 @@ export const billingApi = {
         id: payment.id.toString(),
         invoiceId: payment.invoiceId.toString(),
         amount: payment.amount,
-        method: transformPaymentMethod(payment.method) || "desconocido",
+        method: transformPaymentMethod(payment.method) || "unknown",
         status: transformPaymentStatus(payment.status),
         date: payment.processedAt
           ? payment.processedAt.split("T")[0]
@@ -377,7 +377,7 @@ export const billingApi = {
 
       const blob = await response.blob();
       const contentDisposition = response.headers.get("content-disposition");
-      let filename = `factura-${id}.pdf`;
+      let filename = `invoice-${id}.pdf`;
 
       if (contentDisposition) {
         const filenameMatch = contentDisposition.match(
@@ -403,7 +403,7 @@ export const billingApi = {
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Error downloading invoice:", error);
-      throw new Error("No se pudo descargar la factura");
+      throw new Error("Could not download invoice");
     }
   },
 };

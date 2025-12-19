@@ -30,15 +30,15 @@ export function LogoutDialog({
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
             <LogOut className="h-5 w-5 text-destructive" />
-            Cerrar Sesión
+            Log Out
           </AlertDialogTitle>
           <AlertDialogDescription>
-            ¿Estás seguro de que deseas cerrar sesión? Tendrás que volver a
-            iniciar sesión para acceder al sistema.
+            Are you sure you want to log out? You will need to log in again
+            to access the system.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isLoading}>Cancelar</AlertDialogCancel>
+          <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirm}
             disabled={isLoading}
@@ -47,12 +47,12 @@ export function LogoutDialog({
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Cerrando sesión...
+                Logging out...
               </>
             ) : (
               <>
                 <LogOut className="mr-2 h-4 w-4" />
-                Cerrar Sesión
+                Log Out
               </>
             )}
           </AlertDialogAction>

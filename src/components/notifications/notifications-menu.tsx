@@ -68,7 +68,7 @@ export function NotificationsMenu() {
                 "absolute -top-0.5 -right-0.5 md:-top-1 md:-right-1 min-w-[1rem] px-1 h-4 rounded-full bg-destructive text-[10px] leading-4 text-white text-center",
                 unreadCount > 9 && "px-1.5",
               )}
-              aria-label={`${unreadCount} notificaciones`}
+              aria-label={`${unreadCount} notifications`}
             >
               {unreadCount}
             </span>
@@ -80,12 +80,12 @@ export function NotificationsMenu() {
         className="w-80 max-h-[70vh] overflow-auto"
       >
         <DropdownMenuLabel>
-          Notificaciones {loading ? "(cargando...)" : ""}
+          Notifications {loading ? "(loading...)" : ""}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         {items.length === 0 && (
           <div className="px-3 py-2 text-sm text-muted-foreground">
-            No hay notificaciones
+            No notifications
           </div>
         )}
         {items.slice(0, 10).map((n) => (
@@ -111,7 +111,7 @@ export function NotificationsMenu() {
                     markOne(n.id);
                   }}
                 >
-                  Marcar leído
+                  Mark as read
                 </button>
               )}
             </div>
@@ -125,7 +125,7 @@ export function NotificationsMenu() {
               onClick={markAll}
               className="justify-center text-primary"
             >
-              Marcar todas como leídas
+              Mark all as read
             </DropdownMenuItem>
           </>
         )}

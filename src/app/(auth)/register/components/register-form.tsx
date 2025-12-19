@@ -16,26 +16,26 @@ import { toast } from "sonner";
 const registerSchema = z
   .object({
     name: z
-      .string({ message: "Este campo es obligatorio" })
-      .min(2, "Debe tener al menos 2 caracteres")
-      .max(100, "Debe tener máximo 100 caracteres"),
+      .string({ message: "This field is required" })
+      .min(2, "Must be at least 2 characters")
+      .max(100, "Must be at most 100 characters"),
     email: z
-      .string({ message: "Este campo es obligatorio" })
-      .email("Ingresa un email válido"),
+      .string({ message: "This field is required" })
+      .email("Enter a valid email"),
     phone: z
-      .string({ message: "Este campo es obligatorio" })
-      .regex(/^(\+\d{1,3}[- ]?)?\d{10}$/, "Ingresa un teléfono válido"),
+      .string({ message: "This field is required" })
+      .regex(/^(\+\d{1,3}[- ]?)?\d{10}$/, "Enter a valid phone number"),
     password: z
-      .string({ message: "Este campo es obligatorio" })
-      .min(8, "Debe tener al menos 8 caracteres")
+      .string({ message: "This field is required" })
+      .min(8, "Must be at least 8 characters")
       .regex(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/,
-        "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número",
+        "Password must have at least 8 characters, one uppercase, one lowercase and one number",
       ),
-    confirmPassword: z.string({ message: "Este campo es obligatorio" }),
+    confirmPassword: z.string({ message: "This field is required" }),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Las contraseñas no coinciden",
+    message: "Passwords do not match",
     path: ["confirmPassword"],
   });
 
@@ -66,16 +66,16 @@ export function RegisterForm() {
         password: data.password,
       });
 
-      toast.success("¡Registro exitoso!", {
-        description: "Tu cuenta ha sido creada. Ahora puedes iniciar sesión.",
+      toast.success("Registration successful!", {
+        description: "Your account has been created. You can now sign in.",
       });
 
       router.push("/login");
     } catch (error: unknown) {
-      console.error("Error en registro:", error);
+      console.error("Registration error:", error);
       const errorMessage =
-        error instanceof Error ? error.message : "Inténtalo de nuevo";
-      toast.error("Error al registrar usuario", {
+        error instanceof Error ? error.message : "Please try again";
+      toast.error("Error registering user", {
         description: errorMessage,
       });
     }
@@ -84,11 +84,11 @@ export function RegisterForm() {
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="name">Nombre Completo</Label>
+        <Label htmlFor="name">Full Name</Label>
         <Input
           id="name"
           type="text"
-          placeholder="Tu nombre completo"
+          placeholder="Your full name"
           {...form.register("name")}
           disabled={form.formState.isSubmitting}
           className={form.formState.errors.name ? "border-red-500" : ""}
@@ -101,11 +101,11 @@ export function RegisterForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="email">Correo Electrónico</Label>
+        <Label htmlFor="email">Email</Label>
         <Input
           id="email"
           type="email"
-          placeholder="tu@email.com"
+          placeholder="you@email.com"
           {...form.register("email")}
           disabled={form.formState.isSubmitting}
           className={form.formState.errors.email ? "border-red-500" : ""}
@@ -118,11 +118,11 @@ export function RegisterForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="phone">Teléfono</Label>
+        <Label htmlFor="phone">Phone</Label>
         <Input
           id="phone"
           type="tel"
-          placeholder="+57 300 123 4567"
+          placeholder="+1 300 123 4567"
           {...form.register("phone")}
           disabled={form.formState.isSubmitting}
           className={form.formState.errors.phone ? "border-red-500" : ""}
@@ -135,12 +135,12 @@ export function RegisterForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password">Contraseña</Label>
+        <Label htmlFor="password">Password</Label>
         <div className="relative">
           <Input
             id="password"
             type={showPassword ? "text" : "password"}
-            placeholder="Mínimo 8 caracteres"
+            placeholder="Minimum 8 characters"
             {...form.register("password")}
             disabled={form.formState.isSubmitting}
             className={form.formState.errors.password ? "border-red-500" : ""}
@@ -168,12 +168,12 @@ export function RegisterForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="confirmPassword">Confirmar Contraseña</Label>
+        <Label htmlFor="confirmPassword">Confirm Password</Label>
         <div className="relative">
           <Input
             id="confirmPassword"
             type={showConfirmPassword ? "text" : "password"}
-            placeholder="Repetir contraseña"
+            placeholder="Repeat password"
             {...form.register("confirmPassword")}
             disabled={form.formState.isSubmitting}
             className={
@@ -210,21 +210,21 @@ export function RegisterForm() {
         {form.formState.isSubmitting ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Creando cuenta...
+            Creating account...
           </>
         ) : (
-          "Crear Cuenta"
+          "Create Account"
         )}
       </Button>
 
       <div className="mt-6 text-center">
         <p className="text-sm text-muted-foreground">
-          ¿Ya tienes una cuenta?{" "}
+          Already have an account?{" "}
           <Link
             href="/login"
             className="text-primary underline-offset-4 hover:underline font-medium"
           >
-            Inicia sesión aquí
+            Sign in here
           </Link>
         </p>
       </div>

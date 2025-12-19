@@ -118,21 +118,21 @@ export const rolesApi = {
     userId: number,
     data: AssignRolesRequest,
   ): Promise<void> =>
-    apiRequest(`/roles/users/${userId}/roles`, {
+    apiRequest(`/users/${userId}/roles`, {
       method: "PUT",
       body: JSON.stringify(data),
     }),
 
   removeRoleFromUser: (userId: number, roleId: number): Promise<void> =>
-    apiRequest(`/roles/users/${userId}/roles/${roleId}`, {
+    apiRequest(`/users/${userId}/roles/${roleId}`, {
       method: "DELETE",
     }),
 
   getUserRoles: (userId: number): Promise<SystemRole[]> =>
-    apiRequest(`/roles/users/${userId}/roles`),
+    apiRequest(`/users/${userId}/roles`),
 
-  getUserPermissions: (userId: number): Promise<string[]> =>
-    apiRequest(`/roles/users/${userId}/permissions`),
+  getUserPermissions: (userId: number): Promise<SystemPermission[]> =>
+    apiRequest(`/users/${userId}/permissions`),
 };
 
 // System permissions API

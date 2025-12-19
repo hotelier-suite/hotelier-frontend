@@ -1,44 +1,44 @@
-# Dependencias de node
+# Node dependencies
 node_modules
 npm-debug.log*
 
-# Archivos de desarrollo
+# Development files
 .env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
-# Archivos de build de Next.js
+# Next.js build output
 .next
 out
 
-# Archivos de pruebas
+# Test artifacts
 coverage
 *.tsbuildinfo
 
-# Archivos del sistema
+# System files
 .DS_Store
 Thumbs.db
 
-# Archivos de logs
+# Log files
 *.log
 logs
 
-# Archivos de IDE
+# IDE files
 .vscode
 .idea
 *.swp
 *.swo
 
-# Archivos de git
+# Git files
 .git
 .gitignore
 
-# Docker
+# Docker files
 Dockerfile
 .dockerignore
 docker-compose*.yml
 
-# Archivos de configuración específicos del entorno
+# Environment-specific config
 next-env.d.ts

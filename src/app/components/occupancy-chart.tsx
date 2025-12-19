@@ -30,10 +30,10 @@ interface OccupancyChartProps {
 
 const chartConfig = {
   occupied: {
-    label: "Ocupadas",
+    label: "Occupied",
   },
   available: {
-    label: "Disponibles",
+    label: "Available",
   },
 };
 
@@ -46,8 +46,8 @@ export function OccupancyChart({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Ocupación de Habitaciones</CardTitle>
-        <CardDescription>Distribución actual de habitaciones</CardDescription>
+        <CardTitle>Room Occupancy</CardTitle>
+        <CardDescription>Current room distribution</CardDescription>
       </CardHeader>
       <CardContent>
         {mounted ? (
@@ -77,17 +77,17 @@ export function OccupancyChart({
             <div className="flex justify-center space-x-4 mt-4">
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-chart-1 rounded-full"></div>
-                <span className="text-sm">Ocupadas ({occupiedRooms})</span>
+                <span className="text-sm">Occupied ({occupiedRooms})</span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 bg-chart-2 rounded-full"></div>
-                <span className="text-sm">Disponibles ({availableRooms})</span>
+                <span className="text-sm">Available ({availableRooms})</span>
               </div>
             </div>
           </>
         ) : (
           <div className="mx-auto aspect-square max-h-[300px] flex items-center justify-center">
-            <div className="text-muted-foreground">Cargando gráfica...</div>
+            <div className="text-muted-foreground">Loading chart...</div>
           </div>
         )}
       </CardContent>

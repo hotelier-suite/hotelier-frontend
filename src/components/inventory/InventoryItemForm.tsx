@@ -27,7 +27,7 @@ import { Loader2 } from "lucide-react";
 // Define the schema based on the backend entity structure
 const inventoryItemSchema = z
   .object({
-    name: z.string().min(1, "Nombre es requerido").max(100, "Nombre muy largo"),
+    name: z.string().min(1, "Name is required").max(100, "Name too long"),
     category: z.enum([
       "LINENS",
       "AMENITIES",
@@ -38,26 +38,26 @@ const inventoryItemSchema = z
       "FURNITURE",
       "ELECTRONICS",
     ]),
-    currentStock: z.number().min(0, "Stock actual debe ser mayor o igual a 0"),
-    minimumStock: z.number().min(0, "Stock mínimo debe ser mayor o igual a 0"),
-    maximumStock: z.number().min(1, "Stock máximo debe ser mayor a 0"),
-    unit: z.string().min(1, "Unidad es requerida").max(20, "Unidad muy larga"),
-    unitCost: z.number().min(0, "Costo debe ser mayor o igual a 0"),
+    currentStock: z.number().min(0, "Current stock must be greater than or equal to 0"),
+    minimumStock: z.number().min(0, "Minimum stock must be greater than or equal to 0"),
+    maximumStock: z.number().min(1, "Maximum stock must be greater than 0"),
+    unit: z.string().min(1, "Unit is required").max(20, "Unit too long"),
+    unitCost: z.number().min(0, "Cost must be greater than or equal to 0"),
     supplier: z
       .string()
-      .min(1, "Proveedor es requerido")
-      .max(100, "Proveedor muy largo"),
+      .min(1, "Supplier is required")
+      .max(100, "Supplier name too long"),
     description: z.string().optional(),
     location: z.string().optional(),
     supplierId: z.number().optional(),
     lastRestockDate: z.string().nullable().optional(),
   })
   .refine((data) => data.maximumStock >= data.minimumStock, {
-    message: "Stock máximo debe ser mayor o igual al stock mínimo",
+    message: "Maximum stock must be greater than or equal to minimum stock",
     path: ["maximumStock"],
   })
   .refine((data) => data.maximumStock >= data.currentStock, {
-    message: "Stock máximo debe ser mayor o igual al stock actual",
+    message: "Maximum stock must be greater than or equal to current stock",
     path: ["maximumStock"],
   });
 
@@ -72,14 +72,14 @@ interface InventoryItemFormProps {
 }
 
 const categoryLabels = {
-  LINENS: "Ropa de Cama",
-  AMENITIES: "Amenidades",
-  CLEANING_SUPPLIES: "Suministros de Limpieza",
-  FOOD_BEVERAGE: "Alimentos y Bebidas",
-  MAINTENANCE: "Mantenimiento",
-  OFFICE_SUPPLIES: "Suministros de Oficina",
-  FURNITURE: "Mobiliario",
-  ELECTRONICS: "Electrónicos",
+  LINENS: "Linens",
+  AMENITIES: "Amenities",
+  CLEANING_SUPPLIES: "Cleaning Supplies",
+  FOOD_BEVERAGE: "Food & Beverage",
+  MAINTENANCE: "Maintenance",
+  OFFICE_SUPPLIES: "Office Supplies",
+  FURNITURE: "Furniture",
+  ELECTRONICS: "Electronics",
 };
 
 export function InventoryItemForm({
@@ -87,7 +87,7 @@ export function InventoryItemForm({
   onSubmit,
   onCancel,
   isSubmitting = false,
-  submitLabel = "Guardar",
+  submitLabel = "Save",
 }: InventoryItemFormProps) {
   const form = useForm<InventoryItemFormData>({
     resolver: zodResolver(inventoryItemSchema),
@@ -124,10 +124,10 @@ export function InventoryItemForm({
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nombre del Producto</FormLabel>
+                <FormLabel>Product Name</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder="Ej: Sábanas de algodón blancas"
+                    placeholder="E.g.: White cotton sheets"
                     {...field}
                   />
                 </FormControl>
@@ -141,14 +141,14 @@ export function InventoryItemForm({
             name="category"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Categoría</FormLabel>
+                <FormLabel>Category</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Seleccionar categoría" />
+                      <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -169,7 +169,7 @@ export function InventoryItemForm({
             name="currentStock"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Stock Actual</FormLabel>
+                <FormLabel>Current Stock</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -188,7 +188,7 @@ export function InventoryItemForm({
             name="minimumStock"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Stock Mínimo</FormLabel>
+                <FormLabel>Minimum Stock</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -198,7 +198,7 @@ export function InventoryItemForm({
                   />
                 </FormControl>
                 <FormDescription>
-                  Cantidad mínima antes de alertar sobre stock bajo
+                  Minimum quantity before alerting about low stock
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -210,7 +210,7 @@ export function InventoryItemForm({
             name="maximumStock"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Stock Máximo</FormLabel>
+                <FormLabel>Maximum Stock</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -220,7 +220,7 @@ export function InventoryItemForm({
                   />
                 </FormControl>
                 <FormDescription>
-                  Capacidad máxima de almacenamiento
+                  Maximum storage capacity
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -232,9 +232,9 @@ export function InventoryItemForm({
             name="unit"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Unidad de Medida</FormLabel>
+                <FormLabel>Unit of Measure</FormLabel>
                 <FormControl>
-                  <Input placeholder="Ej: piezas, litros, kg" {...field} />
+                  <Input placeholder="E.g.: pieces, liters, kg" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -246,7 +246,7 @@ export function InventoryItemForm({
             name="unitCost"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Costo por Unidad</FormLabel>
+                <FormLabel>Unit Cost</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -267,9 +267,9 @@ export function InventoryItemForm({
             name="supplier"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Proveedor</FormLabel>
+                <FormLabel>Supplier</FormLabel>
                 <FormControl>
-                  <Input placeholder="Nombre del proveedor" {...field} />
+                  <Input placeholder="Supplier name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -283,9 +283,9 @@ export function InventoryItemForm({
             name="location"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Ubicación (Opcional)</FormLabel>
+                <FormLabel>Location (Optional)</FormLabel>
                 <FormControl>
-                  <Input placeholder="Ej: Almacén A, Estante 3" {...field} />
+                  <Input placeholder="E.g.: Warehouse A, Shelf 3" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -298,7 +298,7 @@ export function InventoryItemForm({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Última Fecha de Reabastecimiento (Opcional)
+                  Last Restock Date (Optional)
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -318,10 +318,10 @@ export function InventoryItemForm({
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Descripción (Opcional)</FormLabel>
+              <FormLabel>Description (Opcional)</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Descripción detallada del producto..."
+                  placeholder="Detailed product description..."
                   rows={3}
                   {...field}
                 />
@@ -338,7 +338,7 @@ export function InventoryItemForm({
             onClick={onCancel}
             disabled={isSubmitting}
           >
-            Cancelar
+            Cancel
           </Button>
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

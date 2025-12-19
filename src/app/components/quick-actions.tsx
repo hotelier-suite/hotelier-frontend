@@ -14,36 +14,36 @@ export function QuickActions() {
   const actions = [
     {
       icon: CalendarDays,
-      label: "Nueva Reserva",
+      label: "New Reservation",
       color: "text-blue-600 dark:text-blue-400",
-      href: "/reservas",
+      href: "/reservations",
     },
     {
       icon: Users,
-      label: "Check-in Rápido",
+      label: "Quick Check-in",
       color: "text-green-600 dark:text-green-400",
-      href: "/reservas",
+      href: "/reservations",
     },
     {
       icon: Car,
-      label: "Parqueadero",
+      label: "Parking",
       color: "text-orange-600 dark:text-orange-400",
-      href: "/parqueadero",
+      href: "/parking",
     },
     {
       icon: FileText,
-      label: "Generar Reporte",
+      label: "Generate Report",
       color: "text-purple-600 dark:text-purple-400",
-      href: "/reportes",
+      href: "/reports",
     },
   ];
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Acciones Rápidas</CardTitle>
+        <CardTitle>Quick Actions</CardTitle>
         <CardDescription>
-          Accesos directos a funciones principales
+          Direct access to main features
         </CardDescription>
       </CardHeader>
       <CardContent>

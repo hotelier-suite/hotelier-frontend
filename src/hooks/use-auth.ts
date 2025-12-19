@@ -161,7 +161,7 @@ export function useAuth() {
     setAuthState((prev) => ({ ...prev, isLoading: true }));
 
     try {
-      // Llamar al API real del backend
+      // Call the real backend API
       const response = await authApi.login(email, password);
 
       const user: AuthUser = {
@@ -197,20 +197,19 @@ export function useAuth() {
       setAuthState(newAuthState);
 
       // Show success message
-      toast("¡Bienvenido!", {
-        description: "Has iniciado sesión correctamente.",
+      toast("Welcome!", {
+        description: "You have logged in successfully.",
       });
 
       // Navigate immediately - let React handle state updates naturally
       router.push("/");
     } catch (error: unknown) {
-      console.error("Login error:", error);
       setAuthState((prev) => ({ ...prev, isLoading: false }));
-      toast.error("Error de autenticación", {
+      toast.error("Authentication error", {
         description:
           error instanceof Error
             ? error.message
-            : "Credenciales incorrectas. Intenta nuevamente.",
+            : "Incorrect credentials. Please try again.",
       });
     }
   };
@@ -241,8 +240,8 @@ export function useAuth() {
     });
 
     // Show toast
-    toast("Sesión cerrada", {
-      description: "Has cerrado sesión correctamente.",
+    toast("Session closed", {
+      description: "You have logged out successfully.",
     });
 
     // Redirect to login - RouteGuard will not redirect back since no token exists
@@ -266,8 +265,8 @@ export function useAuth() {
       };
       authCookies.setUserData(userDataForStorage);
 
-      toast("Perfil actualizado", {
-        description: "Tu información ha sido actualizada correctamente.",
+      toast("Profile updated", {
+        description: "Your information has been updated successfully.",
       });
     }
   };

@@ -61,7 +61,7 @@ export interface Invoice {
   subtotal: number;
   taxes: number;
   total: number;
-  status: "pagada" | "pendiente" | "vencida" | "cancelada";
+  status: "paid" | "pending" | "overdue" | "cancelled";
   paymentMethod?: PaymentMethod;
   items: InvoiceItem[];
   createdAt?: string;

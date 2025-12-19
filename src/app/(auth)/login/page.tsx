@@ -15,9 +15,9 @@ export default function LoginPage() {
         <div className="flex items-center justify-center mb-6">
           <HotelierLogo variant="full" size="xl" showBackground={false} />
         </div>
-        <CardTitle className="text-2xl">Iniciar Sesión</CardTitle>
+        <CardTitle className="text-2xl">Sign In</CardTitle>
         <CardDescription>
-          Ingresa tus credenciales para acceder al sistema
+          Enter your credentials to access the system
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -25,20 +25,20 @@ export default function LoginPage() {
 
         <div className="mt-4 p-4 bg-muted rounded-lg">
           <p className="text-sm text-muted-foreground text-center mb-2">
-            Credenciales de prueba:
+            Test credentials:
           </p>
           <div className="space-y-2 text-xs">
             <div className="text-center">
               <strong>Super Admin:</strong> admin@hotelier.com / Admin@123
             </div>
             <div className="text-center">
-              <strong>Manager:</strong> gerente@hotelier.com / Staff@123
+              <strong>Manager:</strong> manager@hotelier.com / Staff@123
             </div>
             <div className="text-center">
-              <strong>Receptionist:</strong> recepcion@hotelier.com / Staff@123
+              <strong>Receptionist:</strong> reception@hotelier.com / Staff@123
             </div>
             <div className="text-center">
-              <strong>Cliente:</strong> cliente@hotelier.com / Guest@123
+              <strong>Guest:</strong> guest@hotelier.com / Guest@123
             </div>
           </div>
         </div>

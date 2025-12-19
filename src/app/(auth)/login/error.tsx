@@ -25,18 +25,17 @@ export default function Error({
             <AlertTriangle className="h-6 w-6 text-red-600" />
           </div>
           <CardTitle className="text-xl">
-            Error al cargar inicio de sesión
+            Error loading login
           </CardTitle>
           <CardDescription>
-            Ha ocurrido un error inesperado al cargar la página de inicio de
-            sesión.
+            An unexpected error occurred while loading the login page.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {process.env.NODE_ENV === "development" && (
             <div className="rounded-md bg-gray-50 p-4">
               <h4 className="text-sm font-medium text-gray-900 mb-2">
-                Detalles del error:
+                Error details:
               </h4>
               <p className="text-sm text-gray-600 font-mono break-all">
                 {error.message}
@@ -51,14 +50,14 @@ export default function Error({
           <div className="flex flex-col sm:flex-row gap-3">
             <Button onClick={reset} className="flex-1">
               <RefreshCw className="mr-2 h-4 w-4" />
-              Intentar nuevamente
+              Try again
             </Button>
             <Button
               variant="outline"
               onClick={() => window.location.reload()}
               className="flex-1"
             >
-              Recargar página
+              Reload page
             </Button>
           </div>
         </CardContent>

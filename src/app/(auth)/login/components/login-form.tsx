@@ -9,16 +9,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { useAuth } from "@/hooks/use-auth";
+import { useAuthContext } from "@/contexts/auth-context";
 import Link from "next/link";
 
 const loginSchema = z.object({
   email: z
-    .string({ message: "Este campo es obligatorio" })
-    .email("Ingresa un email válido"),
+    .string({ message: "This field is required" })
+    .email("Enter a valid email"),
   password: z
-    .string({ message: "Este campo es obligatorio" })
-    .min(8, "La contraseña debe tener al menos 8 caracteres"),
+    .string({ message: "This field is required" })
+    .min(8, "Password must be at least 8 characters"),
   rememberMe: z.boolean(),
 });
 
@@ -26,7 +26,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const { login, isLoading } = useAuth();
+  const { login, isLoading } = useAuthContext();
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -42,9 +42,21 @@ export function LoginForm() {
   };
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        void form.handleSubmit(onSubmit)(e);
+      }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          void form.handleSubmit(onSubmit)();
+        }
+      }}
+      className="space-y-4"
+    >
       <div className="space-y-2">
-        <Label htmlFor="email">Correo Electrónico</Label>
+        <Label htmlFor="email">Email</Label>
         <Input
           id="email"
           type="email"
@@ -61,12 +73,12 @@ export function LoginForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password">Contraseña</Label>
+        <Label htmlFor="password">Password</Label>
         <div className="relative">
           <Input
             id="password"
             type={showPassword ? "text" : "password"}
-            placeholder="Ingresa tu contraseña"
+            placeholder="Enter your password"
             {...form.register("password")}
             disabled={isLoading}
             className={form.formState.errors.password ? "border-red-500" : ""}
@@ -103,18 +115,23 @@ export function LoginForm() {
           disabled={isLoading}
         />
         <Label htmlFor="remember" className="text-sm">
-          Recordarme
+          Remember me
         </Label>
       </div>
 
-      <Button type="submit" className="w-full" disabled={isLoading}>
+      <Button
+        type="button"
+        className="w-full"
+        disabled={isLoading}
+        onClick={() => void form.handleSubmit(onSubmit)()}
+      >
         {isLoading ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            Iniciando sesión...
+            Signing in...
           </>
         ) : (
-          "Iniciar Sesión"
+          "Sign In"
         )}
       </Button>
 
@@ -123,16 +140,16 @@ export function LoginForm() {
           href="/forgot-password"
           className="text-sm text-muted-foreground hover:text-primary underline-offset-4 hover:underline"
         >
-          ¿Olvidaste tu contraseña?
+          Forgot your password?
         </Link>
         <div className="border-t pt-3">
           <p className="text-sm text-muted-foreground">
-            ¿No tienes una cuenta?{" "}
+            Don&apos;t have an account?{" "}
             <Link
               href="/register"
               className="text-primary underline-offset-4 hover:underline font-medium"
             >
-              Regístrate aquí
+              Register here
             </Link>
           </p>
         </div>

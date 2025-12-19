@@ -28,11 +28,11 @@ interface BackendParkingSpace {
   zone: string;
   type: "GUEST" | "VISITOR" | "EMPLOYEE" | "LOADING" | "DISABLED" | "VIP";
   status:
-    | "AVAILABLE"
-    | "OCCUPIED"
-    | "RESERVED"
-    | "MAINTENANCE"
-    | "OUT_OF_ORDER";
+  | "AVAILABLE"
+  | "OCCUPIED"
+  | "RESERVED"
+  | "MAINTENANCE"
+  | "OUT_OF_ORDER";
   currentVehicle?: string;
   hourlyRate: number;
   location: string;
@@ -45,12 +45,12 @@ interface BackendParkingSpace {
 interface BackendParkingIncident {
   id: number;
   type:
-    | "VEHICLE_DAMAGE"
-    | "INFRASTRUCTURE"
-    | "SECURITY"
-    | "ACCIDENT"
-    | "THEFT"
-    | "OTHER";
+  | "VEHICLE_DAMAGE"
+  | "INFRASTRUCTURE"
+  | "SECURITY"
+  | "ACCIDENT"
+  | "THEFT"
+  | "OTHER";
   description: string;
   vehicleId?: number;
   spaceId?: number;
@@ -128,10 +128,10 @@ function transformVehicle(backendVehicle: BackendVehicle): Vehicle {
     brand: backendVehicle.brand,
     model: backendVehicle.model,
     color: backendVehicle.color,
-    type: getVehicleTypeInSpanish(backendVehicle.type),
+    type: getVehicleTypeLabel(backendVehicle.type),
     owner: backendVehicle.owner,
     room: backendVehicle.room,
-    guestType: getGuestTypeInSpanish(backendVehicle.guestType),
+    guestType: getGuestTypeLabel(backendVehicle.guestType),
     assignedSpace: backendVehicle.assignedSpace,
     entryTime:
       backendVehicle.entryTime.split("T")[0] +
@@ -139,10 +139,10 @@ function transformVehicle(backendVehicle: BackendVehicle): Vehicle {
       backendVehicle.entryTime.split("T")[1].split(".")[0],
     exitTime: backendVehicle.exitTime
       ? backendVehicle.exitTime.split("T")[0] +
-        " " +
-        backendVehicle.exitTime.split("T")[1].split(".")[0]
+      " " +
+      backendVehicle.exitTime.split("T")[1].split(".")[0]
       : undefined,
-    status: getVehicleStatusInSpanish(backendVehicle.status),
+    status: getVehicleStatusLabel(backendVehicle.status),
     notes: backendVehicle.notes,
   };
 }
@@ -154,8 +154,8 @@ function transformParkingSpace(
     id: backendSpace.id.toString(),
     code: backendSpace.code,
     zone: backendSpace.zone,
-    type: getSpaceTypeInSpanish(backendSpace.type),
-    status: getSpaceStatusInSpanish(backendSpace.status),
+    type: getSpaceTypeLabel(backendSpace.type),
+    status: getSpaceStatusLabel(backendSpace.status),
     currentVehicle: backendSpace.currentVehicle,
     hourlyRate: backendSpace.hourlyRate,
     location: backendSpace.location,
@@ -167,14 +167,14 @@ function transformParkingIncident(
 ): ParkingIncident {
   return {
     id: backendIncident.id.toString(),
-    type: getIncidentTypeInSpanish(backendIncident.type),
+    type: getIncidentTypeLabel(backendIncident.type),
     description: backendIncident.description,
     vehicle: backendIncident.vehicle?.licensePlate,
     space: backendIncident.space?.code,
     reportDate: backendIncident.reportDate.split("T")[0],
-    status: getIncidentStatusInSpanish(backendIncident.status),
+    status: getIncidentStatusLabel(backendIncident.status),
     responsible: backendIncident.responsible,
-    priority: getPriorityInSpanish(backendIncident.priority),
+    priority: getPriorityLabel(backendIncident.priority),
     resolution: backendIncident.resolution,
     resolvedAt: backendIncident.resolvedAt
       ? backendIncident.resolvedAt.split("T")[0]
@@ -182,89 +182,89 @@ function transformParkingIncident(
   };
 }
 
-// Translation helper functions
-function getVehicleTypeInSpanish(type: string): string {
+// Label helper functions
+function getVehicleTypeLabel(type: string): string {
   const typeMap: Record<string, string> = {
-    CAR: "Automóvil",
-    MOTORCYCLE: "Motocicleta",
+    CAR: "Car",
+    MOTORCYCLE: "Motorcycle",
     VAN: "Van",
-    TRUCK: "Camión",
-    OTHER: "Otro",
+    TRUCK: "Truck",
+    OTHER: "Other",
   };
   return typeMap[type] || type;
 }
 
-function getGuestTypeInSpanish(type: string): string {
+function getGuestTypeLabel(type: string): string {
   const typeMap: Record<string, string> = {
     GUEST: "guest",
-    VISITOR: "visitante",
-    EMPLOYEE: "empleado",
-    SUPPLIER: "proveedor",
-    OTHER: "otro",
+    VISITOR: "visitor",
+    EMPLOYEE: "employee",
+    SUPPLIER: "supplier",
+    OTHER: "other",
   };
   return typeMap[type] || type.toLowerCase();
 }
 
-function getVehicleStatusInSpanish(status: string): string {
+function getVehicleStatusLabel(status: string): string {
   const statusMap: Record<string, string> = {
-    PARKED: "parqueado",
-    EXITED: "salido",
-    BLOCKED: "bloqueado",
+    PARKED: "parked",
+    EXITED: "exited",
+    BLOCKED: "blocked",
   };
   return statusMap[status] || status.toLowerCase();
 }
 
-function getSpaceTypeInSpanish(type: string): string {
+function getSpaceTypeLabel(type: string): string {
   const typeMap: Record<string, string> = {
-    GUEST: "Huéspedes",
-    VISITOR: "Visitantes",
-    EMPLOYEE: "Empleados",
-    LOADING: "Carga/Descarga",
-    DISABLED: "Discapacitados",
+    GUEST: "Guests",
+    VISITOR: "Visitors",
+    EMPLOYEE: "Employees",
+    LOADING: "Loading/Unloading",
+    DISABLED: "Disabled",
     VIP: "VIP",
   };
   return typeMap[type] || type;
 }
 
-function getSpaceStatusInSpanish(status: string): string {
+function getSpaceStatusLabel(status: string): string {
   const statusMap: Record<string, string> = {
-    AVAILABLE: "disponible",
-    OCCUPIED: "ocupado",
-    RESERVED: "reservado",
-    MAINTENANCE: "mantenimiento",
-    OUT_OF_ORDER: "fuera_de_servicio",
+    AVAILABLE: "available",
+    OCCUPIED: "occupied",
+    RESERVED: "reserved",
+    MAINTENANCE: "maintenance",
+    OUT_OF_ORDER: "out_of_order",
   };
   return statusMap[status] || status.toLowerCase();
 }
 
-function getIncidentTypeInSpanish(type: string): string {
+function getIncidentTypeLabel(type: string): string {
   const typeMap: Record<string, string> = {
-    VEHICLE_DAMAGE: "Daño Vehículo",
-    INFRASTRUCTURE: "Infraestructura",
-    SECURITY: "Seguridad",
-    ACCIDENT: "Accidente",
-    THEFT: "Robo",
-    OTHER: "Otro",
+    VEHICLE_DAMAGE: "Vehicle Damage",
+    INFRASTRUCTURE: "Infrastructure",
+    SECURITY: "Security",
+    ACCIDENT: "Accident",
+    THEFT: "Theft",
+    OTHER: "Other",
   };
   return typeMap[type] || type;
 }
 
-function getIncidentStatusInSpanish(status: string): string {
+function getIncidentStatusLabel(status: string): string {
   const statusMap: Record<string, string> = {
-    PENDING: "pendiente",
-    IN_PROGRESS: "en_proceso",
-    RESOLVED: "resuelto",
-    CANCELLED: "cancelado",
+    PENDING: "pending",
+    IN_PROGRESS: "in_progress",
+    RESOLVED: "resolved",
+    CANCELLED: "cancelled",
   };
   return statusMap[status] || status.toLowerCase();
 }
 
-function getPriorityInSpanish(priority: string): string {
+function getPriorityLabel(priority: string): string {
   const priorityMap: Record<string, string> = {
-    LOW: "baja",
-    NORMAL: "media",
-    HIGH: "alta",
-    URGENT: "urgente",
+    LOW: "low",
+    NORMAL: "medium",
+    HIGH: "high",
+    URGENT: "urgent",
   };
   return priorityMap[priority] || priority.toLowerCase();
 }
@@ -280,9 +280,9 @@ export const parkingApi = {
 
   getVehiclesByStatus: async (status: string): Promise<Vehicle[]> => {
     const statusMap: Record<string, string> = {
-      parqueado: "PARKED",
-      salido: "EXITED",
-      bloqueado: "BLOCKED",
+      parked: "PARKED",
+      exited: "EXITED",
+      blocked: "BLOCKED",
     };
     const backendStatus = statusMap[status] || status.toUpperCase();
     const backendVehicles = (await apiRequest(
@@ -294,10 +294,10 @@ export const parkingApi = {
   getVehiclesByGuestType: async (guestType: string): Promise<Vehicle[]> => {
     const typeMap: Record<string, string> = {
       guest: "GUEST",
-      visitante: "VISITOR",
-      empleado: "EMPLOYEE",
-      proveedor: "SUPPLIER",
-      otro: "OTHER",
+      visitor: "VISITOR",
+      employee: "EMPLOYEE",
+      supplier: "SUPPLIER",
+      other: "OTHER",
     };
     const backendType = typeMap[guestType] || guestType.toUpperCase();
     const backendVehicles = (await apiRequest(
@@ -307,20 +307,19 @@ export const parkingApi = {
   },
 
   createVehicle: async (vehicleData: Partial<Vehicle>): Promise<Vehicle> => {
-    // Mapear tipos de frontend a backend
+    // Map frontend types to backend
     const typeMap: Record<string, string> = {
-      Automóvil: "CAR",
-      Motocicleta: "MOTORCYCLE",
-      Camioneta: "VAN",
-      Camión: "TRUCK",
-      Otro: "OTHER",
+      Car: "CAR",
+      Motorcycle: "MOTORCYCLE",
+      Van: "VAN",
+      Truck: "TRUCK",
+      Other: "OTHER",
     };
 
     const guestTypeMap: Record<string, string> = {
       guest: "GUEST",
-      visitante: "VISITOR",
+      visitor: "VISITOR",
       employee: "EMPLOYEE",
-      empleado: "EMPLOYEE",
     };
 
     const backendData = {
@@ -372,11 +371,11 @@ export const parkingApi = {
 
   getSpacesByType: async (type: string): Promise<ParkingSpace[]> => {
     const typeMap: Record<string, string> = {
-      Huéspedes: "GUEST",
-      Visitantes: "VISITOR",
-      Empleados: "EMPLOYEE",
-      "Carga/Descarga": "LOADING",
-      Discapacitados: "DISABLED",
+      Guests: "GUEST",
+      Visitors: "VISITOR",
+      Employees: "EMPLOYEE",
+      "Loading/Unloading": "LOADING",
+      Disabled: "DISABLED",
       VIP: "VIP",
     };
     const backendType = typeMap[type] || type.toUpperCase();
@@ -398,11 +397,11 @@ export const parkingApi = {
     updates: { status?: string },
   ): Promise<ParkingSpace> => {
     const statusMap: Record<string, string> = {
-      disponible: "AVAILABLE",
-      ocupado: "OCCUPIED",
-      reservado: "RESERVED",
-      mantenimiento: "MAINTENANCE",
-      fuera_de_servicio: "OUT_OF_ORDER",
+      available: "AVAILABLE",
+      occupied: "OCCUPIED",
+      reserved: "RESERVED",
+      maintenance: "MAINTENANCE",
+      out_of_service: "OUT_OF_ORDER",
     };
 
     const backendData: { status?: string } = {};
@@ -429,10 +428,10 @@ export const parkingApi = {
 
   getIncidentsByStatus: async (status: string): Promise<ParkingIncident[]> => {
     const statusMap: Record<string, string> = {
-      pendiente: "PENDING",
-      en_proceso: "IN_PROGRESS",
-      resuelto: "RESOLVED",
-      cancelado: "CANCELLED",
+      pending: "PENDING",
+      in_progress: "IN_PROGRESS",
+      resolved: "RESOLVED",
+      cancelled: "CANCELLED",
     };
     const backendStatus = statusMap[status] || status.toUpperCase();
     const backendIncidents = (await apiRequest(
@@ -449,18 +448,18 @@ export const parkingApi = {
     priority: string;
     responsible: string;
   }): Promise<ParkingIncident> => {
-    // Mapear tipos de frontend a backend
+    // Map frontend types to backend
     const typeMap: Record<string, string> = {
-      "Daño Vehículo": "VEHICLE_DAMAGE",
-      Infraestructura: "INFRASTRUCTURE",
-      Seguridad: "SECURITY",
-      Accidente: "ACCIDENT",
-      Robo: "THEFT",
-      Limpieza: "OTHER",
-      Otro: "OTHER",
+      "Vehicle Damage": "VEHICLE_DAMAGE",
+      Infrastructure: "INFRASTRUCTURE",
+      Security: "SECURITY",
+      Accident: "ACCIDENT",
+      Theft: "THEFT",
+      Cleaning: "OTHER",
+      Other: "OTHER",
     };
 
-    // Buscar vehículo por placa si se especifica
+    // Search for vehicle by license plate if specified
     let vehicleId: number | undefined;
     if (incidentData.vehicle) {
       try {
@@ -472,11 +471,11 @@ export const parkingApi = {
         );
         vehicleId = vehicle?.id;
       } catch (error) {
-        console.warn("No se pudo encontrar el vehículo:", error);
+        console.warn("Could not find vehicle:", error);
       }
     }
 
-    // Buscar espacio por código si se especifica
+    // Search for space by code if specified
     let spaceId: number | undefined;
     if (incidentData.space) {
       try {
@@ -486,7 +485,7 @@ export const parkingApi = {
         const space = spaces.find((s) => s.code === incidentData.space);
         spaceId = space?.id;
       } catch (error) {
-        console.warn("No se pudo encontrar el espacio:", error);
+        console.warn("Could not find space:", error);
       }
     }
 

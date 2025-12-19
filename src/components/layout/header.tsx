@@ -82,15 +82,15 @@ export function Header() {
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => setTheme("light")}>
                 <Sun className="mr-2 h-4 w-4" />
-                Claro
+                Light
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme("dark")}>
                 <Moon className="mr-2 h-4 w-4" />
-                Oscuro
+                Dark
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme("system")}>
                 <Monitor className="mr-2 h-4 w-4" />
-                Sistema
+                System
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -130,29 +130,29 @@ export function Header() {
               <div className="lg:hidden">
                 <DropdownMenuItem onClick={() => setTheme("light")}>
                   <Sun className="mr-2 h-4 w-4" />
-                  Tema Claro
+                  Light Theme
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("dark")}>
                   <Moon className="mr-2 h-4 w-4" />
-                  Tema Oscuro
+                  Dark Theme
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("system")}>
                   <Monitor className="mr-2 h-4 w-4" />
-                  Tema Sistema
+                  System Theme
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
               </div>
 
               <DropdownMenuItem asChild>
-                <Link href="/perfil" className="cursor-pointer">
+                <Link href="/profile" className="cursor-pointer">
                   <User className="mr-2 h-4 w-4" />
-                  <span>Perfil</span>
+                  <span>Profile</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/configuracion" className="cursor-pointer">
+                <Link href="/settings" className="cursor-pointer">
                   <Settings className="mr-2 h-4 w-4" />
-                  <span>Configuración</span>
+                  <span>Settings</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -161,7 +161,7 @@ export function Header() {
                 onClick={() => setShowLogoutDialog(true)}
               >
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>Cerrar sesión</span>
+                <span>Log out</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

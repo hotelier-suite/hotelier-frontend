@@ -16,7 +16,7 @@ function AuthLoadingSpinner() {
       <div className="flex flex-col items-center space-y-4">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         <p className="text-sm text-muted-foreground">
-          Verificando autenticación...
+          Verifying authentication...
         </p>
       </div>
     </div>
@@ -41,7 +41,8 @@ export function RouteGuard({ children }: RouteGuardProps) {
   const isHydrated = useIsClient();
 
   // Check if current path is an auth page
-  const isAuthPage = pathname === "/login" || pathname === "/register";
+  const isAuthPage =
+    pathname.startsWith("/login") || pathname.startsWith("/register");
 
   // Check if user should be redirected based on role and current path
   const checkRoleBasedRedirection = useCallback(() => {
@@ -54,20 +55,20 @@ export function RouteGuard({ children }: RouteGuardProps) {
       return;
     }
 
-    // If user is a client and tries to access dashboard, redirect to mis-reservas
-    if (hasRole("cliente") && pathname === "/") {
-      router.replace("/mis-reservas");
+    // If user is a client and tries to access dashboard, redirect to my-reservations
+    if (hasRole("client") && pathname === "/") {
+      router.replace("/my-reservations");
       return;
     }
 
-    // If user is a client and on login page after authentication, redirect to mis-reservas
-    if (hasRole("cliente") && isAuthPage) {
-      router.replace("/mis-reservas");
+    // If user is a client and on login page after authentication, redirect to my-reservations
+    if (hasRole("client") && isAuthPage) {
+      router.replace("/my-reservations");
       return;
     }
 
     // If authenticated user (non-client) tries to access auth pages, redirect to dashboard
-    if (isAuthPage && !hasRole("cliente")) {
+    if (isAuthPage && !hasRole("client")) {
       router.replace("/");
       return;
     }
@@ -124,7 +125,7 @@ export function RouteGuard({ children }: RouteGuardProps) {
   }
 
   // Show loading spinner while checking authentication
-  if (isLoading) {
+  if (isLoading && !isAuthPage) {
     return <AuthLoadingSpinner />;
   }
 

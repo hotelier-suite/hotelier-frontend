@@ -11,7 +11,7 @@ export interface MaintenanceReport {
   description: string;
   priority: string;
   severity?: "low" | "medium" | "high" | "urgent";
-  status: "pendiente" | "en_proceso" | "completado" | "cancelado";
+  status: "pending" | "in_progress" | "completed" | "cancelled";
   reportedBy: string;
   assignedTo?: string;
   assignedTechnician?: string;
@@ -32,13 +32,13 @@ interface BackendMaintenanceReport {
   reportNumber: string;
   roomId?: number;
   type:
-    | "ELECTRICAL"
-    | "PLUMBING"
-    | "HVAC"
-    | "FURNITURE"
-    | "APPLIANCES"
-    | "STRUCTURAL"
-    | "COSMETIC";
+  | "ELECTRICAL"
+  | "PLUMBING"
+  | "HVAC"
+  | "FURNITURE"
+  | "APPLIANCES"
+  | "STRUCTURAL"
+  | "COSMETIC";
   description: string;
   priority: "LOW" | "NORMAL" | "HIGH" | "URGENT";
   status: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
@@ -65,11 +65,11 @@ interface BackendCleaningAssignment {
   startedAt?: string;
   completedAt?: string;
   status:
-    | "PENDING"
-    | "IN_PROGRESS"
-    | "COMPLETED"
-    | "INSPECTED"
-    | "NEEDS_MAINTENANCE";
+  | "PENDING"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "INSPECTED"
+  | "NEEDS_MAINTENANCE";
   notes?: string;
   qualityScore?: number;
   createdAt: string;
@@ -147,10 +147,10 @@ function transformMaintenanceReport(
     id: backendReport.id,
     reportNumber: backendReport.reportNumber,
     room: backendReport.room?.number,
-    type: getMaintenanceTypeInSpanish(backendReport.type),
+    type: getMaintenanceTypeLabel(backendReport.type),
     description: backendReport.description,
-    priority: getPriorityInSpanish(backendReport.priority),
-    status: getMaintenanceStatusInSpanish(backendReport.status),
+    priority: getPriorityLabel(backendReport.priority),
+    status: getMaintenanceStatusLabel(backendReport.status),
     reportedBy: backendReport.reportedBy,
     assignedTechnician: backendReport.assignedTechnician,
     estimatedTime: backendReport.estimatedTime,
@@ -170,7 +170,7 @@ function transformCleaningAssignment(
 ): CleaningAssignment {
   return {
     id: backendAssignment.id.toString(),
-    employeeName: backendAssignment.employee?.name || "Sin asignar",
+    employeeName: backendAssignment.employee?.name || "Not assigned",
     roomNumber: backendAssignment.room?.number || "N/A",
     assignedDate: backendAssignment.assignedDate.split("T")[0],
     startedAt: backendAssignment.startedAt
@@ -179,58 +179,58 @@ function transformCleaningAssignment(
     completedAt: backendAssignment.completedAt
       ? backendAssignment.completedAt.split("T")[0]
       : undefined,
-    status: getCleaningStatusInSpanish(backendAssignment.status),
+    status: getCleaningStatusLabel(backendAssignment.status),
     notes: backendAssignment.notes,
     qualityScore: backendAssignment.qualityScore,
   };
 }
 
-// Translation helper functions
-function getMaintenanceTypeInSpanish(type: string): string {
+// Label helper functions
+function getMaintenanceTypeLabel(type: string): string {
   const typeMap: Record<string, string> = {
-    ELECTRICAL: "Eléctrico",
-    PLUMBING: "Plomería",
-    HVAC: "Climatización",
-    FURNITURE: "Mobiliario",
-    APPLIANCES: "Electrodomésticos",
-    STRUCTURAL: "Estructural",
-    COSMETIC: "Estético",
+    ELECTRICAL: "Electrical",
+    PLUMBING: "Plumbing",
+    HVAC: "HVAC",
+    FURNITURE: "Furniture",
+    APPLIANCES: "Appliances",
+    STRUCTURAL: "Structural",
+    COSMETIC: "Cosmetic",
   };
   return typeMap[type] || type;
 }
 
-function getPriorityInSpanish(priority: string): string {
+function getPriorityLabel(priority: string): string {
   const priorityMap: Record<string, string> = {
-    LOW: "baja",
-    NORMAL: "media",
-    HIGH: "alta",
-    URGENT: "urgente",
+    LOW: "low",
+    NORMAL: "medium",
+    HIGH: "high",
+    URGENT: "urgent",
   };
   return priorityMap[priority] || priority.toLowerCase();
 }
 
-function getMaintenanceStatusInSpanish(
+function getMaintenanceStatusLabel(
   status: string,
-): "pendiente" | "en_proceso" | "completado" | "cancelado" {
+): "pending" | "in_progress" | "completed" | "cancelled" {
   const statusMap: Record<
     string,
-    "pendiente" | "en_proceso" | "completado" | "cancelado"
+    "pending" | "in_progress" | "completed" | "cancelled"
   > = {
-    PENDING: "pendiente",
-    IN_PROGRESS: "en_proceso",
-    COMPLETED: "completado",
-    CANCELLED: "cancelado",
+    PENDING: "pending",
+    IN_PROGRESS: "in_progress",
+    COMPLETED: "completed",
+    CANCELLED: "cancelled",
   };
-  return statusMap[status] || "pendiente";
+  return statusMap[status] || "pending";
 }
 
-function getCleaningStatusInSpanish(status: string): string {
+function getCleaningStatusLabel(status: string): string {
   const statusMap: Record<string, string> = {
-    PENDING: "pendiente",
-    IN_PROGRESS: "en_proceso",
-    COMPLETED: "completado",
-    INSPECTED: "inspeccionado",
-    NEEDS_MAINTENANCE: "necesita_mantenimiento",
+    PENDING: "pending",
+    IN_PROGRESS: "in_progress",
+    COMPLETED: "completed",
+    INSPECTED: "inspected",
+    NEEDS_MAINTENANCE: "needs_maintenance",
   };
   return statusMap[status] || status.toLowerCase();
 }
@@ -255,10 +255,10 @@ export const housekeepingApi = {
     status: string,
   ): Promise<MaintenanceReport[]> => {
     const statusMap: Record<string, string> = {
-      pendiente: "PENDING",
-      en_proceso: "IN_PROGRESS",
-      completado: "COMPLETED",
-      cancelado: "CANCELLED",
+      pending: "PENDING",
+      in_progress: "IN_PROGRESS",
+      completed: "COMPLETED",
+      cancelled: "CANCELLED",
     };
     const backendStatus = statusMap[status] || status.toUpperCase();
     const backendReports = (await apiRequest(
@@ -271,10 +271,10 @@ export const housekeepingApi = {
     priority: string,
   ): Promise<MaintenanceReport[]> => {
     const priorityMap: Record<string, string> = {
-      baja: "LOW",
-      media: "NORMAL",
-      alta: "HIGH",
-      urgente: "URGENT",
+      low: "LOW",
+      medium: "NORMAL",
+      high: "HIGH",
+      urgent: "URGENT",
     };
     const backendPriority = priorityMap[priority] || priority.toUpperCase();
     const backendReports = (await apiRequest(
@@ -287,13 +287,13 @@ export const housekeepingApi = {
     type: string,
   ): Promise<MaintenanceReport[]> => {
     const typeMap: Record<string, string> = {
-      Eléctrico: "ELECTRICAL",
-      Plomería: "PLUMBING",
-      Climatización: "HVAC",
-      Mobiliario: "FURNITURE",
-      Electrodomésticos: "APPLIANCES",
-      Estructural: "STRUCTURAL",
-      Estético: "COSMETIC",
+      Electrical: "ELECTRICAL",
+      Plumbing: "PLUMBING",
+      HVAC: "HVAC",
+      Furniture: "FURNITURE",
+      Appliances: "APPLIANCES",
+      Structural: "STRUCTURAL",
+      Cosmetic: "COSMETIC",
     };
     const backendType = typeMap[type] || type.toUpperCase();
     const backendReports = (await apiRequest(
@@ -310,7 +310,7 @@ export const housekeepingApi = {
       type: "GENERAL",
       description: reportData.description,
       priority: "NORMAL",
-      reportedBy: reportData.reportedBy || "Sistema",
+      reportedBy: reportData.reportedBy || "System",
       assignedTechnician: reportData.assignedTechnician,
       estimatedTime: reportData.estimatedTime,
     };
@@ -376,11 +376,11 @@ export const housekeepingApi = {
     status: string,
   ): Promise<CleaningAssignment[]> => {
     const statusMap: Record<string, string> = {
-      pendiente: "PENDING",
-      en_proceso: "IN_PROGRESS",
-      completado: "COMPLETED",
-      inspeccionado: "INSPECTED",
-      necesita_mantenimiento: "NEEDS_MAINTENANCE",
+      pending: "PENDING",
+      in_progress: "IN_PROGRESS",
+      completed: "COMPLETED",
+      inspected: "INSPECTED",
+      needs_maintenance: "NEEDS_MAINTENANCE",
     };
     const backendStatus = statusMap[status] || status.toUpperCase();
     const backendAssignments = (await apiRequest(
@@ -451,21 +451,21 @@ export const housekeepingApi = {
   }): Promise<MaintenanceReport> => {
     // Map frontend types to backend enums
     const typeMap: Record<string, string> = {
-      Plomería: "PLUMBING",
-      Electricidad: "ELECTRICAL",
-      "Aire Acondicionado": "HVAC",
-      Mobiliario: "FURNITURE",
-      Electrodomésticos: "APPLIANCES",
-      Estructural: "STRUCTURAL",
-      Estético: "COSMETIC",
+      Plumbing: "PLUMBING",
+      Electricity: "ELECTRICAL",
+      "Air Conditioning": "HVAC",
+      Furniture: "FURNITURE",
+      Appliances: "APPLIANCES",
+      Structural: "STRUCTURAL",
+      Cosmetic: "COSMETIC",
       General: "GENERAL",
     };
 
     const priorityMap: Record<string, string> = {
-      baja: "LOW",
-      media: "NORMAL",
-      alta: "HIGH",
-      crítica: "URGENT",
+      low: "LOW",
+      medium: "NORMAL",
+      high: "HIGH",
+      critical: "URGENT",
     };
 
     const backendData = {

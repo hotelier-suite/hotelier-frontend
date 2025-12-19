@@ -37,14 +37,14 @@ export function EditInventoryItemDialog({
     try {
       await inventoryApi.updateInventoryItem(item.id, data);
 
-      toast.success("Producto actualizado exitosamente");
+      toast.success("Product updated successfully");
 
       onOpenChange(false);
       onItemUpdated?.();
     } catch (error) {
       console.error("Error updating inventory item:", error);
       toast.error(
-        "No se pudo actualizar el producto. Por favor intenta de nuevo.",
+        "Could not update product. Please try again.",
       );
     } finally {
       setIsSubmitting(false);
@@ -102,10 +102,10 @@ export function EditInventoryItemDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Editar Producto</DialogTitle>
+          <DialogTitle>Edit Product</DialogTitle>
           <DialogDescription>
-            Modifica la información del producto. Los campos marcados son
-            obligatorios.
+            Modify the product information. Marked fields are
+            required.
           </DialogDescription>
         </DialogHeader>
 
@@ -115,7 +115,7 @@ export function EditInventoryItemDialog({
             onSubmit={handleSubmit}
             onCancel={handleCancel}
             isSubmitting={isSubmitting}
-            submitLabel="Guardar Cambios"
+            submitLabel="Save Changes"
           />
         )}
       </DialogContent>

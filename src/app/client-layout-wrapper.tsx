@@ -34,7 +34,8 @@ function LayoutContent({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   // Pages that should not show the dashboard layout
-  const isAuthPage = pathname === "/login" || pathname === "/register";
+  const isAuthPage =
+    pathname.startsWith("/login") || pathname.startsWith("/register");
 
   if (isAuthPage) {
     // Auth layout - just render children
@@ -46,6 +47,10 @@ function LayoutContent({ children }: { children: ReactNode }) {
 }
 
 export function ClientLayoutWrapper({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  const isAuthPage =
+    pathname.startsWith("/login") || pathname.startsWith("/register");
+
   return (
     <ThemeProvider
       attribute="class"
@@ -55,9 +60,13 @@ export function ClientLayoutWrapper({ children }: { children: ReactNode }) {
     >
       <AuthProvider>
         <NavigationUpdater />
-        <RouteGuard>
+        {isAuthPage ? (
           <LayoutContent>{children}</LayoutContent>
-        </RouteGuard>
+        ) : (
+          <RouteGuard>
+            <LayoutContent>{children}</LayoutContent>
+          </RouteGuard>
+        )}
       </AuthProvider>
       <Toaster richColors />
     </ThemeProvider>

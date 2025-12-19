@@ -1,81 +1,81 @@
-// Traducciones para el módulo de personal
+// Translations for staff module
 
 export const positionTranslations = {
   // Housekeeping positions
-  "Room Attendant": "Camarera",
-  "Housekeeping Supervisor": "Supervisor Limpieza",
-  Housekeeper: "Camarera",
+  "Room Attendant": "Room Attendant",
+  "Housekeeping Supervisor": "Housekeeping Supervisor",
+  Housekeeper: "Housekeeper",
 
   // Front Desk positions
-  "Front Desk Agent": "Agente Mostrador",
-  "Front Desk Manager": "Gerente Mostrador",
+  "Front Desk Agent": "Front Desk Agent",
+  "Front Desk Manager": "Front Desk Manager",
 
   // Maintenance positions
-  "Maintenance Technician": "Técnico Mantenimiento",
-  "Maintenance Manager": "Gerente Mantenimiento",
-  Electrician: "Electricista",
-  Plumber: "Plomero",
+  "Maintenance Technician": "Maintenance Technician",
+  "Maintenance Manager": "Maintenance Manager",
+  Electrician: "Electrician",
+  Plumber: "Plumber",
 
   // Security positions
-  "Security Guard": "Guardia Seguridad",
-  "Security Manager": "Gerente Seguridad",
+  "Security Guard": "Security Guard",
+  "Security Manager": "Security Manager",
 
   // Restaurant positions
-  Waitress: "Mesera",
-  Waiter: "Mesero",
+  Waitress: "Waitress",
+  Waiter: "Waiter",
   Chef: "Chef",
-  Cook: "Cocinero",
+  Cook: "Cook",
   Bartender: "Bartender",
-  Server: "Mesero",
+  Server: "Server",
 
   // Management positions
-  "General Manager": "Gerente General",
-  "Assistant Manager": "Gerente Asistente",
+  "General Manager": "General Manager",
+  "Assistant Manager": "Assistant Manager",
   Supervisor: "Supervisor",
 } as const;
 
 export const departmentTranslations = {
   // Departments
-  HOUSEKEEPING: "Limpieza",
-  MAINTENANCE: "Mantenimiento",
-  SECURITY: "Seguridad",
-  RESTAURANT: "Restaurante",
-  KITCHEN: "Cocina",
+  HOUSEKEEPING: "Housekeeping",
+  MAINTENANCE: "Maintenance",
+  SECURITY: "Security",
+  RESTAURANT: "Restaurant",
+  KITCHEN: "Kitchen",
   BAR: "Bar",
-  MANAGEMENT: "Gerencia",
-  ADMINISTRATION: "Administración",
-  SALES: "Ventas",
-  LAUNDRY: "Lavandería",
-  PARKING: "Estacionamiento",
+  MANAGEMENT: "Management",
+  ADMINISTRATION: "Administration",
+  SALES: "Sales",
+  LAUNDRY: "Laundry",
+  PARKING: "Parking",
 } as const;
 
 export const shiftTranslations = {
   // Shifts
-  Morning: "Mañana",
-  Day: "Día",
-  Evening: "Tarde",
-  Night: "Noche",
-  "Full Time": "Tiempo Completo",
-  "Part Time": "Medio Tiempo",
-  Weekend: "Fin de Semana",
-  Split: "Dividido",
+  Morning: "Morning",
+  Day: "Day",
+  Evening: "Evening",
+  Night: "Night",
+  "Full Time": "Full Time",
+  "Part Time": "Part Time",
+  Weekend: "Weekend",
+  Split: "Split",
 } as const;
 
 export const statusTranslations = {
   // Status
-  ACTIVE: "Activo",
-  INACTIVE: "Inactivo",
-  ON_LEAVE: "Vacaciones",
-  SICK_LEAVE: "Incapacidad",
-  TERMINATED: "Terminado",
-  SUSPENDED: "Suspendido",
+  ACTIVE: "Active",
+  INACTIVE: "Inactive",
+  ON_LEAVE: "On Leave",
+  SICK_LEAVE: "Sick Leave",
+  TERMINATED: "Terminated",
+  SUSPENDED: "Suspended",
 } as const;
 
 export const shiftStatusTranslations = {
   // Shift Status
-  SCHEDULED: "Programado",
-  ACTIVE: "Activo",
-  COMPLETED: "Completado",
-  CANCELLED: "Cancelado",
-  NO_SHOW: "No Asistió",
+  SCHEDULED: "Scheduled",
+  ACTIVE: "Active",
+  COMPLETED: "Completed",
+  CANCELLED: "Cancelled",
+  NO_SHOW: "No Show",
 } as const;

@@ -13,6 +13,11 @@ export interface UserRole {
   description?: string;
 }
 
+export interface UserRoleAssignment {
+  id: number;
+  role: UserRole;
+}
+
 export interface RegisterRequest {
   name: string;
   email: string;
@@ -26,6 +31,7 @@ export interface User {
   email: string;
   phone?: string;
   roles?: UserRole[];
+  userRoles?: UserRoleAssignment[];
   permissions?: string[];
   role?: "ADMIN" | "STAFF" | "CUSTOMER";
   loyaltyLevel?: string;

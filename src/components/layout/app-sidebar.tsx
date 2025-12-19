@@ -160,7 +160,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       // Return basic navigation items that don't require specific permissions
       return [
         {
-          title: "Panel Principal",
+          title: "Main Panel",
           items: [
             {
               title: "Dashboard",
@@ -190,12 +190,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>Estado</SidebarGroupLabel>
+            <SidebarGroupLabel>Status</SidebarGroupLabel>
             <SidebarGroupContent>
               <div className="px-3 py-2 text-sm text-muted-foreground">
                 {isLoading
-                  ? "Cargando información del usuario..."
-                  : "Sincronizando permisos..."}
+                  ? "Loading user information..."
+                  : "Syncing permissions..."}
               </div>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -215,10 +215,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>Sistema</SidebarGroupLabel>
+            <SidebarGroupLabel>System</SidebarGroupLabel>
             <SidebarGroupContent>
               <div className="px-3 py-2 text-sm text-muted-foreground">
-                {isLoading ? "Cargando..." : "Inicie sesión para acceder"}
+                {isLoading ? "Loading..." : "Login to access"}
               </div>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -235,13 +235,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <HotelierLogo variant="full" size="lg" showBackground={false} />
         </div>
         <div className="px-4 py-2 text-xs text-muted-foreground">
-          <div className="truncate">Bienvenido, {user?.name}</div>
+          <div className="truncate">Welcome, {user?.name}</div>
           <div className="truncate sm:hidden">
-            {user?.roles?.map((role) => role.name).join(", ") || "cliente"}
+            {user?.roles?.map((role) => role.name).join(", ") || "client"}
           </div>
           <div className="hidden sm:block truncate">
             Roles:{" "}
-            {user?.roles?.map((role) => role.name).join(", ") || "cliente"}
+            {user?.roles?.map((role) => role.name).join(", ") || "client"}
           </div>
         </div>
       </SidebarHeader>

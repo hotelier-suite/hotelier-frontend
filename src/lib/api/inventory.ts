@@ -14,12 +14,12 @@ export interface InventoryItem {
   supplier: string;
   location: string;
   lastPurchaseDate: string | null;
-  status: "disponible" | "bajo_stock" | "critico" | "agotado";
+  status: "available" | "low_stock" | "critical" | "out_of_stock";
 }
 
 export interface InventoryMovement {
   id: string;
-  type: "entrada" | "salida";
+  type: "inbound" | "outbound";
   item: string;
   quantity: number;
   date: string;
@@ -116,48 +116,48 @@ function transformInventoryItem(
     lastPurchaseDate: formattedDate,
     status:
       backendItem.status === "AVAILABLE"
-        ? "disponible"
+        ? "available"
         : backendItem.status === "LOW_STOCK"
-          ? "bajo_stock"
+          ? "low_stock"
           : backendItem.status === "OUT_OF_STOCK"
-            ? "agotado"
-            : "critico",
+            ? "out_of_stock"
+            : "critical",
   };
 }
 
 function transformInventoryMovement(
   backendMovement: BackendInventoryMovement,
 ): InventoryMovement {
-  // Map backend movement types to Spanish
-  let movementType: "entrada" | "salida" = "salida";
+  // Map backend movement types to English
+  let movementType: "inbound" | "outbound" = "outbound";
   if (backendMovement.type === "INBOUND" || backendMovement.type === "IN") {
-    movementType = "entrada";
+    movementType = "inbound";
   } else if (backendMovement.type === "ADJUSTMENT") {
-    movementType = backendMovement.quantity > 0 ? "entrada" : "salida";
+    movementType = backendMovement.quantity > 0 ? "inbound" : "outbound";
   }
 
   return {
     id: backendMovement.id.toString(),
     type: movementType,
-    item: backendMovement.inventory?.name || "Producto desconocido",
+    item: backendMovement.inventory?.name || "Unknown product",
     quantity: Math.abs(backendMovement.quantity), // Use absolute value for display
     date: backendMovement.createdAt.split("T")[0],
     reason: backendMovement.reason,
-    user: backendMovement.responsible || "Usuario desconocido",
+    user: backendMovement.responsible || "Unknown user",
   };
 }
 
 function transformSupplier(backendSupplier: BackendSupplier): Supplier {
   return {
     id: backendSupplier?.id ? backendSupplier.id.toString() : "0",
-    name: backendSupplier?.name || "Proveedor desconocido",
+    name: backendSupplier?.name || "Unknown supplier",
     contact: backendSupplier?.contact || "",
     phone: backendSupplier?.phone || "",
     email: backendSupplier?.email || "",
     address: backendSupplier?.address || "",
     products: [], // Default value since not in backend
-    deliveryTime: "3-5 días", // Default value since not in backend
-    paymentTerms: "30 días", // Default value since not in backend
+    deliveryTime: "3-5 days", // Default value since not in backend
+    paymentTerms: "30 days", // Default value since not in backend
   };
 }
 
@@ -184,10 +184,10 @@ export const inventoryApi = {
     status: string,
   ): Promise<InventoryItem[]> => {
     const statusMap: Record<string, string> = {
-      disponible: "AVAILABLE",
-      bajo_stock: "LOW_STOCK",
-      agotado: "OUT_OF_STOCK",
-      critico: "DISCONTINUED",
+      available: "AVAILABLE",
+      low_stock: "LOW_STOCK",
+      out_of_stock: "OUT_OF_STOCK",
+      critical: "DISCONTINUED",
     };
     const backendStatus = statusMap[status] || status;
     const backendItems = (await apiRequest(
@@ -279,7 +279,7 @@ export const inventoryApi = {
     movementData: Partial<InventoryMovement>,
   ): Promise<InventoryMovement> => {
     const backendData = {
-      type: movementData.type === "entrada" ? "ENTRADA" : "SALIDA",
+      type: movementData.type === "inbound" ? "INBOUND" : "OUTBOUND",
       itemName: movementData.item,
       quantity: movementData.quantity,
       user: movementData.user,

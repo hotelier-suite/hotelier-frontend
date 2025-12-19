@@ -1,7 +1,7 @@
 {
   "name": "Hotelier - Management Simplified",
   "short_name": "Hotelier",
-  "description": "Sistema integral de gestión hotelera",
+  "description": "Comprehensive hotel management system",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#3B82F6",
