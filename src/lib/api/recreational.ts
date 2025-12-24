@@ -238,7 +238,7 @@ export const recreationalApi = {
     if (endDate) params.append("endDate", endDate);
     const queryString = params.toString();
     return apiRequest(
-      `/recreational/statistics${queryString ? `?${queryString}` : ""}`,
+      `/recreational/bookings/statistics${queryString ? `?${queryString}` : ""}`,
     );
   },
 

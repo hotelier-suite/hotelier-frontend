@@ -147,7 +147,26 @@ export const maintenanceApi = {
   },
 
   async getStats(): Promise<MaintenanceStats> {
-    return apiRequest<MaintenanceStats>("/maintenance/stats");
+    const requests = await maintenanceApi.getAll();
+    const now = new Date();
+    return {
+      total: requests.length,
+      scheduled: requests.filter((r) => r.status === "scheduled").length,
+      inProgress: requests.filter((r) => r.status === "in_progress").length,
+      completed: requests.filter((r) => r.status === "completed").length,
+      overdue: requests.filter((r) => {
+        if (r.status === "completed" || r.status === "cancelled") return false;
+        const scheduledDate = r.scheduledDate ? new Date(r.scheduledDate) : null;
+        return scheduledDate && scheduledDate < now;
+      }).length,
+      byPriority: {
+        low: requests.filter((r) => r.priority === "low").length,
+        medium: requests.filter((r) => r.priority === "medium").length,
+        high: requests.filter((r) => r.priority === "high").length,
+        urgent: requests.filter((r) => r.priority === "urgent").length,
+        critical: requests.filter((r) => r.priority === "critical").length,
+      },
+    };
   },
 
   async assignTechnician(
@@ -166,11 +185,6 @@ export const maintenanceApi = {
     id: number,
     status: string,
   ): Promise<GeneralMaintenanceRequest> {
-    return apiRequest<GeneralMaintenanceRequest>(
-      `/maintenance/${id}/status/${status}`,
-      {
-        method: "PATCH",
-      },
-    );
+    return maintenanceApi.update(id, { status: status as UpdateMaintenanceRequestDto["status"] });
   },
 };

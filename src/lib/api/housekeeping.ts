@@ -245,10 +245,12 @@ export const housekeepingApi = {
   },
 
   getPendingMaintenanceReports: async (): Promise<MaintenanceReport[]> => {
+    // Get all reports and filter by pending status client-side
     const backendReports = (await apiRequest(
-      "/housekeeping/maintenance-reports/pending",
+      "/housekeeping/maintenance-reports",
     )) as BackendMaintenanceReport[];
-    return backendReports.map(transformMaintenanceReport);
+    const pendingReports = backendReports.filter((r) => r.status === "PENDING");
+    return pendingReports.map(transformMaintenanceReport);
   },
 
   getMaintenanceReportsByStatus: async (
@@ -261,10 +263,12 @@ export const housekeepingApi = {
       cancelled: "CANCELLED",
     };
     const backendStatus = statusMap[status] || status.toUpperCase();
+    // Get all reports and filter by status client-side
     const backendReports = (await apiRequest(
-      `/housekeeping/maintenance-reports/by-status?status=${backendStatus}`,
+      "/housekeeping/maintenance-reports",
     )) as BackendMaintenanceReport[];
-    return backendReports.map(transformMaintenanceReport);
+    const filteredReports = backendReports.filter((r) => r.status === backendStatus);
+    return filteredReports.map(transformMaintenanceReport);
   },
 
   getMaintenanceReportsByPriority: async (
@@ -277,10 +281,12 @@ export const housekeepingApi = {
       urgent: "URGENT",
     };
     const backendPriority = priorityMap[priority] || priority.toUpperCase();
+    // Get all reports and filter by priority client-side
     const backendReports = (await apiRequest(
-      `/housekeeping/maintenance-reports/by-priority?priority=${backendPriority}`,
+      "/housekeeping/maintenance-reports",
     )) as BackendMaintenanceReport[];
-    return backendReports.map(transformMaintenanceReport);
+    const filteredReports = backendReports.filter((r) => r.priority === backendPriority);
+    return filteredReports.map(transformMaintenanceReport);
   },
 
   getMaintenanceReportsByType: async (
@@ -296,10 +302,12 @@ export const housekeepingApi = {
       Cosmetic: "COSMETIC",
     };
     const backendType = typeMap[type] || type.toUpperCase();
+    // Get all reports and filter by type client-side
     const backendReports = (await apiRequest(
-      `/housekeeping/maintenance-reports/by-type?type=${backendType}`,
+      "/housekeeping/maintenance-reports",
     )) as BackendMaintenanceReport[];
-    return backendReports.map(transformMaintenanceReport);
+    const filteredReports = backendReports.filter((r) => r.type === backendType);
+    return filteredReports.map(transformMaintenanceReport);
   },
 
   createMaintenanceReport: async (
@@ -331,10 +339,14 @@ export const housekeepingApi = {
     assignedTechnician?: string,
   ): Promise<MaintenanceReport> => {
     const backendReport = (await apiRequest(
-      `/housekeeping/maintenance-reports/${id}/start`,
+      `/housekeeping/maintenance-reports/${id}`,
       {
         method: "PUT",
-        body: JSON.stringify({ assignedTechnician }),
+        body: JSON.stringify({ 
+          status: "IN_PROGRESS", 
+          assignedTechnician,
+          startedAt: new Date().toISOString()
+        }),
       },
     )) as BackendMaintenanceReport;
 
@@ -347,10 +359,15 @@ export const housekeepingApi = {
     notes?: string,
   ): Promise<MaintenanceReport> => {
     const backendReport = (await apiRequest(
-      `/housekeeping/maintenance-reports/${id}/complete`,
+      `/housekeeping/maintenance-reports/${id}`,
       {
         method: "PUT",
-        body: JSON.stringify({ cost, notes }),
+        body: JSON.stringify({ 
+          status: "COMPLETED", 
+          completedAt: new Date().toISOString(),
+          cost, 
+          notes 
+        }),
       },
     )) as BackendMaintenanceReport;
 
@@ -360,21 +377,32 @@ export const housekeepingApi = {
   // Cleaning Assignments
   getCleaningAssignments: async (): Promise<CleaningAssignment[]> => {
     const backendAssignments = (await apiRequest(
-      "/housekeeping/cleaning-assignments",
+      "/housekeeping/assignments",
     )) as BackendCleaningAssignment[];
     return backendAssignments.map(transformCleaningAssignment);
   },
 
   getTodaysCleaningAssignments: async (): Promise<CleaningAssignment[]> => {
+    // Get all assignments and filter by today's date client-side
     const backendAssignments = (await apiRequest(
-      "/housekeeping/cleaning-assignments/today",
+      "/housekeeping/assignments",
     )) as BackendCleaningAssignment[];
-    return backendAssignments.map(transformCleaningAssignment);
+    
+    const today = new Date().toISOString().split('T')[0];
+    const todaysAssignments = backendAssignments.filter(
+      (a) => a.assignedDate.split('T')[0] === today
+    );
+    return todaysAssignments.map(transformCleaningAssignment);
   },
 
   getCleaningAssignmentsByStatus: async (
     status: string,
   ): Promise<CleaningAssignment[]> => {
+    // Get all assignments and filter by status client-side
+    const backendAssignments = (await apiRequest(
+      "/housekeeping/assignments",
+    )) as BackendCleaningAssignment[];
+    
     const statusMap: Record<string, string> = {
       pending: "PENDING",
       in_progress: "IN_PROGRESS",
@@ -383,17 +411,18 @@ export const housekeepingApi = {
       needs_maintenance: "NEEDS_MAINTENANCE",
     };
     const backendStatus = statusMap[status] || status.toUpperCase();
-    const backendAssignments = (await apiRequest(
-      `/housekeeping/cleaning-assignments/by-status?status=${backendStatus}`,
-    )) as BackendCleaningAssignment[];
-    return backendAssignments.map(transformCleaningAssignment);
+    const filteredAssignments = backendAssignments.filter(
+      (a) => a.status === backendStatus
+    );
+    return filteredAssignments.map(transformCleaningAssignment);
   },
 
   startCleaningWork: async (id: string): Promise<CleaningAssignment> => {
     const backendAssignment = (await apiRequest(
-      `/housekeeping/cleaning-assignments/${id}/start`,
+      `/housekeeping/assignments/${id}`,
       {
         method: "PUT",
+        body: JSON.stringify({ status: "IN_PROGRESS", startedAt: new Date().toISOString() }),
       },
     )) as BackendCleaningAssignment;
 
@@ -406,10 +435,15 @@ export const housekeepingApi = {
     notes?: string,
   ): Promise<CleaningAssignment> => {
     const backendAssignment = (await apiRequest(
-      `/housekeeping/cleaning-assignments/${id}/complete`,
+      `/housekeeping/assignments/${id}`,
       {
         method: "PUT",
-        body: JSON.stringify({ qualityScore, notes }),
+        body: JSON.stringify({ 
+          status: "COMPLETED", 
+          completedAt: new Date().toISOString(),
+          qualityScore, 
+          notes 
+        }),
       },
     )) as BackendCleaningAssignment;
 
@@ -424,9 +458,18 @@ export const housekeepingApi = {
   },
 
   getMaintenanceCosts: async (startDate: string, endDate: string) => {
-    return await apiRequest(
-      `/housekeeping/maintenance-costs?startDate=${startDate}&endDate=${endDate}`,
-    );
+    // Get all maintenance reports and calculate costs client-side
+    const backendReports = (await apiRequest(
+      "/housekeeping/maintenance-reports",
+    )) as BackendMaintenanceReport[];
+    
+    const filteredReports = backendReports.filter((r) => {
+      const reportDate = new Date(r.createdAt).toISOString().split('T')[0];
+      return reportDate >= startDate && reportDate <= endDate;
+    });
+    
+    const totalCost = filteredReports.reduce((sum, r) => sum + (r.cost || 0), 0);
+    return { totalCost, reports: filteredReports.length };
   },
 
   getCleaningPerformance: async (employeeId?: string) => {
@@ -437,9 +480,14 @@ export const housekeepingApi = {
   },
 
   getRoomsForIncidentReports: async (): Promise<Room[]> => {
-    return (await apiRequest(
-      "/housekeeping/rooms/for-incident-reports",
-    )) as Room[];
+    // Use the rooms endpoint from the rooms service
+    try {
+      const rooms = (await apiRequest("/rooms")) as Room[];
+      return rooms;
+    } catch {
+      // Return empty array if rooms endpoint fails
+      return [];
+    }
   },
 
   createIncidentReport: async (incidentData: {
@@ -469,6 +517,7 @@ export const housekeepingApi = {
     };
 
     const backendData = {
+      reportNumber: `INC-${Date.now()}`,
       roomNumber: incidentData.roomNumber,
       type: typeMap[incidentData.type] || "GENERAL",
       priority: priorityMap[incidentData.priority] || "NORMAL",
@@ -476,7 +525,8 @@ export const housekeepingApi = {
       reportedBy: incidentData.reportedBy || "Housekeeping Staff",
     };
 
-    const backendReport = (await apiRequest("/housekeeping/incident-reports", {
+    // Use maintenance-reports endpoint for incident reports
+    const backendReport = (await apiRequest("/housekeeping/maintenance-reports", {
       method: "POST",
       body: JSON.stringify(backendData),
     })) as BackendMaintenanceReport;
