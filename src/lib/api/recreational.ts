@@ -226,7 +226,7 @@ export const recreationalApi = {
 
   // Check overall availability
   getOverallAvailability: (date: string): Promise<FacilityAvailability[]> =>
-    apiRequest(`/recreational/availability?date=${date}`),
+    apiRequest(`/recreational/facilities/availability?date=${date}`),
 
   // Get booking statistics
   getStatistics: (
