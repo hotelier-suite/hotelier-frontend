@@ -105,11 +105,20 @@ export interface FacilityUsageStats {
   totalRevenue: number;
 }
 
+export interface BookingStatusBreakdown {
+  pending?: number;
+  confirmed?: number;
+  checkedIn?: number;
+  completed?: number;
+  cancelled?: number;
+  noShow?: number;
+}
+
 export interface BookingStatistics {
   totalBookings: number;
   totalRevenue: number;
   averageBookingValue: number;
-  statusBreakdown: Record<string, number>;
+  statusBreakdown: BookingStatusBreakdown;
   mostPopularFacilityType: string;
   peakHour: string;
   facilitiesUsage: FacilityUsageStats[];

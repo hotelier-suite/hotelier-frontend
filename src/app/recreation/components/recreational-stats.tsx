@@ -296,9 +296,7 @@ export function RecreationalStats() {
             <Card>
               <CardHeader>
                 <CardTitle>Performance Metrics</CardTitle>
-                <CardDescription>
-                  Key performance indicators
-                </CardDescription>
+                <CardDescription>Key performance indicators</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
@@ -306,17 +304,17 @@ export function RecreationalStats() {
                     <span>Confirmation Rate</span>
                     <span className="font-medium">
                       {formatPercentage(
-                        (((stats.statusBreakdown.CONFIRMED || 0) +
-                          (stats.statusBreakdown.COMPLETED || 0)) /
+                        (((stats.statusBreakdown.confirmed || 0) +
+                          (stats.statusBreakdown.completed || 0)) /
                           stats.totalBookings) *
-                        100,
+                          100,
                       )}
                     </span>
                   </div>
                   <Progress
                     value={
-                      (((stats.statusBreakdown.CONFIRMED || 0) +
-                        (stats.statusBreakdown.COMPLETED || 0)) /
+                      (((stats.statusBreakdown.confirmed || 0) +
+                        (stats.statusBreakdown.completed || 0)) /
                         stats.totalBookings) *
                       100
                     }
@@ -329,17 +327,17 @@ export function RecreationalStats() {
                     <span>Cancellation Rate</span>
                     <span className="font-medium">
                       {formatPercentage(
-                        (((stats.statusBreakdown.CANCELLED || 0) +
-                          (stats.statusBreakdown.NO_SHOW || 0)) /
+                        (((stats.statusBreakdown.cancelled || 0) +
+                          (stats.statusBreakdown.noShow || 0)) /
                           stats.totalBookings) *
-                        100,
+                          100,
                       )}
                     </span>
                   </div>
                   <Progress
                     value={
-                      (((stats.statusBreakdown.CANCELLED || 0) +
-                        (stats.statusBreakdown.NO_SHOW || 0)) /
+                      (((stats.statusBreakdown.cancelled || 0) +
+                        (stats.statusBreakdown.noShow || 0)) /
                         stats.totalBookings) *
                       100
                     }
@@ -352,15 +350,15 @@ export function RecreationalStats() {
                     <span>Completed Bookings</span>
                     <span className="font-medium">
                       {formatPercentage(
-                        ((stats.statusBreakdown.COMPLETED || 0) /
+                        ((stats.statusBreakdown.completed || 0) /
                           stats.totalBookings) *
-                        100,
+                          100,
                       )}
                     </span>
                   </div>
                   <Progress
                     value={
-                      ((stats.statusBreakdown.COMPLETED || 0) /
+                      ((stats.statusBreakdown.completed || 0) /
                         stats.totalBookings) *
                       100
                     }
@@ -376,9 +374,7 @@ export function RecreationalStats() {
           <Card>
             <CardHeader>
               <CardTitle>Facility Ranking</CardTitle>
-              <CardDescription>
-                Sorted by utilization rate
-              </CardDescription>
+              <CardDescription>Sorted by utilization rate</CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
