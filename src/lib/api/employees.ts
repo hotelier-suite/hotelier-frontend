@@ -44,11 +44,20 @@ export const employeesApi = {
   // Base CRUD operations
   ...baseApi,
 
-  // Specialized endpoints
-  getHousekeeping: (): Promise<Employee[]> =>
-    apiRequest("/employees/housekeeping"),
+  // Override getAll to support department filter
+  getAll: (filters?: { department?: string }): Promise<Employee[]> => {
+    const params = new URLSearchParams();
+    if (filters?.department) {
+      params.append("department", filters.department);
+    }
+    const queryString = params.toString();
+    const url = queryString ? `/employees?${queryString}` : "/employees";
+    return apiRequest(url);
+  },
+
+  // Specialized endpoints - now using query params
   getByDepartment: (department: string): Promise<Employee[]> =>
-    apiRequest(`/employees/department/${department}`),
+    employeesApi.getAll({ department }),
   getDepartmentStats: (): Promise<DepartmentStats[]> =>
     apiRequest("/employees/stats/departments"),
 };

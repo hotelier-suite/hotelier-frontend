@@ -164,43 +164,41 @@ function transformSupplier(backendSupplier: BackendSupplier): Supplier {
 // Inventory API client
 export const inventoryApi = {
   // Inventory items
-  getInventoryItems: async (): Promise<InventoryItem[]> => {
-    const backendItems = (await apiRequest(
-      "/inventory/items",
-    )) as BackendInventoryItem[];
+  getInventoryItems: async (filters?: {
+    category?: string;
+    status?: string;
+  }): Promise<InventoryItem[]> => {
+    const params = new URLSearchParams();
+    if (filters?.category) {
+      params.append("category", filters.category);
+    }
+    if (filters?.status) {
+      const statusMap: Record<string, string> = {
+        available: "AVAILABLE",
+        low_stock: "LOW_STOCK",
+        out_of_stock: "OUT_OF_STOCK",
+        critical: "DISCONTINUED",
+      };
+      params.append("status", statusMap[filters.status] || filters.status);
+    }
+    const queryString = params.toString();
+    const url = queryString
+      ? `/inventory/items?${queryString}`
+      : "/inventory/items";
+    const backendItems = (await apiRequest(url)) as BackendInventoryItem[];
     return backendItems.map(transformInventoryItem);
   },
 
   getInventoryItemsByCategory: async (
     category: string,
   ): Promise<InventoryItem[]> => {
-    const backendItems = (await apiRequest(
-      `/inventory/items/by-category/${category}`,
-    )) as BackendInventoryItem[];
-    return backendItems.map(transformInventoryItem);
+    return inventoryApi.getInventoryItems({ category });
   },
 
   getInventoryItemsByStatus: async (
     status: string,
   ): Promise<InventoryItem[]> => {
-    const statusMap: Record<string, string> = {
-      available: "AVAILABLE",
-      low_stock: "LOW_STOCK",
-      out_of_stock: "OUT_OF_STOCK",
-      critical: "DISCONTINUED",
-    };
-    const backendStatus = statusMap[status] || status;
-    const backendItems = (await apiRequest(
-      `/inventory/items/by-status/${backendStatus}`,
-    )) as BackendInventoryItem[];
-    return backendItems.map(transformInventoryItem);
-  },
-
-  getLowStockItems: async (): Promise<InventoryItem[]> => {
-    const backendItems = (await apiRequest(
-      "/inventory/items/low-stock",
-    )) as BackendInventoryItem[];
-    return backendItems.map(transformInventoryItem);
+    return inventoryApi.getInventoryItems({ status });
   },
 
   createInventoryItem: async (

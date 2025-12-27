@@ -28,11 +28,11 @@ interface BackendParkingSpace {
   zone: string;
   type: "GUEST" | "VISITOR" | "EMPLOYEE" | "LOADING" | "DISABLED" | "VIP";
   status:
-  | "AVAILABLE"
-  | "OCCUPIED"
-  | "RESERVED"
-  | "MAINTENANCE"
-  | "OUT_OF_ORDER";
+    | "AVAILABLE"
+    | "OCCUPIED"
+    | "RESERVED"
+    | "MAINTENANCE"
+    | "OUT_OF_ORDER";
   currentVehicle?: string;
   hourlyRate: number;
   location: string;
@@ -45,12 +45,12 @@ interface BackendParkingSpace {
 interface BackendParkingIncident {
   id: number;
   type:
-  | "VEHICLE_DAMAGE"
-  | "INFRASTRUCTURE"
-  | "SECURITY"
-  | "ACCIDENT"
-  | "THEFT"
-  | "OTHER";
+    | "VEHICLE_DAMAGE"
+    | "INFRASTRUCTURE"
+    | "SECURITY"
+    | "ACCIDENT"
+    | "THEFT"
+    | "OTHER";
   description: string;
   vehicleId?: number;
   spaceId?: number;
@@ -139,8 +139,8 @@ function transformVehicle(backendVehicle: BackendVehicle): Vehicle {
       backendVehicle.entryTime.split("T")[1].split(".")[0],
     exitTime: backendVehicle.exitTime
       ? backendVehicle.exitTime.split("T")[0] +
-      " " +
-      backendVehicle.exitTime.split("T")[1].split(".")[0]
+        " " +
+        backendVehicle.exitTime.split("T")[1].split(".")[0]
       : undefined,
     status: getVehicleStatusLabel(backendVehicle.status),
     notes: backendVehicle.notes,
@@ -271,39 +271,49 @@ function getPriorityLabel(priority: string): string {
 
 export const parkingApi = {
   // Vehicle management
-  getVehicles: async (): Promise<Vehicle[]> => {
-    const backendVehicles = (await apiRequest(
-      "/parking/vehicles",
-    )) as BackendVehicle[];
+  getVehicles: async (filters?: {
+    status?: string;
+    guestType?: string;
+  }): Promise<Vehicle[]> => {
+    const params = new URLSearchParams();
+    if (filters?.status) {
+      const statusMap: Record<string, string> = {
+        parked: "PARKED",
+        exited: "EXITED",
+        blocked: "BLOCKED",
+      };
+      params.append(
+        "status",
+        statusMap[filters.status] || filters.status.toUpperCase(),
+      );
+    }
+    if (filters?.guestType) {
+      const typeMap: Record<string, string> = {
+        guest: "GUEST",
+        visitor: "VISITOR",
+        employee: "EMPLOYEE",
+        supplier: "SUPPLIER",
+        other: "OTHER",
+      };
+      params.append(
+        "guestType",
+        typeMap[filters.guestType] || filters.guestType.toUpperCase(),
+      );
+    }
+    const queryString = params.toString();
+    const url = queryString
+      ? `/parking/vehicles?${queryString}`
+      : "/parking/vehicles";
+    const backendVehicles = (await apiRequest(url)) as BackendVehicle[];
     return backendVehicles.map(transformVehicle);
   },
 
   getVehiclesByStatus: async (status: string): Promise<Vehicle[]> => {
-    const statusMap: Record<string, string> = {
-      parked: "PARKED",
-      exited: "EXITED",
-      blocked: "BLOCKED",
-    };
-    const backendStatus = statusMap[status] || status.toUpperCase();
-    const backendVehicles = (await apiRequest(
-      `/parking/vehicles/by-status?status=${backendStatus}`,
-    )) as BackendVehicle[];
-    return backendVehicles.map(transformVehicle);
+    return parkingApi.getVehicles({ status });
   },
 
   getVehiclesByGuestType: async (guestType: string): Promise<Vehicle[]> => {
-    const typeMap: Record<string, string> = {
-      guest: "GUEST",
-      visitor: "VISITOR",
-      employee: "EMPLOYEE",
-      supplier: "SUPPLIER",
-      other: "OTHER",
-    };
-    const backendType = typeMap[guestType] || guestType.toUpperCase();
-    const backendVehicles = (await apiRequest(
-      `/parking/vehicles/by-guest-type?guestType=${backendType}`,
-    )) as BackendVehicle[];
-    return backendVehicles.map(transformVehicle);
+    return parkingApi.getVehicles({ guestType });
   },
 
   createVehicle: async (vehicleData: Partial<Vehicle>): Promise<Vehicle> => {
@@ -347,7 +357,7 @@ export const parkingApi = {
     const backendVehicle = (await apiRequest(
       `/parking/vehicles/${id}/checkout`,
       {
-        method: "PUT",
+        method: "PATCH",
       },
     )) as BackendVehicle;
 

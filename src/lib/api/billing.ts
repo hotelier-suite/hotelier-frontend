@@ -209,42 +209,47 @@ function transformBillingStatsToReport(
 // Billing API client
 export const billingApi = {
   // Invoices
-  getInvoices: async (): Promise<Invoice[]> => {
-    const backendInvoices = (await apiRequest(
-      "/billing/invoices",
-    )) as BackendInvoice[];
+  getInvoices: async (filters?: {
+    status?: string;
+    startDate?: string;
+    endDate?: string;
+  }): Promise<Invoice[]> => {
+    const params = new URLSearchParams();
+    if (filters?.status) {
+      const statusMap: Record<string, string> = {
+        paid: "PAID",
+        pending: "PENDING",
+        overdue: "OVERDUE",
+        cancelled: "CANCELLED",
+      };
+      params.append(
+        "status",
+        statusMap[filters.status] || filters.status.toUpperCase(),
+      );
+    }
+    if (filters?.startDate) {
+      params.append("startDate", filters.startDate);
+    }
+    if (filters?.endDate) {
+      params.append("endDate", filters.endDate);
+    }
+    const queryString = params.toString();
+    const url = queryString
+      ? `/billing/invoices?${queryString}`
+      : "/billing/invoices";
+    const backendInvoices = (await apiRequest(url)) as BackendInvoice[];
     return backendInvoices.map(transformInvoice);
   },
 
   getInvoicesByStatus: async (status: string): Promise<Invoice[]> => {
-    const statusMap: Record<string, string> = {
-      paid: "PAID",
-      pending: "PENDING",
-      overdue: "OVERDUE",
-      cancelled: "CANCELLED",
-    };
-    const backendStatus = statusMap[status] || status.toUpperCase();
-    const backendInvoices = (await apiRequest(
-      `/billing/invoices/by-status/${backendStatus}`,
-    )) as BackendInvoice[];
-    return backendInvoices.map(transformInvoice);
-  },
-
-  getOverdueInvoices: async (): Promise<Invoice[]> => {
-    const backendInvoices = (await apiRequest(
-      "/billing/invoices/overdue",
-    )) as BackendInvoice[];
-    return backendInvoices.map(transformInvoice);
+    return billingApi.getInvoices({ status });
   },
 
   getInvoicesByDateRange: async (
     startDate: string,
     endDate: string,
   ): Promise<Invoice[]> => {
-    const backendInvoices = (await apiRequest(
-      `/billing/invoices/date-range?startDate=${startDate}&endDate=${endDate}`,
-    )) as BackendInvoice[];
-    return backendInvoices.map(transformInvoice);
+    return billingApi.getInvoices({ startDate, endDate });
   },
 
   getInvoiceById: async (id: string): Promise<Invoice | null> => {
@@ -303,7 +308,7 @@ export const billingApi = {
     const backendInvoice = (await apiRequest(
       `/billing/invoices/${id}/mark-paid`,
       {
-        method: "PUT",
+        method: "PATCH",
         body: JSON.stringify({ paymentMethod: backendMethod }),
       },
     )) as BackendInvoice;

@@ -36,7 +36,7 @@ export default function HousekeepingPage() {
     const fetchData = async () => {
       try {
         const [employeesData, assignmentsData] = await Promise.all([
-          employeesApi.getHousekeeping(),
+          employeesApi.getByDepartment("HOUSEKEEPING"),
           housekeepingApi.getTodaysCleaningAssignments(),
         ]);
 
@@ -69,15 +69,13 @@ export default function HousekeepingPage() {
 
   // Calculate cleaning statistics based on assignments
   const assignmentsByStatus = {
-    pending: cleaningAssignments.filter((a) => a.status === "pending")
-      .length,
+    pending: cleaningAssignments.filter((a) => a.status === "pending").length,
     in_progress: cleaningAssignments.filter((a) => a.status === "in_progress")
       .length,
     completed: cleaningAssignments.filter((a) => a.status === "completed")
       .length,
-    inspected: cleaningAssignments.filter(
-      (a) => a.status === "inspected",
-    ).length,
+    inspected: cleaningAssignments.filter((a) => a.status === "inspected")
+      .length,
   };
 
   const totalEmployees = employees.length;
@@ -103,17 +101,13 @@ export default function HousekeepingPage() {
             <div className="text-2xl font-bold text-green-600">
               {assignmentsByStatus.completed}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Finished cleanings
-            </p>
+            <p className="text-xs text-muted-foreground">Finished cleanings</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Pending Tasks
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Pending Tasks</CardTitle>
             <AlertTriangle className="h-4 w-4 text-red-600" />
           </CardHeader>
           <CardContent>
@@ -133,7 +127,9 @@ export default function HousekeepingPage() {
             <div className="text-2xl font-bold text-yellow-600">
               {assignmentsByStatus.in_progress}
             </div>
-            <p className="text-xs text-muted-foreground">Cleaning in progress</p>
+            <p className="text-xs text-muted-foreground">
+              Cleaning in progress
+            </p>
           </CardContent>
         </Card>
 
@@ -148,9 +144,7 @@ export default function HousekeepingPage() {
             <div className="text-2xl font-bold text-blue-600">
               {totalEmployees}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Cleaning staff
-            </p>
+            <p className="text-xs text-muted-foreground">Cleaning staff</p>
           </CardContent>
         </Card>
       </div>
