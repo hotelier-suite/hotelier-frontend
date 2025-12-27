@@ -104,10 +104,10 @@ export const authApi = {
     }
   },
 
-  // Get current user (backend expects POST /auth/me)
+  // Get current user profile
   getCurrentUser: (): Promise<AuthUser> =>
     apiRequest("/auth/me", {
-      method: "POST",
+      method: "GET",
     }),
 
   // Refresh token
