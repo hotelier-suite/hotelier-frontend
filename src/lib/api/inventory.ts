@@ -175,7 +175,7 @@ export const inventoryApi = {
     category: string,
   ): Promise<InventoryItem[]> => {
     const backendItems = (await apiRequest(
-      `/inventory/items?category=${category}`,
+      `/inventory/items/by-category/${category}`,
     )) as BackendInventoryItem[];
     return backendItems.map(transformInventoryItem);
   },
@@ -191,7 +191,7 @@ export const inventoryApi = {
     };
     const backendStatus = statusMap[status] || status;
     const backendItems = (await apiRequest(
-      `/inventory/items?status=${backendStatus}`,
+      `/inventory/items/by-status/${backendStatus}`,
     )) as BackendInventoryItem[];
     return backendItems.map(transformInventoryItem);
   },

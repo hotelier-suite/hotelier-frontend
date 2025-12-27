@@ -4,11 +4,7 @@ import { Invoice, InvoiceItem, PaymentMethod } from "../types";
 
 export type { Invoice, InvoiceItem, PaymentMethod };
 
-export type PaymentStatus =
-  | "completed"
-  | "pending"
-  | "failed"
-  | "refunded";
+export type PaymentStatus = "completed" | "pending" | "failed" | "refunded";
 
 export interface Payment {
   id: string;
@@ -73,11 +69,11 @@ interface BackendInvoice {
   total: number;
   status: "PENDING" | "PAID" | "OVERDUE" | "CANCELLED";
   paymentMethod?:
-  | "CASH"
-  | "CREDIT_CARD"
-  | "DEBIT_CARD"
-  | "BANK_TRANSFER"
-  | "CHECK";
+    | "CASH"
+    | "CREDIT_CARD"
+    | "DEBIT_CARD"
+    | "BANK_TRANSFER"
+    | "CHECK";
   reservationId: number;
   reservation?: {
     room: {
@@ -229,7 +225,7 @@ export const billingApi = {
     };
     const backendStatus = statusMap[status] || status.toUpperCase();
     const backendInvoices = (await apiRequest(
-      `/billing/invoices?status=${backendStatus}`,
+      `/billing/invoices/by-status/${backendStatus}`,
     )) as BackendInvoice[];
     return backendInvoices.map(transformInvoice);
   },
