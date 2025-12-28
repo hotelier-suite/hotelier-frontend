@@ -40,15 +40,42 @@ export interface Reservation extends BaseEntity {
   nights?: number;
 }
 
+// Filter parameters for reservations
+export interface FindReservationsFilter {
+  userId?: number;
+  status?: ReservationStatus;
+  isCurrent?: boolean;
+  startDate?: string;
+  endDate?: string;
+}
+
 // Create base CRUD operations
 const baseApi = createApiEndpoints<Reservation>("/reservations");
 
 // Extended reservations API with analytics and reception features
 export const reservationsApi = {
-  // Base CRUD operations
-  ...baseApi,
+  // Base CRUD operations (excluding getAll which we override)
+  create: baseApi.create,
+  update: baseApi.update,
+  delete: baseApi.delete,
+  getById: baseApi.getById,
+
+  // Override getAll to accept filter parameters
+  getAll: (filters?: FindReservationsFilter): Promise<Reservation[]> => {
+    const params = new URLSearchParams();
+    if (filters?.userId) params.set("userId", String(filters.userId));
+    if (filters?.status) params.set("status", filters.status);
+    if (filters?.isCurrent) params.set("isCurrent", "true");
+    if (filters?.startDate) params.set("startDate", filters.startDate);
+    if (filters?.endDate) params.set("endDate", filters.endDate);
+
+    const query = params.toString();
+    return apiRequest(`/reservations${query ? `?${query}` : ""}`);
+  },
+
+  // Get current guests (uses isCurrent filter)
   getCurrentGuests: (): Promise<Reservation[]> =>
-    apiRequest("/reservations/current"),
+    reservationsApi.getAll({ isCurrent: true }),
 
   // Checkout endpoint (returns DTO)
   checkout: (
@@ -59,8 +86,9 @@ export const reservationsApi = {
     invoiceId?: number | null;
   }> => apiRequest(`/reservations/${id}/checkout`, { method: "PATCH" }),
 
-  // Self-service endpoints
-  getMine: (): Promise<Reservation[]> => apiRequest(`/reservations/mine`),
+  // Self-service endpoints - getMine uses userId filter
+  getMine: (userId: number): Promise<Reservation[]> =>
+    reservationsApi.getAll({ userId }),
   createSelf: (
     data: Omit<
       Reservation,

@@ -1,6 +1,32 @@
 import { apiRequest, getAPIBaseURL } from "./base";
 import { authCookies } from "../auth-cookies";
 
+// Analytics metric types (matching backend enum)
+export type AnalyticsMetric =
+  | "OCCUPANCY_RATE"
+  | "REVENUE_PER_ROOM"
+  | "CUSTOMER_SATISFACTION"
+  | "AVERAGE_STAY_LENGTH"
+  | "REPEAT_CUSTOMER_RATE"
+  | "STAFF_EFFICIENCY";
+
+// Analytics data type
+export interface AnalyticsData {
+  id: number;
+  metric: AnalyticsMetric;
+  value: number;
+  date: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Filter parameters for analytics
+export interface FindAnalyticsFilter {
+  type?: AnalyticsMetric;
+  startDate?: string;
+  endDate?: string;
+}
+
 // Backend types (matching Prisma models)
 interface BackendOccupancyReport {
   id: number;
@@ -202,6 +228,19 @@ function getLoyaltyLabel(loyalty: string): string {
 }
 
 export const reportsApi = {
+  // Analytics data endpoints
+  getAnalyticsAll: (
+    filters?: FindAnalyticsFilter,
+  ): Promise<AnalyticsData[]> => {
+    const params = new URLSearchParams();
+    if (filters?.type) params.set("type", filters.type);
+    if (filters?.startDate) params.set("startDate", filters.startDate);
+    if (filters?.endDate) params.set("endDate", filters.endDate);
+
+    const query = params.toString();
+    return apiRequest(`/reports-analytics${query ? `?${query}` : ""}`);
+  },
+
   // Occupancy Reports
   getOccupancyReports: async (): Promise<OccupancyReport[]> => {
     const backendReports = (await apiRequest(

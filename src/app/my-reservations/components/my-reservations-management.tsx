@@ -43,7 +43,7 @@ type CreateReservationPayload = Omit<
 >;
 
 export function MyReservationsManagement() {
-  const { hasRole } = useAuthContext();
+  const { hasRole, user } = useAuthContext();
   const [myReservations, setMyReservations] = useState<
     ReservationWithCompanions[]
   >([]);
@@ -57,9 +57,10 @@ export function MyReservationsManagement() {
 
   useEffect(() => {
     async function load() {
+      if (!user?.id) return;
       try {
         const [mine, allRooms, cfg] = await Promise.all([
-          reservationsApi.getMine(),
+          reservationsApi.getMine(user.id),
           roomsApi.getAll(),
           configurationApi.getHotelConfig().catch(() => ({ currency: "COP" })),
         ]);
@@ -74,7 +75,7 @@ export function MyReservationsManagement() {
       }
     }
     load();
-  }, []);
+  }, [user?.id]);
 
   const formatCurrencyAmount = (val: number) => {
     return formatCurrency(val, (currencyCode as SupportedCurrency) || "COP");
@@ -114,7 +115,7 @@ export function MyReservationsManagement() {
       }
 
       await reservationsApi.createSelf(payload);
-      const mine = await reservationsApi.getMine();
+      const mine = await reservationsApi.getMine(user!.id);
       setMyReservations(mine);
 
       setOpenDialog(false);
@@ -123,7 +124,9 @@ export function MyReservationsManagement() {
       });
     } catch (e) {
       console.error("Error creating self reservation:", e);
-      toast.error("Error", { description: "Could not create the reservation." });
+      toast.error("Error", {
+        description: "Could not create the reservation.",
+      });
     } finally {
       setLoading(false);
     }
@@ -227,7 +230,9 @@ export function MyReservationsManagement() {
           ) : filteredReservations.length === 0 ? (
             <EmptyState
               icon={CalendarPlus}
-              title={searchTerm ? "No results" : "You don't have any reservations"}
+              title={
+                searchTerm ? "No results" : "You don't have any reservations"
+              }
               description={
                 searchTerm
                   ? "No reservations match your search"
