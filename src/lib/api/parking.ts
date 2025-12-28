@@ -421,7 +421,7 @@ export const parkingApi = {
     }
 
     const backendSpace = (await apiRequest(`/parking/spaces/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       body: JSON.stringify(backendData),
     })) as BackendParkingSpace;
 
@@ -515,17 +515,42 @@ export const parkingApi = {
     return transformParkingIncident(backendIncident);
   },
 
-  resolveIncident: async (
+  updateIncident: async (
     id: string,
-    resolution: string,
+    updates: {
+      status?: string;
+      resolution?: string;
+      resolvedAt?: string;
+    },
   ): Promise<ParkingIncident> => {
-    const backendIncident = (await apiRequest(
-      `/parking/incidents/${id}/resolve`,
-      {
-        method: "PUT",
-        body: JSON.stringify({ resolution }),
-      },
-    )) as BackendParkingIncident;
+    const statusMap: Record<string, string> = {
+      pending: "PENDING",
+      in_progress: "IN_PROGRESS",
+      resolved: "RESOLVED",
+      cancelled: "CANCELLED",
+    };
+
+    const backendData: {
+      status?: string;
+      resolution?: string;
+      resolvedAt?: string;
+    } = {};
+
+    if (updates.status) {
+      backendData.status =
+        statusMap[updates.status] || updates.status.toUpperCase();
+    }
+    if (updates.resolution) {
+      backendData.resolution = updates.resolution;
+    }
+    if (updates.resolvedAt) {
+      backendData.resolvedAt = updates.resolvedAt;
+    }
+
+    const backendIncident = (await apiRequest(`/parking/incidents/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(backendData),
+    })) as BackendParkingIncident;
 
     return transformParkingIncident(backendIncident);
   },

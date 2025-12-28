@@ -34,7 +34,7 @@ export const configurationApi = {
     config: Partial<HotelConfig>,
   ): Promise<HotelConfig> => {
     const response = (await apiRequest("/configuration/hotel", {
-      method: "PUT",
+      method: "PATCH",
       body: JSON.stringify(config),
     })) as ConfigResponse<HotelConfig>;
     return response.value || (response as unknown as HotelConfig);

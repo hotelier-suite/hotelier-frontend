@@ -256,7 +256,7 @@ export const restaurantApi = {
     const backendOrder = (await apiRequest(
       `/restaurant/room-service-orders/${order.id}`,
       {
-        method: "PUT",
+        method: "PATCH",
         body: JSON.stringify(updateData),
       },
     )) as BackendRoomServiceOrder;
@@ -328,7 +328,7 @@ export const restaurantApi = {
       const backendItem = (await apiRequest(
         `/restaurant/menu-items/${backendId}`,
         {
-          method: "PUT",
+          method: "PATCH",
           body: JSON.stringify(updateData),
         },
       )) as BackendMenuItem;
@@ -384,9 +384,17 @@ export const restaurantApi = {
     return backendItems.map(transformBeverageItem);
   },
 
-  updateBeverageStock: async (
+  updateBeverageItem: async (
     id: string,
-    newStock: number,
+    updateData: {
+      name?: string;
+      category?: string;
+      stock?: number;
+      minimumStock?: number;
+      unit?: string;
+      unitCost?: number;
+      supplier?: string;
+    },
   ): Promise<BeverageInventoryItem> => {
     // Convert frontend ID back to backend ID
     const items = (await apiRequest(
@@ -396,10 +404,10 @@ export const restaurantApi = {
     if (!item) throw new Error("Beverage item not found");
 
     const backendItem = (await apiRequest(
-      `/restaurant/beverage-inventory/${item.id}/stock`,
+      `/restaurant/beverage-inventory/${item.id}`,
       {
-        method: "PUT",
-        body: JSON.stringify({ stock: newStock }),
+        method: "PATCH",
+        body: JSON.stringify(updateData),
       },
     )) as BackendBeverageInventory;
     return transformBeverageItem(backendItem);

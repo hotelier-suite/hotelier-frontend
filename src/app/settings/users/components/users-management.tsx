@@ -16,6 +16,7 @@ import { AssignRolesDialog } from "./assign-roles-dialog";
 import { UserSearch } from "./user-search";
 import { UsersTable } from "./users-table";
 import { LoadingState } from "./loading-state";
+import { usersApi } from "@/lib/api/users";
 
 interface UsersManagementProps {
   initialUsers: User[];
@@ -78,7 +79,7 @@ export function UsersManagement({
         });
       }
 
-      await rolesApi.assignRolesToUser(userId, { roleIds: validRoleIds });
+      await usersApi.update(userId, { roleIds: validRoleIds });
       await refreshData();
       toast("Success", { description: "Roles assigned successfully" });
 
@@ -90,9 +91,7 @@ export function UsersManagement({
       console.error("Failed to assign roles:", error);
       toast.error("Error", {
         description:
-          error instanceof Error
-            ? error.message
-            : "Could not assign the roles",
+          error instanceof Error ? error.message : "Could not assign the roles",
       });
     }
   };

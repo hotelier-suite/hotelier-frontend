@@ -293,7 +293,7 @@ export const billingApi = {
     };
 
     const backendInvoice = (await apiRequest(`/billing/invoices/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       body: JSON.stringify(backendData),
     })) as BackendInvoice;
 

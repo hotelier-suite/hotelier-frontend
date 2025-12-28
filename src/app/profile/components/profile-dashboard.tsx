@@ -26,6 +26,13 @@ export default function ProfileDashboard({
   const [isSaving, setIsSaving] = useState(false);
 
   const handleSave = async (validatedData: ProfileData) => {
+    if (!user?.id) {
+      toast.error("Error", {
+        description: "User ID not found. Please log in again.",
+      });
+      return;
+    }
+
     try {
       setIsSaving(true);
       // Persist to backend
@@ -35,7 +42,7 @@ export default function ProfileDashboard({
         bio: validatedData.bio || "",
       };
 
-      await usersApi.updateMyProfile({
+      await usersApi.update(user.id, {
         name: validatedData.name,
         email: validatedData.email,
         phone: validatedData.phone || "",
@@ -55,9 +62,7 @@ export default function ProfileDashboard({
       console.error("Error updating profile:", error);
       toast.error("Error", {
         description:
-          error instanceof Error
-            ? error.message
-            : "Could not update profile.",
+          error instanceof Error ? error.message : "Could not update profile.",
       });
     } finally {
       setIsSaving(false);

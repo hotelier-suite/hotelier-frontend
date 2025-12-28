@@ -154,24 +154,30 @@ export default function ParkingDashboard({
     );
   };
 
-  const handleResolveIncident = (incidentId: string) => {
-    setIncidents(
-      incidents.map((incident) =>
-        incident.id === incidentId
-          ? { ...incident, status: "resolved" }
-          : incident,
-      ),
-    );
+  const handleResolveIncident = async (incidentId: string) => {
+    try {
+      const updatedIncident = await parkingApi.updateIncident(incidentId, {
+        status: "resolved",
+        resolvedAt: new Date().toISOString(),
+      });
+
+      setIncidents(
+        incidents.map((incident) =>
+          incident.id === incidentId ? updatedIncident : incident,
+        ),
+      );
+
+      toast.success("Incident resolved successfully");
+    } catch (error) {
+      console.error("Error resolving incident:", error);
+      toast.error("Error resolving incident");
+    }
   };
 
   // Calculate stats
   const occupiedSpaces = spaces.filter((e) => e.status === "occupied").length;
-  const availableSpaces = spaces.filter(
-    (e) => e.status === "available",
-  ).length;
-  const parkedVehicles = vehicles.filter(
-    (v) => v.status === "parked",
-  ).length;
+  const availableSpaces = spaces.filter((e) => e.status === "available").length;
+  const parkedVehicles = vehicles.filter((v) => v.status === "parked").length;
 
   return (
     <div className="space-y-6">
@@ -227,14 +233,14 @@ export default function ParkingDashboard({
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Vehicles Today</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Vehicles Today
+            </CardTitle>
             <Users className="h-4 w-4 text-purple-600" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{parkedVehicles}</div>
-            <p className="text-xs text-muted-foreground">
-              Currently parked
-            </p>
+            <p className="text-xs text-muted-foreground">Currently parked</p>
           </CardContent>
         </Card>
       </div>

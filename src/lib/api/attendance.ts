@@ -57,7 +57,7 @@ export const attendanceApi = {
 
   clockOut: (id: number, checkOut: string): Promise<Attendance> =>
     apiRequest(`/attendance/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       body: JSON.stringify({ checkOut }),
     }),
 };

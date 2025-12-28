@@ -49,6 +49,7 @@ export interface CreateRoleRequest {
 export interface UpdateRoleRequest {
   name?: string;
   description?: string;
+  permissionIds?: number[];
 }
 
 export interface CreatePermissionRequest {
@@ -61,14 +62,6 @@ export interface UpdatePermissionRequest {
   resource?: string;
   action?: string;
   description?: string;
-}
-
-export interface AssignPermissionsRequest {
-  permissionIds: number[];
-}
-
-export interface AssignRolesRequest {
-  roleIds: number[];
 }
 
 // Role management API
@@ -86,7 +79,7 @@ export const rolesApi = {
 
   update: (id: number, data: UpdateRoleRequest): Promise<SystemRole> =>
     apiRequest(`/roles/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       body: JSON.stringify(data),
     }),
 
@@ -107,31 +100,12 @@ export const rolesApi = {
     return role;
   },
 
-  // Permission assignment to roles
-  assignPermissions: (
-    roleId: number,
-    data: AssignPermissionsRequest,
-  ): Promise<SystemRole> =>
-    apiRequest(`/roles/${roleId}/permissions`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-    }),
-
   removePermission: (roleId: number, permissionId: number): Promise<void> =>
     apiRequest(`/roles/${roleId}/permissions/${permissionId}`, {
       method: "DELETE",
     }),
 
-  // User role assignment
-  assignRolesToUser: (
-    userId: number,
-    data: AssignRolesRequest,
-  ): Promise<void> =>
-    apiRequest(`/users/${userId}/roles`, {
-      method: "PUT",
-      body: JSON.stringify(data),
-    }),
-
+  // User role management
   removeRoleFromUser: (userId: number, roleId: number): Promise<void> =>
     apiRequest(`/users/${userId}/roles/${roleId}`, {
       method: "DELETE",
@@ -163,7 +137,7 @@ export const systemPermissionsApi = {
     data: UpdatePermissionRequest,
   ): Promise<SystemPermission> =>
     apiRequest(`/roles/permissions/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       body: JSON.stringify(data),
     }),
 

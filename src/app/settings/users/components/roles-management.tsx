@@ -115,7 +115,7 @@ export function RolesManagement() {
     permissionIds: number[],
   ) => {
     try {
-      await rolesApi.assignPermissions(roleId, { permissionIds });
+      await rolesApi.update(roleId, { permissionIds });
       await loadData();
       setPermissionsDialogOpen(false);
       setSelectedRole(null);

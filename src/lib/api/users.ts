@@ -30,17 +30,19 @@ export interface UserResponseDto {
   permissions?: string[];
 }
 
-export interface UpdateMyProfileRequest {
+export interface UpdateUserRequest {
   name?: string;
   email?: string;
   phone?: string;
   preferences?: string | null;
+  isActive?: boolean;
+  roleIds?: number[];
 }
 
 export const usersApi = {
   getMyProfile: (): Promise<UserResponseDto> => apiRequest("/users/profile/me"),
-  updateMyProfile: (data: UpdateMyProfileRequest): Promise<UserResponseDto> =>
-    apiRequest("/users/profile/me", {
+  update: (id: number, data: UpdateUserRequest): Promise<UserResponseDto> =>
+    apiRequest(`/users/${id}`, {
       method: "PATCH",
       body: JSON.stringify(data),
     }),

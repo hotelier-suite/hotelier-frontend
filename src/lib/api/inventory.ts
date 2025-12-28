@@ -247,7 +247,7 @@ export const inventoryApi = {
     };
 
     const backendItem = (await apiRequest(`/inventory/items/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       body: JSON.stringify(backendData),
     })) as BackendInventoryItem;
 
@@ -340,7 +340,7 @@ export const inventoryApi = {
     };
 
     const backendSupplier = (await apiRequest(`/inventory/suppliers/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       body: JSON.stringify(backendData),
     })) as BackendSupplier;
 

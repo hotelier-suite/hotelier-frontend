@@ -32,13 +32,13 @@ interface BackendMaintenanceReport {
   reportNumber: string;
   roomId?: number;
   type:
-  | "ELECTRICAL"
-  | "PLUMBING"
-  | "HVAC"
-  | "FURNITURE"
-  | "APPLIANCES"
-  | "STRUCTURAL"
-  | "COSMETIC";
+    | "ELECTRICAL"
+    | "PLUMBING"
+    | "HVAC"
+    | "FURNITURE"
+    | "APPLIANCES"
+    | "STRUCTURAL"
+    | "COSMETIC";
   description: string;
   priority: "LOW" | "NORMAL" | "HIGH" | "URGENT";
   status: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED";
@@ -65,11 +65,11 @@ interface BackendCleaningAssignment {
   startedAt?: string;
   completedAt?: string;
   status:
-  | "PENDING"
-  | "IN_PROGRESS"
-  | "COMPLETED"
-  | "INSPECTED"
-  | "NEEDS_MAINTENANCE";
+    | "PENDING"
+    | "IN_PROGRESS"
+    | "COMPLETED"
+    | "INSPECTED"
+    | "NEEDS_MAINTENANCE";
   notes?: string;
   qualityScore?: number;
   createdAt: string;
@@ -267,7 +267,9 @@ export const housekeepingApi = {
     const backendReports = (await apiRequest(
       "/housekeeping/maintenance-reports",
     )) as BackendMaintenanceReport[];
-    const filteredReports = backendReports.filter((r) => r.status === backendStatus);
+    const filteredReports = backendReports.filter(
+      (r) => r.status === backendStatus,
+    );
     return filteredReports.map(transformMaintenanceReport);
   },
 
@@ -285,7 +287,9 @@ export const housekeepingApi = {
     const backendReports = (await apiRequest(
       "/housekeeping/maintenance-reports",
     )) as BackendMaintenanceReport[];
-    const filteredReports = backendReports.filter((r) => r.priority === backendPriority);
+    const filteredReports = backendReports.filter(
+      (r) => r.priority === backendPriority,
+    );
     return filteredReports.map(transformMaintenanceReport);
   },
 
@@ -306,7 +310,9 @@ export const housekeepingApi = {
     const backendReports = (await apiRequest(
       "/housekeeping/maintenance-reports",
     )) as BackendMaintenanceReport[];
-    const filteredReports = backendReports.filter((r) => r.type === backendType);
+    const filteredReports = backendReports.filter(
+      (r) => r.type === backendType,
+    );
     return filteredReports.map(transformMaintenanceReport);
   },
 
@@ -341,11 +347,11 @@ export const housekeepingApi = {
     const backendReport = (await apiRequest(
       `/housekeeping/maintenance-reports/${id}`,
       {
-        method: "PUT",
-        body: JSON.stringify({ 
-          status: "IN_PROGRESS", 
+        method: "PATCH",
+        body: JSON.stringify({
+          status: "IN_PROGRESS",
           assignedTechnician,
-          startedAt: new Date().toISOString()
+          startedAt: new Date().toISOString(),
         }),
       },
     )) as BackendMaintenanceReport;
@@ -361,12 +367,12 @@ export const housekeepingApi = {
     const backendReport = (await apiRequest(
       `/housekeeping/maintenance-reports/${id}`,
       {
-        method: "PUT",
-        body: JSON.stringify({ 
-          status: "COMPLETED", 
+        method: "PATCH",
+        body: JSON.stringify({
+          status: "COMPLETED",
           completedAt: new Date().toISOString(),
-          cost, 
-          notes 
+          cost,
+          notes,
         }),
       },
     )) as BackendMaintenanceReport;
@@ -387,10 +393,10 @@ export const housekeepingApi = {
     const backendAssignments = (await apiRequest(
       "/housekeeping/assignments",
     )) as BackendCleaningAssignment[];
-    
-    const today = new Date().toISOString().split('T')[0];
+
+    const today = new Date().toISOString().split("T")[0];
     const todaysAssignments = backendAssignments.filter(
-      (a) => a.assignedDate.split('T')[0] === today
+      (a) => a.assignedDate.split("T")[0] === today,
     );
     return todaysAssignments.map(transformCleaningAssignment);
   },
@@ -402,7 +408,7 @@ export const housekeepingApi = {
     const backendAssignments = (await apiRequest(
       "/housekeeping/assignments",
     )) as BackendCleaningAssignment[];
-    
+
     const statusMap: Record<string, string> = {
       pending: "PENDING",
       in_progress: "IN_PROGRESS",
@@ -412,7 +418,7 @@ export const housekeepingApi = {
     };
     const backendStatus = statusMap[status] || status.toUpperCase();
     const filteredAssignments = backendAssignments.filter(
-      (a) => a.status === backendStatus
+      (a) => a.status === backendStatus,
     );
     return filteredAssignments.map(transformCleaningAssignment);
   },
@@ -421,8 +427,11 @@ export const housekeepingApi = {
     const backendAssignment = (await apiRequest(
       `/housekeeping/assignments/${id}`,
       {
-        method: "PUT",
-        body: JSON.stringify({ status: "IN_PROGRESS", startedAt: new Date().toISOString() }),
+        method: "PATCH",
+        body: JSON.stringify({
+          status: "IN_PROGRESS",
+          startedAt: new Date().toISOString(),
+        }),
       },
     )) as BackendCleaningAssignment;
 
@@ -437,12 +446,12 @@ export const housekeepingApi = {
     const backendAssignment = (await apiRequest(
       `/housekeeping/assignments/${id}`,
       {
-        method: "PUT",
-        body: JSON.stringify({ 
-          status: "COMPLETED", 
+        method: "PATCH",
+        body: JSON.stringify({
+          status: "COMPLETED",
           completedAt: new Date().toISOString(),
-          qualityScore, 
-          notes 
+          qualityScore,
+          notes,
         }),
       },
     )) as BackendCleaningAssignment;
@@ -462,13 +471,16 @@ export const housekeepingApi = {
     const backendReports = (await apiRequest(
       "/housekeeping/maintenance-reports",
     )) as BackendMaintenanceReport[];
-    
+
     const filteredReports = backendReports.filter((r) => {
-      const reportDate = new Date(r.createdAt).toISOString().split('T')[0];
+      const reportDate = new Date(r.createdAt).toISOString().split("T")[0];
       return reportDate >= startDate && reportDate <= endDate;
     });
-    
-    const totalCost = filteredReports.reduce((sum, r) => sum + (r.cost || 0), 0);
+
+    const totalCost = filteredReports.reduce(
+      (sum, r) => sum + (r.cost || 0),
+      0,
+    );
     return { totalCost, reports: filteredReports.length };
   },
 
@@ -526,10 +538,13 @@ export const housekeepingApi = {
     };
 
     // Use maintenance-reports endpoint for incident reports
-    const backendReport = (await apiRequest("/housekeeping/maintenance-reports", {
-      method: "POST",
-      body: JSON.stringify(backendData),
-    })) as BackendMaintenanceReport;
+    const backendReport = (await apiRequest(
+      "/housekeeping/maintenance-reports",
+      {
+        method: "POST",
+        body: JSON.stringify(backendData),
+      },
+    )) as BackendMaintenanceReport;
 
     return transformMaintenanceReport(backendReport);
   },
