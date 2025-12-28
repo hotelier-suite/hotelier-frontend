@@ -20,13 +20,13 @@ interface BackendOperationalReport {
   id: number;
   date: string;
   department:
-  | "FRONT_DESK"
-  | "HOUSEKEEPING"
-  | "RESTAURANT"
-  | "MAINTENANCE"
-  | "ACCOUNTING"
-  | "MANAGEMENT"
-  | "SECURITY";
+    | "FRONT_DESK"
+    | "HOUSEKEEPING"
+    | "RESTAURANT"
+    | "MAINTENANCE"
+    | "ACCOUNTING"
+    | "MANAGEMENT"
+    | "SECURITY";
   checkInsCompleted?: number;
   checkOutsCompleted?: number;
   averageCheckInTime?: string;
@@ -214,10 +214,9 @@ export const reportsApi = {
     date: string,
   ): Promise<OccupancyReport | null> => {
     try {
-      const backendReport = (await apiRequest(
-        `/reports/occupancy/date/${date}`,
-      )) as BackendOccupancyReport;
-      return transformOccupancyReport(backendReport);
+      // Backend doesn't have date-specific endpoint, use client-side filtering
+      const reports = await reportsApi.getOccupancyReports();
+      return reports.find((r) => r.date === date) || null;
     } catch {
       return null;
     }
@@ -256,29 +255,17 @@ export const reportsApi = {
   getOperationalReportsByDate: async (
     date: string,
   ): Promise<OperationalReport[]> => {
-    const backendReports = (await apiRequest(
-      `/reports/operational/date/${date}`,
-    )) as BackendOperationalReport[];
-    return backendReports.map(transformOperationalReport);
+    // Backend doesn't have date-specific endpoint, use client-side filtering
+    const reports = await reportsApi.getOperationalReports();
+    return reports.filter((r) => r.date === date);
   },
 
   getOperationalReportsByDepartment: async (
     department: string,
   ): Promise<OperationalReport[]> => {
-    const departmentMap: Record<string, string> = {
-      "Front Desk": "FRONT_DESK",
-      Housekeeping: "HOUSEKEEPING",
-      Restaurant: "RESTAURANT",
-      Maintenance: "MAINTENANCE",
-      Management: "MANAGEMENT",
-      Security: "SECURITY",
-    };
-    const backendDepartment =
-      departmentMap[department] || department.toUpperCase();
-    const backendReports = (await apiRequest(
-      `/reports/operational/department/${backendDepartment}`,
-    )) as BackendOperationalReport[];
-    return backendReports.map(transformOperationalReport);
+    // Backend doesn't have department-specific endpoint, use client-side filtering
+    const reports = await reportsApi.getOperationalReports();
+    return reports.filter((r) => r.department === department);
   },
 
   getOperationalReportsByDateRange: async (
@@ -302,19 +289,17 @@ export const reportsApi = {
   },
 
   getCustomerReportsByDate: async (date: string): Promise<CustomerReport[]> => {
-    const backendReports = (await apiRequest(
-      `/reports/customer/date/${date}`,
-    )) as BackendCustomerReport[];
-    return backendReports.map(transformCustomerReport);
+    // Backend doesn't have date-specific endpoint, use client-side filtering
+    const reports = await reportsApi.getCustomerReports();
+    return reports.filter((r) => r.date === date);
   },
 
   getCustomerReportsBySegment: async (
     segment: string,
   ): Promise<CustomerReport[]> => {
-    const backendReports = (await apiRequest(
-      `/reports/customer/segment/${segment}`,
-    )) as BackendCustomerReport[];
-    return backendReports.map(transformCustomerReport);
+    // Backend doesn't have segment-specific endpoint, use client-side filtering
+    const reports = await reportsApi.getCustomerReports();
+    return reports.filter((r) => r.segment === segment);
   },
 
   getCustomerReportsByDateRange: async (
@@ -352,40 +337,19 @@ export const reportsApi = {
   // Convenience methods for the frontend
   getCurrentMonthReports: async () => {
     // Use January 2024 for demo data (where test data exists)
-    const startDate = "2024-01-01";
-    const endDate = "2024-01-31";
-
-    try {
-      // Try to get generic reports from available backend endpoints
-      await apiRequest(
-        `/reports/by-date-range?startDate=${startDate}&endDate=${endDate}`,
-      ).catch(() => []);
-
-      // Return structured data with fallback values
-      return {
-        occupancy: [], // No occupancy data available from current backend
-        operational: [], // No operational data available from current backend
-        customer: [], // No customer data available from current backend
-        financial: {
-          revenue: { room: 0, restaurant: 0, services: 0, events: 0, total: 0 },
-          expenses: 0,
-          grossProfit: 0,
-          profitMargin: 0,
-        },
-      };
-    } catch {
-      return {
-        occupancy: [],
-        operational: [],
-        customer: [],
-        financial: {
-          revenue: { room: 0, restaurant: 0, services: 0, events: 0, total: 0 },
-          expenses: 0,
-          grossProfit: 0,
-          profitMargin: 0,
-        },
-      };
-    }
+    // Note: The backend doesn't have a generic by-date-range endpoint
+    // Return structured data with fallback values
+    return {
+      occupancy: [], // No occupancy data available from current backend
+      operational: [], // No operational data available from current backend
+      customer: [], // No customer data available from current backend
+      financial: {
+        revenue: { room: 0, restaurant: 0, services: 0, events: 0, total: 0 },
+        expenses: 0,
+        grossProfit: 0,
+        profitMargin: 0,
+      },
+    };
   },
 
   getLastSevenDaysReports: async () => {

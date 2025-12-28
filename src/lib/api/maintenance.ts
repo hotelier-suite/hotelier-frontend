@@ -51,8 +51,7 @@ export interface CreateMaintenanceRequestDto {
   requestedById?: number;
 }
 
-export interface UpdateMaintenanceRequestDto
-  extends Partial<CreateMaintenanceRequestDto> {
+export interface UpdateMaintenanceRequestDto extends Partial<CreateMaintenanceRequestDto> {
   status?:
     | "scheduled"
     | "in_progress"
@@ -116,34 +115,49 @@ export const maintenanceApi = {
   },
 
   async getByStatus(status: string): Promise<GeneralMaintenanceRequest[]> {
-    return apiRequest<GeneralMaintenanceRequest[]>(
-      `/maintenance/status/${status}`,
-    );
+    // Backend doesn't have status filter endpoint, use client-side filtering
+    const all = await maintenanceApi.getAll();
+    return all.filter((r) => r.status === status);
   },
 
   async getByPriority(priority: string): Promise<GeneralMaintenanceRequest[]> {
-    return apiRequest<GeneralMaintenanceRequest[]>(
-      `/maintenance/priority/${priority}`,
-    );
+    // Backend doesn't have priority filter endpoint, use client-side filtering
+    const all = await maintenanceApi.getAll();
+    return all.filter((r) => r.priority === priority);
   },
 
   async getByTechnician(
     technicianId: number,
   ): Promise<GeneralMaintenanceRequest[]> {
-    return apiRequest<GeneralMaintenanceRequest[]>(
-      `/maintenance/technician/${technicianId}`,
-    );
+    // Backend doesn't have technician filter endpoint, use client-side filtering
+    const all = await maintenanceApi.getAll();
+    return all.filter((r) => r.assignedTechnicianId === technicianId);
   },
 
   async getOverdue(): Promise<GeneralMaintenanceRequest[]> {
-    return apiRequest<GeneralMaintenanceRequest[]>("/maintenance/overdue");
+    // Backend doesn't have overdue endpoint, use client-side filtering
+    const all = await maintenanceApi.getAll();
+    const now = new Date();
+    return all.filter((r) => {
+      if (r.status === "completed" || r.status === "cancelled") return false;
+      const scheduledDate = r.scheduledDate ? new Date(r.scheduledDate) : null;
+      return scheduledDate && scheduledDate < now;
+    });
   },
 
   async getUpcoming(days?: number): Promise<GeneralMaintenanceRequest[]> {
-    const url = days
-      ? `/maintenance/upcoming?days=${days}`
-      : "/maintenance/upcoming";
-    return apiRequest<GeneralMaintenanceRequest[]>(url);
+    // Backend doesn't have upcoming endpoint, use client-side filtering
+    const all = await maintenanceApi.getAll();
+    const now = new Date();
+    const futureDate = new Date();
+    futureDate.setDate(futureDate.getDate() + (days || 7));
+    return all.filter((r) => {
+      if (r.status === "completed" || r.status === "cancelled") return false;
+      const scheduledDate = r.scheduledDate ? new Date(r.scheduledDate) : null;
+      return (
+        scheduledDate && scheduledDate >= now && scheduledDate <= futureDate
+      );
+    });
   },
 
   async getStats(): Promise<MaintenanceStats> {
@@ -156,7 +170,9 @@ export const maintenanceApi = {
       completed: requests.filter((r) => r.status === "completed").length,
       overdue: requests.filter((r) => {
         if (r.status === "completed" || r.status === "cancelled") return false;
-        const scheduledDate = r.scheduledDate ? new Date(r.scheduledDate) : null;
+        const scheduledDate = r.scheduledDate
+          ? new Date(r.scheduledDate)
+          : null;
         return scheduledDate && scheduledDate < now;
       }).length,
       byPriority: {
@@ -185,6 +201,8 @@ export const maintenanceApi = {
     id: number,
     status: string,
   ): Promise<GeneralMaintenanceRequest> {
-    return maintenanceApi.update(id, { status: status as UpdateMaintenanceRequestDto["status"] });
+    return maintenanceApi.update(id, {
+      status: status as UpdateMaintenanceRequestDto["status"],
+    });
   },
 };

@@ -129,97 +129,117 @@ export interface CreateCashFlowEntryDto {
 }
 
 export const cashFlowApi = {
-  // Get all cash flow entries with filtering
-  getAll: (
-    query: CashFlowQuery = {},
-  ): Promise<{ data: CashFlowEntry[]; total: number }> => {
-    const params = new URLSearchParams();
-    Object.entries(query).forEach(([key, value]) => {
-      if (value !== undefined && value !== null && value !== "") {
-        params.append(key, value.toString());
-      }
-    });
+  // Note: Cash flow endpoints are not implemented in the backend yet
+  // These methods return empty/mock data until the backend is implemented
 
-    const queryString = params.toString();
-    return apiRequest(`/cash-flow${queryString ? `?${queryString}` : ""}`);
+  // Get all cash flow entries with filtering
+  getAll: async (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _query: CashFlowQuery = {},
+  ): Promise<{ data: CashFlowEntry[]; total: number }> => {
+    // Backend doesn't have cash-flow endpoints yet
+    console.warn("Cash flow API not implemented in backend");
+    return { data: [], total: 0 };
   },
 
   // Create cash flow entry
-  create: (data: CreateCashFlowEntryDto): Promise<CashFlowEntry> =>
-    apiRequest("/cash-flow", {
-      method: "POST",
-      body: JSON.stringify(data),
-    }),
+  create: async (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _data: CreateCashFlowEntryDto,
+  ): Promise<CashFlowEntry> => {
+    throw new Error("Cash flow API not implemented in backend");
+  },
 
   // Get cash flow entry by ID
-  getById: (id: number): Promise<CashFlowEntry> =>
-    apiRequest(`/cash-flow/${id}`),
+  getById: async (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _id: number,
+  ): Promise<CashFlowEntry> => {
+    throw new Error("Cash flow API not implemented in backend");
+  },
 
   // Update cash flow entry
-  update: (
-    id: number,
-    data: Partial<CreateCashFlowEntryDto>,
-  ): Promise<CashFlowEntry> =>
-    apiRequest(`/cash-flow/${id}`, {
-      method: "PATCH",
-      body: JSON.stringify(data),
-    }),
+  update: async (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _id: number,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _data: Partial<CreateCashFlowEntryDto>,
+  ): Promise<CashFlowEntry> => {
+    throw new Error("Cash flow API not implemented in backend");
+  },
 
   // Delete cash flow entry
-  delete: (id: number): Promise<{ message: string }> =>
-    apiRequest(`/cash-flow/${id}`, {
-      method: "DELETE",
-    }),
+  delete: async (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _id: number,
+  ): Promise<{ message: string }> => {
+    throw new Error("Cash flow API not implemented in backend");
+  },
 
   // Get cash flow summary
-  getSummary: (
-    startDate: string,
-    endDate: string,
+  getSummary: async (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _startDate: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _endDate: string,
   ): Promise<CashFlowSummary> => {
-    const params = new URLSearchParams({
-      startDate,
-      endDate,
-    });
-    return apiRequest(`/cash-flow/summary?${params.toString()}`);
+    // Backend doesn't have cash-flow endpoints yet
+    return {
+      totalIncome: 0,
+      totalExpenses: 0,
+      netCashFlow: 0,
+      period: "",
+    };
   },
 
   // Get cash flow by category
-  getByCategory: (
-    startDate: string,
-    endDate: string,
+  getByCategory: async (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _startDate: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _endDate: string,
   ): Promise<CashFlowByCategory[]> => {
-    const params = new URLSearchParams({
-      startDate,
-      endDate,
-    });
-    return apiRequest(`/cash-flow/by-category?${params.toString()}`);
+    // Backend doesn't have cash-flow endpoints yet
+    return [];
   },
 
   // Get cash flow by period
-  getByPeriod: (
-    startDate: string,
-    endDate: string,
-    period: "daily" | "weekly" | "monthly" = "daily",
+  getByPeriod: async (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _startDate: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _endDate: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _period: "daily" | "weekly" | "monthly" = "daily",
   ): Promise<CashFlowByPeriod[]> => {
-    const params = new URLSearchParams({
-      startDate,
-      endDate,
-      period,
-    });
-    return apiRequest(`/cash-flow/by-period?${params.toString()}`);
+    // Backend doesn't have cash-flow endpoints yet
+    return [];
   },
 
   // Get cash flow statistics
-  getStatistics: (
-    startDate: string,
-    endDate: string,
-    period: "daily" | "weekly" | "monthly" = "daily",
+  getStatistics: async (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _startDate: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _endDate: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _period: "daily" | "weekly" | "monthly" = "daily",
   ): Promise<CashFlowStatistics> => {
-    const params = new URLSearchParams({
-      startDate,
-      endDate,
-      period,
-    });
-    return apiRequest(`/cash-flow/statistics?${params.toString()}`);
+    // Backend doesn't have cash-flow endpoints yet
+    return {
+      summary: {
+        totalIncome: 0,
+        totalExpenses: 0,
+        netCashFlow: 0,
+        period: "",
+      },
+      byCategory: [],
+      byPeriod: [],
+      trends: {
+        incomeGrowth: 0,
+        expenseGrowth: 0,
+        netFlowTrend: 0,
+      },
+    };
   },
 };

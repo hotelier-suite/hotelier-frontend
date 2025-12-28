@@ -86,14 +86,14 @@ export function FacilitiesManagement({
 
   const handleStatusToggle = async (facility: RecreationalFacility) => {
     try {
-      const newStatus: FacilityStatus = facility.isAvailable
+      const newStatus: FacilityStatus = facility.available
         ? "OUT_OF_ORDER"
         : "AVAILABLE";
       const updatedFacility = await recreationalApi.updateFacility(
         Number(facility.id),
         {
           status: newStatus,
-          isAvailable: !facility.isAvailable,
+          available: !facility.available,
         },
       );
 
@@ -102,7 +102,7 @@ export function FacilitiesManagement({
       );
 
       toast.success(
-        `Facility ${updatedFacility.isAvailable ? "activated" : "deactivated"} successfully`,
+        `Facility ${updatedFacility.available ? "activated" : "deactivated"} successfully`,
       );
     } catch (error) {
       console.error("Error updating facility status:", error);
@@ -127,8 +127,8 @@ export function FacilitiesManagement({
     return typeLabels[type] || type;
   };
 
-  const getStatusBadge = (status: FacilityStatus, isAvailable: boolean) => {
-    if (!isAvailable || status === "OUT_OF_ORDER") {
+  const getStatusBadge = (status: FacilityStatus, available: boolean) => {
+    if (!available || status === "OUT_OF_ORDER") {
       return <Badge variant="destructive">Out of Service</Badge>;
     }
 
@@ -184,9 +184,7 @@ export function FacilitiesManagement({
           <Card>
             <CardContent className="flex flex-col items-center justify-center py-12">
               <Settings className="h-12 w-12 text-muted-foreground mb-4" />
-              <CardTitle className="text-xl mb-2">
-                No facilities
-              </CardTitle>
+              <CardTitle className="text-xl mb-2">No facilities</CardTitle>
               <CardDescription className="text-center mb-4">
                 No recreational facilities have been registered yet. Create the
                 first facility to get started.
@@ -240,10 +238,7 @@ export function FacilitiesManagement({
                         </TableCell>
                         <TableCell>{facility.capacity} people</TableCell>
                         <TableCell>
-                          {getStatusBadge(
-                            facility.status,
-                            facility.isAvailable,
-                          )}
+                          {getStatusBadge(facility.status, facility.available)}
                         </TableCell>
                         <TableCell>
                           <DropdownMenu>
@@ -275,9 +270,7 @@ export function FacilitiesManagement({
                                 onClick={() => handleStatusToggle(facility)}
                               >
                                 <Settings className="mr-2 h-4 w-4" />
-                                {facility.isAvailable
-                                  ? "Deactivate"
-                                  : "Activate"}
+                                {facility.available ? "Deactivate" : "Activate"}
                               </DropdownMenuItem>
                               <DropdownMenuSeparator />
                               <DropdownMenuItem

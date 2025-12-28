@@ -95,8 +95,17 @@ export const rolesApi = {
       method: "DELETE",
     }),
 
-  getByName: (name: string): Promise<SystemRole> =>
-    apiRequest(`/roles/name/${name}`),
+  getByName: async (name: string): Promise<SystemRole> => {
+    // Backend uses query parameter for name filtering
+    const roles = await apiRequest<SystemRole[]>(
+      `/roles?name=${encodeURIComponent(name)}`,
+    );
+    const role = roles.find((r) => r.name.toLowerCase() === name.toLowerCase());
+    if (!role) {
+      throw new Error(`Role with name "${name}" not found`);
+    }
+    return role;
+  },
 
   // Permission assignment to roles
   assignPermissions: (

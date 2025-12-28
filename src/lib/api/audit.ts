@@ -161,16 +161,19 @@ export const auditApi = {
   // Get audit log by ID
   getById: (id: number): Promise<AuditLog> => apiRequest(`/audit/${id}`),
 
-  // Get audit logs by resource
+  // Get audit logs by resource (uses consolidated findAll endpoint)
   getByResource: (
     resource: AuditResource,
     resourceId: string,
-  ): Promise<AuditLog[]> =>
-    apiRequest(`/audit/resource/${resource}/${resourceId}`),
+  ): Promise<{ data: AuditLog[]; total: number }> =>
+    apiRequest(`/audit?resource=${resource}&resourceId=${resourceId}`),
 
-  // Get audit logs by user
-  getByUser: (userId: number, limit: number = 100): Promise<AuditLog[]> =>
-    apiRequest(`/audit/user/${userId}?limit=${limit}`),
+  // Get audit logs by user (uses consolidated findAll endpoint)
+  getByUser: (
+    userId: number,
+    limit: number = 100,
+  ): Promise<{ data: AuditLog[]; total: number }> =>
+    apiRequest(`/audit?userId=${userId}&take=${limit}`),
 
   // Get audit statistics
   getStatistics: (days: number = 30): Promise<AuditStatistics> =>

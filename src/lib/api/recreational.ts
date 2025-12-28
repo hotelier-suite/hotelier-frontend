@@ -43,7 +43,7 @@ export interface RecreationalFacility extends BaseEntity {
   location: string;
   description?: string;
   hourlyRate?: number;
-  isAvailable: boolean;
+  available: boolean;
   openingTime: string;
   closingTime: string;
   minimumBookingHours: number;

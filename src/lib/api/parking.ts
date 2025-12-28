@@ -374,7 +374,7 @@ export const parkingApi = {
 
   getAvailableSpaces: async (): Promise<ParkingSpace[]> => {
     const backendSpaces = (await apiRequest(
-      "/parking/spaces/available",
+      "/parking/spaces?status=AVAILABLE",
     )) as BackendParkingSpace[];
     return backendSpaces.map(transformParkingSpace);
   },
@@ -390,14 +390,14 @@ export const parkingApi = {
     };
     const backendType = typeMap[type] || type.toUpperCase();
     const backendSpaces = (await apiRequest(
-      `/parking/spaces/by-type?type=${backendType}`,
+      `/parking/spaces?type=${backendType}`,
     )) as BackendParkingSpace[];
     return backendSpaces.map(transformParkingSpace);
   },
 
   getSpacesByZone: async (zone: string): Promise<ParkingSpace[]> => {
     const backendSpaces = (await apiRequest(
-      `/parking/spaces/by-zone?zone=${zone}`,
+      `/parking/spaces?zone=${zone}`,
     )) as BackendParkingSpace[];
     return backendSpaces.map(transformParkingSpace);
   },
@@ -445,7 +445,7 @@ export const parkingApi = {
     };
     const backendStatus = statusMap[status] || status.toUpperCase();
     const backendIncidents = (await apiRequest(
-      `/parking/incidents/by-status?status=${backendStatus}`,
+      `/parking/incidents?status=${backendStatus}`,
     )) as BackendParkingIncident[];
     return backendIncidents.map(transformParkingIncident);
   },

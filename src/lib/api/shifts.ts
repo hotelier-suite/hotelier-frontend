@@ -26,14 +26,14 @@ export const shiftsApi = {
   ...baseApi,
 
   getByEmployee: (employeeId: string): Promise<Shift[]> =>
-    apiRequest(`/shifts/employee/${employeeId}`),
+    apiRequest(`/shifts?employeeId=${employeeId}`),
 
   getByDate: (date: string): Promise<Shift[]> =>
-    apiRequest(`/shifts/date/${date}`),
+    apiRequest(`/shifts?date=${date}`),
 
   getByDateRange: (startDate: string, endDate: string): Promise<Shift[]> =>
-    apiRequest(`/shifts/range/${startDate}/${endDate}`),
+    apiRequest(`/shifts?startDate=${startDate}&endDate=${endDate}`),
 
   getByStatus: (status: string): Promise<Shift[]> =>
-    apiRequest(`/shifts/status/${status}`),
+    apiRequest(`/shifts?status=${status}`),
 };

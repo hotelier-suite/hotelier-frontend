@@ -29,11 +29,11 @@ export const guestRequestsApi = {
   // Base CRUD operations
   ...baseApi,
 
-  // Specialized endpoints
+  // Specialized endpoints (using consolidated query parameters)
   getByStatus: (status: string): Promise<GuestRequest[]> =>
-    apiRequest(`/guest-requests/status/${status}`),
+    apiRequest(`/guest-requests?status=${status}`),
   getByPriority: (priority: string): Promise<GuestRequest[]> =>
-    apiRequest(`/guest-requests/priority/${priority}`),
+    apiRequest(`/guest-requests?priority=${priority}`),
   markCompleted: (id: number): Promise<GuestRequest> =>
     apiRequest(`/guest-requests/${id}/complete`, { method: "PATCH" }),
 };

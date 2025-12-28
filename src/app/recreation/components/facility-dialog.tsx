@@ -54,7 +54,7 @@ const facilitySchema = z.object({
   minimumBookingHours: z.number().min(1, "Minimum 1 hour"),
   maximumBookingHours: z.number().min(1, "Maximum must be at least 1 hour"),
   advanceBookingHours: z.number().min(0, "Must be a positive number"),
-  isAvailable: z.boolean(),
+  available: z.boolean(),
   amenities: z.array(z.string()).optional(),
   rules: z.array(z.string()).optional(),
   availableDays: z.array(z.number()).optional(),
@@ -124,7 +124,7 @@ export function FacilityDialog({
       minimumBookingHours: 1,
       maximumBookingHours: 4,
       advanceBookingHours: 1,
-      isAvailable: true,
+      available: true,
       amenities: [],
       rules: [],
       availableDays: [1, 2, 3, 4, 5, 6, 0],
@@ -147,7 +147,7 @@ export function FacilityDialog({
         minimumBookingHours: facility.minimumBookingHours,
         maximumBookingHours: facility.maximumBookingHours,
         advanceBookingHours: facility.advanceBookingHours,
-        isAvailable: facility.isAvailable,
+        available: facility.available,
         maintenanceNotes: facility.maintenanceNotes || "",
       });
       setAmenities(facility.amenities || []);
@@ -198,7 +198,7 @@ export function FacilityDialog({
       const facilityData: CreateRecreationalFacilityData = {
         ...values,
         type: values.type as FacilityType,
-        status: values.isAvailable ? "AVAILABLE" : "OUT_OF_ORDER",
+        status: values.available ? "AVAILABLE" : "OUT_OF_ORDER",
         amenities: amenities.length > 0 ? amenities : undefined,
         rules: rules.length > 0 ? rules : undefined,
         availableDays: availableDays.length > 0 ? availableDays : undefined,
@@ -225,9 +225,7 @@ export function FacilityDialog({
     } catch (error) {
       console.error("Error saving facility:", error);
       toast.error(
-        facility
-          ? "Error updating facility"
-          : "Error creating facility",
+        facility ? "Error updating facility" : "Error creating facility",
       );
     } finally {
       setLoading(false);
@@ -560,13 +558,11 @@ export function FacilityDialog({
 
             <FormField
               control={form.control}
-              name="isAvailable"
+              name="available"
               render={({ field }) => (
                 <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                   <div className="space-y-0.5">
-                    <FormLabel className="text-base">
-                      Active Facility
-                    </FormLabel>
+                    <FormLabel className="text-base">Active Facility</FormLabel>
                     <FormDescription>
                       Allow bookings for this facility
                     </FormDescription>

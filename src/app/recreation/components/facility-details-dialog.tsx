@@ -49,8 +49,8 @@ export function FacilityDetailsDialog({
     return typeLabels[type] || type;
   };
 
-  const getStatusBadge = (status: FacilityStatus, isAvailable: boolean) => {
-    if (!isAvailable || status === "OUT_OF_ORDER") {
+  const getStatusBadge = (status: FacilityStatus, available: boolean) => {
+    if (!available || status === "OUT_OF_ORDER") {
       return <Badge variant="destructive">Out of Service</Badge>;
     }
 
@@ -108,7 +108,7 @@ export function FacilityDetailsDialog({
               </DialogDescription>
             </div>
             <div className="text-right">
-              {getStatusBadge(facility.status, facility.isAvailable)}
+              {getStatusBadge(facility.status, facility.available)}
               <div className="mt-1">
                 <Badge variant="outline">
                   {getFacilityTypeLabel(facility.type)}

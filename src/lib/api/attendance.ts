@@ -33,16 +33,16 @@ export const attendanceApi = {
   ...baseApi,
 
   getByEmployee: (employeeId: number): Promise<Attendance[]> =>
-    apiRequest(`/attendance/employee/${employeeId}`),
+    apiRequest(`/attendance?employeeId=${employeeId}`),
 
   getByDate: (date: string): Promise<Attendance[]> =>
-    apiRequest(`/attendance/date/${date}`),
+    apiRequest(`/attendance?date=${date}`),
 
   getByDateRange: (startDate: string, endDate: string): Promise<Attendance[]> =>
-    apiRequest(`/attendance/range/${startDate}/${endDate}`),
+    apiRequest(`/attendance?startDate=${startDate}&endDate=${endDate}`),
 
   getByStatus: (status: string): Promise<Attendance[]> =>
-    apiRequest(`/attendance/status/${status}`),
+    apiRequest(`/attendance?status=${status}`),
 
   clockIn: (
     employeeId: number,
