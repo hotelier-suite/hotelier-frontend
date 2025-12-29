@@ -95,8 +95,8 @@ export function OrderDetailsDialog({
           </div>
 
           <div>
-            <strong>Order Time:</strong>{" "}
-            {new Date(order.orderTime).toLocaleString()}
+            <strong>Order Date:</strong>{" "}
+            {new Date(order.orderDate).toLocaleString()}
           </div>
 
           {order.estimatedTime && (

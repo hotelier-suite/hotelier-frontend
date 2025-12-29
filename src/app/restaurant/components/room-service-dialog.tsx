@@ -278,7 +278,7 @@ export function RoomServiceDialog({
           quantity: item.quantity,
         })),
         total: createdOrder.total,
-        orderTime: createdOrder.orderTime,
+        orderDate: createdOrder.orderDate,
         estimatedTime: createdOrder.estimatedTime,
         status: createdOrder.status,
         waiter: createdOrder.waiter,

@@ -14,7 +14,7 @@ export interface RoomServiceOrder {
   guest: string;
   items: RoomServiceOrderItem[];
   total: number;
-  orderTime: string;
+  orderDate: string;
   estimatedTime: string;
   status: "pending" | "preparing" | "ready" | "delivered";
   waiter: string;
@@ -54,7 +54,7 @@ interface BackendRoomServiceOrder {
   guest: string;
   items: string | RoomServiceOrderItem[]; // Can be JSON string or array
   total: number | string; // Can be number or string from decimal type
-  orderTime: string;
+  orderDate: string;
   estimatedTime?: string | null;
   status: "PENDING" | "PREPARING" | "READY" | "DELIVERED" | "CANCELLED";
   waiter?: string | null;
@@ -100,7 +100,7 @@ const transformRoomServiceOrder = (
       ? JSON.parse(backendOrder.items)
       : backendOrder.items, // Handle both string and array formats
   total: Number(backendOrder.total), // Convert to number to handle decimal types from DB
-  orderTime: backendOrder.orderTime,
+  orderDate: backendOrder.orderDate,
   estimatedTime: backendOrder.estimatedTime || "",
   status: backendOrder.status.toLowerCase() as
     | "pending"

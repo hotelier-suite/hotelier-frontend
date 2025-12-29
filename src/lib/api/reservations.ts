@@ -145,7 +145,7 @@ export const reservationsApi = {
 export interface RoomServiceCharge {
   orderId: number;
   orderNumber: string;
-  orderTime: string;
+  orderDate: string;
   total: number;
   status: string;
   items: Array<{

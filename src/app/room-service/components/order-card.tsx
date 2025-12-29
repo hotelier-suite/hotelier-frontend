@@ -126,8 +126,8 @@ export function OrderCard({
             <strong>Total:</strong> ${order.total.toLocaleString()}
           </p>
           <p className="text-sm">
-            <strong>Order Time:</strong>{" "}
-            {new Date(order.orderTime).toLocaleString()}
+            <strong>Order Date:</strong>{" "}
+            {new Date(order.orderDate).toLocaleString()}
           </p>
         </div>
       </CardContent>

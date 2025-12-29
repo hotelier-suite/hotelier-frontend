@@ -108,7 +108,7 @@ export function RoomServiceOrderManagement({
       guest: orderData.guestName,
       items: orderItems,
       status: "pending",
-      orderTime: new Date().toISOString(),
+      orderDate: new Date().toISOString(),
       estimatedTime: "",
       total: total,
       waiter: "",

@@ -48,7 +48,7 @@ export function BillingDetailsDisplay({
                 className="ml-6 text-xs text-muted-foreground flex justify-between"
               >
                 <span>
-                  • {rs.orderNumber} - {rs.orderTime}
+                  • {rs.orderNumber} - {new Date(rs.orderDate).toLocaleString()}
                 </span>
                 <span>${rs.total.toLocaleString()}</span>
               </div>
