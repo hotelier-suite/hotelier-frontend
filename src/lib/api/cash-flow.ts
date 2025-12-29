@@ -1,4 +1,3 @@
-import { apiRequest } from "./base";
 import { BaseEntity } from "../types";
 
 export interface CashFlowEntry extends BaseEntity {
@@ -205,9 +204,7 @@ export const cashFlowApi = {
 
   // Get cash flow by period
   getByPeriod: async (
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _startDate: string,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _endDate: string,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _period: "daily" | "weekly" | "monthly" = "daily",
@@ -218,9 +215,7 @@ export const cashFlowApi = {
 
   // Get cash flow statistics
   getStatistics: async (
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _startDate: string,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _endDate: string,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _period: "daily" | "weekly" | "monthly" = "daily",
