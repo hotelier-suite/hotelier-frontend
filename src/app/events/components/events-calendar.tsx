@@ -100,24 +100,7 @@ export default function EventsCalendar({ events }: EventsCalendarProps) {
                 locale={enUS}
                 modifiers={modifiers}
                 modifiersStyles={modifiersStyles}
-                className="w-full mx-auto rounded-lg border shadow-sm"
-                classNames={{
-                  root: "w-full",
-                  table: "w-full",
-                  head_cell:
-                    "text-muted-foreground font-normal text-[0.8rem] w-full",
-                  cell: "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected].day-range-end)]:rounded-r-md",
-                  day: "h-8 w-full p-0 font-normal aria-selected:opacity-100 hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                  day_selected:
-                    "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-                  day_today: "bg-accent text-accent-foreground font-semibold",
-                  day_outside:
-                    "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground",
-                  day_disabled: "text-muted-foreground opacity-50",
-                  day_range_middle:
-                    "aria-selected:bg-accent aria-selected:text-accent-foreground",
-                  day_hidden: "invisible",
-                }}
+                className="rounded-lg border shadow-sm"
                 formatters={{
                   formatCaption: (date) =>
                     format(date, "MMMM yyyy", { locale: enUS }),
@@ -146,7 +129,7 @@ export default function EventsCalendar({ events }: EventsCalendarProps) {
             <CardTitle>
               Events -{" "}
               {selectedDate
-                ? format(selectedDate, "d 'de' MMMM, yyyy", { locale: enUS })
+                ? format(selectedDate, "MMMM d, yyyy", { locale: enUS })
                 : "Select a date"}
             </CardTitle>
           </CardHeader>
