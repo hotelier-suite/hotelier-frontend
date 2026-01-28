@@ -118,9 +118,7 @@ export default function VenueManagement({
         toast.success("Venue updated successfully");
       } catch (error) {
         console.error("Error updating venue:", error);
-        toast.error(
-          "Error updating venue. Please try again.",
-        );
+        toast.error("Error updating venue. Please try again.");
       }
     }
   };
@@ -278,131 +276,129 @@ export default function VenueManagement({
         </DialogContent>
       </Dialog>
 
-      <div className="flex justify-between items-center mb-4">
-        <div></div>
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="outline">
-              <MapPin className="mr-2 h-4 w-4" />
-              New Venue
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>New Venue</DialogTitle>
-              <DialogDescription>
-                Register a new event venue
-              </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={newVenueForm.handleSubmit(handleAddVenue)}>
-              <div className="grid gap-4 py-4">
-                <div className="space-y-2">
-                  <Label htmlFor="venueName">Venue Name</Label>
-                  <Input
-                    id="venueName"
-                    {...newVenueForm.register("name")}
-                    placeholder="Venue name"
-                  />
-                  {newVenueForm.formState.errors.name && (
-                    <p className="text-sm text-red-500">
-                      {newVenueForm.formState.errors.name.message}
-                    </p>
-                  )}
-                </div>
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="venueCapacity">Capacity</Label>
-                    <Input
-                      id="venueCapacity"
-                      type="number"
-                      {...newVenueForm.register("capacity", {
-                        valueAsNumber: true,
-                      })}
-                      placeholder="0"
-                    />
-                    {newVenueForm.formState.errors.capacity && (
-                      <p className="text-sm text-red-500">
-                        {newVenueForm.formState.errors.capacity.message}
-                      </p>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="venueArea">Area (m²)</Label>
-                    <Input
-                      id="venueArea"
-                      type="number"
-                      {...newVenueForm.register("area", {
-                        valueAsNumber: true,
-                      })}
-                      placeholder="0"
-                    />
-                    {newVenueForm.formState.errors.area && (
-                      <p className="text-sm text-red-500">
-                        {newVenueForm.formState.errors.area.message}
-                      </p>
-                    )}
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="venueHourlyRate">Hourly Rate</Label>
-                    <Input
-                      id="venueHourlyRate"
-                      type="number"
-                      {...newVenueForm.register("hourlyRate", {
-                        valueAsNumber: true,
-                      })}
-                      placeholder="0"
-                    />
-                    {newVenueForm.formState.errors.hourlyRate && (
-                      <p className="text-sm text-red-500">
-                        {newVenueForm.formState.errors.hourlyRate.message}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="venueLocation">Location</Label>
-                    <Input
-                      id="venueLocation"
-                      {...newVenueForm.register("location")}
-                      placeholder="Floor 1"
-                    />
-                    {newVenueForm.formState.errors.location && (
-                      <p className="text-sm text-red-500">
-                        {newVenueForm.formState.errors.location.message}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="venueDescription">Description</Label>
-                  <Textarea
-                    id="venueDescription"
-                    {...newVenueForm.register("description")}
-                    placeholder="Venue description..."
-                  />
-                  {newVenueForm.formState.errors.description && (
-                    <p className="text-sm text-red-500">
-                      {newVenueForm.formState.errors.description.message}
-                    </p>
-                  )}
-                </div>
-                <div className="flex justify-end space-x-2">
-                  <Button type="button" variant="outline">
-                    Cancel
-                  </Button>
-                  <Button type="submit">Create Venue</Button>
-                </div>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
-      </div>
-
       <Card className="w-full">
-        <CardHeader>
-          <CardTitle>Event Venues</CardTitle>
-          <CardDescription>Manage event spaces</CardDescription>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+          <div>
+            <CardTitle>Event Venues</CardTitle>
+            <CardDescription>Manage event spaces</CardDescription>
+          </div>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="sm">
+                <MapPin className="mr-2 h-4 w-4" />
+                New Venue
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>New Venue</DialogTitle>
+                <DialogDescription>
+                  Register a new event venue
+                </DialogDescription>
+              </DialogHeader>
+              <form onSubmit={newVenueForm.handleSubmit(handleAddVenue)}>
+                <div className="grid gap-4 py-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="venueName">Venue Name</Label>
+                    <Input
+                      id="venueName"
+                      {...newVenueForm.register("name")}
+                      placeholder="Venue name"
+                    />
+                    {newVenueForm.formState.errors.name && (
+                      <p className="text-sm text-red-500">
+                        {newVenueForm.formState.errors.name.message}
+                      </p>
+                    )}
+                  </div>
+                  <div className="grid grid-cols-3 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="venueCapacity">Capacity</Label>
+                      <Input
+                        id="venueCapacity"
+                        type="number"
+                        {...newVenueForm.register("capacity", {
+                          valueAsNumber: true,
+                        })}
+                        placeholder="0"
+                      />
+                      {newVenueForm.formState.errors.capacity && (
+                        <p className="text-sm text-red-500">
+                          {newVenueForm.formState.errors.capacity.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="venueArea">Area (m²)</Label>
+                      <Input
+                        id="venueArea"
+                        type="number"
+                        {...newVenueForm.register("area", {
+                          valueAsNumber: true,
+                        })}
+                        placeholder="0"
+                      />
+                      {newVenueForm.formState.errors.area && (
+                        <p className="text-sm text-red-500">
+                          {newVenueForm.formState.errors.area.message}
+                        </p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="venueHourlyRate">Hourly Rate</Label>
+                      <Input
+                        id="venueHourlyRate"
+                        type="number"
+                        {...newVenueForm.register("hourlyRate", {
+                          valueAsNumber: true,
+                        })}
+                        placeholder="0"
+                      />
+                      {newVenueForm.formState.errors.hourlyRate && (
+                        <p className="text-sm text-red-500">
+                          {newVenueForm.formState.errors.hourlyRate.message}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="venueLocation">Location</Label>
+                      <Input
+                        id="venueLocation"
+                        {...newVenueForm.register("location")}
+                        placeholder="Floor 1"
+                      />
+                      {newVenueForm.formState.errors.location && (
+                        <p className="text-sm text-red-500">
+                          {newVenueForm.formState.errors.location.message}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="venueDescription">Description</Label>
+                    <Textarea
+                      id="venueDescription"
+                      {...newVenueForm.register("description")}
+                      placeholder="Venue description..."
+                    />
+                    {newVenueForm.formState.errors.description && (
+                      <p className="text-sm text-red-500">
+                        {newVenueForm.formState.errors.description.message}
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex justify-end space-x-2">
+                    <Button type="button" variant="outline">
+                      Cancel
+                    </Button>
+                    <Button type="submit">Create Venue</Button>
+                  </div>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
         </CardHeader>
         <CardContent className="p-6">
           <div className="w-full overflow-x-auto">

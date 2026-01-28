@@ -107,15 +107,7 @@ export default function EventManagement({
   }));
 
   return (
-    <div className="w-full max-w-full overflow-hidden space-y-4">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">Event Management</h2>
-        <Button onClick={() => setOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          New Event
-        </Button>
-      </div>
-
+    <div className="w-full min-w-0 overflow-hidden">
       <EventCreationDialog
         open={open}
         onOpenChange={setOpen}
@@ -131,6 +123,7 @@ export default function EventManagement({
       <EventsTable
         events={transformedEvents}
         venues={venues.map((v) => v.name)}
+        onNewEvent={() => setOpen(true)}
         onEventUpdate={async (id, updates) => {
           console.log("EventManagement: Received updates from table:", updates);
 

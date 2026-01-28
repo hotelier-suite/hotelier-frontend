@@ -16,7 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Calendar, Edit, Trash, Check } from "lucide-react";
+import { Calendar, Edit, Trash, Check, Plus } from "lucide-react";
 import { EditEventDialog } from "./edit-event-dialog";
 import { DeleteEventDialog } from "./delete-event-dialog";
 
@@ -41,6 +41,7 @@ interface Event {
 interface EventsTableProps {
   events: Event[];
   venues?: string[];
+  onNewEvent?: () => void;
   onEventUpdate?: (id: number, updates: Partial<Event>) => Promise<void>;
   onEventDelete?: (id: number) => Promise<void>;
 }
@@ -72,6 +73,7 @@ const calculateTotalBudget = (event: Event) => {
 export function EventsTable({
   events,
   venues,
+  onNewEvent,
   onEventUpdate,
   onEventDelete,
 }: EventsTableProps) {
@@ -104,11 +106,19 @@ export function EventsTable({
   return (
     <>
       <Card className="w-full">
-        <CardHeader>
-          <CardTitle>Scheduled Events</CardTitle>
-          <CardDescription>
-            Manage hotel events and reservations
-          </CardDescription>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+          <div className="space-y-1">
+            <CardTitle>Scheduled Events</CardTitle>
+            <CardDescription>
+              Manage hotel events and reservations
+            </CardDescription>
+          </div>
+          {onNewEvent && (
+            <Button onClick={onNewEvent} size="sm">
+              <Plus className="mr-2 h-4 w-4" />
+              New Event
+            </Button>
+          )}
         </CardHeader>
         <CardContent className="p-6">
           <Table>
