@@ -1,7 +1,7 @@
 "use client";
 
 import { Label } from "@/components/ui/label";
-import { ReservationBillingDetails } from "@/lib/api/reservations";
+import { type ReservationBillingDetails } from "@/lib/features/reservations/types";
 import { Calendar, UtensilsCrossed, PartyPopper } from "lucide-react";
 
 interface BillingDetailsDisplayProps {

@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import type { Venue } from "@/lib/api/venues";
+import type { Venue } from "@/lib/features/venues/types";
 
 const venueSchema = z.object({
   name: z.string().min(1, "Venue name is required"),
@@ -47,23 +47,23 @@ export function VenueFormDialog({
     resolver: zodResolver(venueSchema),
     defaultValues: venue
       ? {
-        name: venue.name,
-        capacity: venue.capacity,
-        area: venue.area,
-        hourlyRate: venue.hourlyRate,
-        location: venue.location,
-        description: venue.description,
-        available: venue.available,
-      }
+          name: venue.name,
+          capacity: venue.capacity,
+          area: venue.area,
+          hourlyRate: venue.hourlyRate,
+          location: venue.location,
+          description: venue.description,
+          available: venue.available,
+        }
       : {
-        name: "",
-        capacity: 0,
-        area: 0,
-        hourlyRate: 0,
-        location: "",
-        description: "",
-        available: true,
-      },
+          name: "",
+          capacity: 0,
+          area: 0,
+          hourlyRate: 0,
+          location: "",
+          description: "",
+          available: true,
+        },
   });
 
   const handleSubmit = async (data: VenueFormData) => {

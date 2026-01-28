@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { attendanceApi, type Attendance } from "@/lib/api/attendance";
-import { employeesApi, type Employee } from "@/lib/api/employees";
+import { type Attendance } from "@/lib/features/attendance/types";
+import { attendanceService } from "@/lib/features/attendance/service";
+import { type Employee } from "@/lib/features/employees/types";
+import { employeesService } from "@/lib/features/employees/service";
 import { AttendanceSummaryCards } from "./attendance-summary-cards";
 import { AttendanceFilters } from "./attendance-filters";
 import { calculateHours, calculateSummary } from "../utils/attendance-helpers";
@@ -62,7 +64,10 @@ export function AttendanceManagement() {
     try {
       setLoading(true);
 
-      const updatedRecord = await attendanceApi.clockOut(recordId, currentTime);
+      const updatedRecord = await attendanceService.clockOut(
+        recordId,
+        currentTime,
+      );
 
       setAttendanceRecords((prev) =>
         prev.map((record) => {
@@ -113,11 +118,11 @@ export function AttendanceManagement() {
     const loadInitialData = async () => {
       try {
         // Load employees from API
-        const employeesData = await employeesApi.getAll();
+        const employeesData = await employeesService.getAll();
         setEmployees(employeesData);
 
         // Load attendance records for selected date
-        const attendanceData = await attendanceApi.getByDate(selectedDate);
+        const attendanceData = await attendanceService.getByDate(selectedDate);
 
         // Enrich attendance records with employee data
         const enrichedRecords = attendanceData.map((record) => {
@@ -128,15 +133,15 @@ export function AttendanceManagement() {
             ...record,
             employee: employee
               ? {
-                id:
-                  typeof employee.id === "string"
-                    ? parseInt(employee.id)
-                    : employee.id,
-                name: employee.name,
-                email: "", // Employee type doesn't have email
-                position: employee.position || "",
-                department: employee.department,
-              }
+                  id:
+                    typeof employee.id === "string"
+                      ? parseInt(employee.id)
+                      : employee.id,
+                  name: employee.name,
+                  email: "", // Employee type doesn't have email
+                  position: employee.position || "",
+                  department: employee.department,
+                }
               : undefined,
           };
         });
@@ -243,10 +248,8 @@ export function AttendanceManagement() {
                             {record.status === "PRESENT" && "Present"}
                             {record.status === "ABSENT" && "Absent"}
                             {record.status === "LATE" && "Late"}
-                            {record.status === "EARLY_LEAVE" &&
-                              "Early Leave"}
-                            {record.status === "SICK_LEAVE" &&
-                              "Sick Leave"}
+                            {record.status === "EARLY_LEAVE" && "Early Leave"}
+                            {record.status === "SICK_LEAVE" && "Sick Leave"}
                             {record.status === "VACATION" && "Vacation"}
                           </Badge>
                         </td>

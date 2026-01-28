@@ -12,7 +12,8 @@ import {
   InventoryItemForm,
   type InventoryItemFormData,
 } from "./InventoryItemForm";
-import { inventoryApi, type InventoryItem } from "@/lib/api/inventory";
+import { type InventoryItem } from "@/lib/features/inventory/types";
+import { inventoryService } from "@/lib/features/inventory/service";
 import { toast } from "sonner";
 
 interface EditInventoryItemDialogProps {
@@ -35,7 +36,7 @@ export function EditInventoryItemDialog({
 
     setIsSubmitting(true);
     try {
-      await inventoryApi.updateInventoryItem(item.id, data);
+      await inventoryService.updateInventoryItem(item.id, data);
 
       toast.success("Product updated successfully");
 
@@ -43,9 +44,7 @@ export function EditInventoryItemDialog({
       onItemUpdated?.();
     } catch (error) {
       console.error("Error updating inventory item:", error);
-      toast.error(
-        "Could not update product. Please try again.",
-      );
+      toast.error("Could not update product. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -104,8 +103,7 @@ export function EditInventoryItemDialog({
         <DialogHeader>
           <DialogTitle>Edit Product</DialogTitle>
           <DialogDescription>
-            Modify the product information. Marked fields are
-            required.
+            Modify the product information. Marked fields are required.
           </DialogDescription>
         </DialogHeader>
 

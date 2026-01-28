@@ -29,10 +29,11 @@ import {
 import { CalendarIcon, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import { type Room } from "@/lib/api/rooms";
+import { type Room } from "@/lib/features/rooms/types";
 import { useEffect, useState, useMemo } from "react";
-import { guestsApi, type Guest } from "@/lib/api/guests";
-import { reservationsApi } from "@/lib/api/reservations";
+import { type Guest } from "@/lib/features/guests/types";
+import { guestsService } from "@/lib/features/guests/service";
+import { reservationsService } from "@/lib/features/reservations/service";
 
 const reservationFormSchema = z
   .object({
@@ -122,7 +123,7 @@ function GuestSearchSection({
     let active = true;
     (async () => {
       try {
-        const list = await guestsApi.search(guestSearch || "");
+        const list = await guestsService.search(guestSearch || "");
         if (active) setGuestOptions(list.slice(0, 20));
       } catch (e) {
         console.error("Error loading guests:", e);
@@ -212,14 +213,14 @@ function DateSelectionSection({
               selected={
                 formValues.checkInDate
                   ? (() => {
-                    const [year, month, day] =
-                      formValues.checkInDate.split("-");
-                    return new Date(
-                      parseInt(year),
-                      parseInt(month) - 1,
-                      parseInt(day),
-                    );
-                  })()
+                      const [year, month, day] =
+                        formValues.checkInDate.split("-");
+                      return new Date(
+                        parseInt(year),
+                        parseInt(month) - 1,
+                        parseInt(day),
+                      );
+                    })()
                   : undefined
               }
               onSelect={(date) => {
@@ -279,14 +280,14 @@ function DateSelectionSection({
               selected={
                 formValues.checkOutDate
                   ? (() => {
-                    const [year, month, day] =
-                      formValues.checkOutDate.split("-");
-                    return new Date(
-                      parseInt(year),
-                      parseInt(month) - 1,
-                      parseInt(day),
-                    );
-                  })()
+                      const [year, month, day] =
+                        formValues.checkOutDate.split("-");
+                      return new Date(
+                        parseInt(year),
+                        parseInt(month) - 1,
+                        parseInt(day),
+                      );
+                    })()
                   : undefined
               }
               onSelect={(date) => {
@@ -391,7 +392,7 @@ export function NewReservationDialog({
     (async () => {
       try {
         setAvailabilityLoading(true);
-        const list = await reservationsApi.getAvailability(start, end, {
+        const list = await reservationsService.getAvailability(start, end, {
           guests: totalGuests > 0 ? totalGuests : undefined,
         });
         if (!cancelled) {

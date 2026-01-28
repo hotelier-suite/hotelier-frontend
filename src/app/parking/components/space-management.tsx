@@ -18,7 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Wrench, AlertTriangle } from "lucide-react";
-import { ParkingSpace } from "@/lib/api/parking";
+import type { ParkingSpace } from "@/lib/features/parking/types";
 import { useAuthContext } from "@/contexts/auth-context";
 
 interface SpaceManagementProps {
@@ -36,9 +36,7 @@ export default function SpaceManagement({
   const getSpaceStatusBadge = (status: string) => {
     switch (status) {
       case "available":
-        return (
-          <Badge className="bg-green-100 text-green-800">Available</Badge>
-        );
+        return <Badge className="bg-green-100 text-green-800">Available</Badge>;
       case "occupied":
         return <Badge className="bg-red-100 text-red-800">Occupied</Badge>;
       case "reserved":
@@ -56,9 +54,7 @@ export default function SpaceManagement({
     <Card>
       <CardHeader>
         <CardTitle>Space Map</CardTitle>
-        <CardDescription>
-          Current status of parking spaces
-        </CardDescription>
+        <CardDescription>Current status of parking spaces</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>

@@ -1,12 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 import { EventCreationDialog } from "./event-creation-dialog";
 import { EventsTable } from "./events-table";
-import { EventBooking as ApiEventBooking } from "@/lib/api/events";
-import { Venue as ApiVenue } from "@/lib/api/venues";
+import { type EventBooking as ApiEventBooking } from "@/lib/features/events/types";
+import { type Venue as ApiVenue } from "@/lib/features/venues/types";
 
 // Use API types
 type EventBooking = ApiEventBooking;

@@ -5,11 +5,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import IncidentReportDialog from "./components/incident-report-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Clock, CheckCircle, AlertTriangle, Users } from "lucide-react";
-import {
-  housekeepingApi,
-  type CleaningAssignment,
-} from "@/lib/api/housekeeping";
-import { employeesApi, type Employee } from "@/lib/api/employees";
+import { type CleaningAssignment } from "@/lib/features/housekeeping/types";
+import { housekeepingService } from "@/lib/features/housekeeping/service";
+import { type Employee } from "@/lib/features/employees/types";
+import { employeesService } from "@/lib/features/employees/service";
 
 export default function HousekeepingPage() {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -36,8 +35,8 @@ export default function HousekeepingPage() {
     const fetchData = async () => {
       try {
         const [employeesData, assignmentsData] = await Promise.all([
-          employeesApi.getByDepartment("HOUSEKEEPING"),
-          housekeepingApi.getTodaysCleaningAssignments(),
+          employeesService.getByDepartment("HOUSEKEEPING"),
+          housekeepingService.getTodaysCleaningAssignments(),
         ]);
 
         setEmployees(employeesData);

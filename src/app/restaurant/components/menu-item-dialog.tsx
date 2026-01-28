@@ -8,7 +8,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { MenuItem, restaurantApi } from "@/lib/api/restaurant";
+import { restaurantService } from "@/lib/features/restaurant/service";
+import type { MenuItem } from "@/lib/features/restaurant/types";
 import { MenuItemFormData } from "@/lib/schemas/restaurant";
 import { MenuItemForm } from "./menu-item-form";
 
@@ -40,19 +41,19 @@ export function MenuItemDialog({
           data.description.trim() && { description: data.description.trim() }),
         ...(data.preparationTime &&
           data.preparationTime.trim() && {
-          preparationTime: data.preparationTime.trim(),
-        }),
+            preparationTime: data.preparationTime.trim(),
+          }),
         ...(data.ingredients?.length && { ingredients: data.ingredients }),
         ...(data.allergens?.length && { allergens: data.allergens }),
       };
 
       if (isEditing) {
-        await restaurantApi.updateMenuItem(item, payload);
+        await restaurantService.updateMenuItem(item, payload);
         toast("Item updated", {
           description: `${data.name} has been updated successfully`,
         });
       } else {
-        await restaurantApi.createMenuItem(payload);
+        await restaurantService.createMenuItem(payload);
         toast("Item created", {
           description: `${data.name} has been created successfully`,
         });
@@ -75,8 +76,7 @@ export function MenuItemDialog({
           error.message.includes("Authentication required") ||
           error.message.includes("401")
         ) {
-          errorMessage =
-            "Your session has expired. Please log in again.";
+          errorMessage = "Your session has expired. Please log in again.";
         } else if (
           error.message.includes("not found") ||
           error.message.includes("404")

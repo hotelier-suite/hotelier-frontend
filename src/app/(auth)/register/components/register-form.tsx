@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { authApi } from "@/lib/api/auth";
+import { authService } from "@/lib/features/auth/service";
 import { toast } from "sonner";
 
 const registerSchema = z
@@ -59,7 +59,7 @@ export function RegisterForm() {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      await authApi.register({
+      await authService.register({
         name: data.name,
         email: data.email,
         phone: data.phone,

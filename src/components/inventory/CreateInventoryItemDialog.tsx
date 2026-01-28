@@ -15,7 +15,7 @@ import {
   InventoryItemForm,
   type InventoryItemFormData,
 } from "./InventoryItemForm";
-import { inventoryApi } from "@/lib/api/inventory";
+import { inventoryService } from "@/lib/features/inventory/service";
 import { toast } from "sonner";
 
 interface CreateInventoryItemDialogProps {
@@ -31,7 +31,7 @@ export function CreateInventoryItemDialog({
   const handleSubmit = async (data: InventoryItemFormData) => {
     setIsSubmitting(true);
     try {
-      await inventoryApi.createInventoryItem(data);
+      await inventoryService.createInventoryItem(data);
 
       toast.success("Product created successfully");
 

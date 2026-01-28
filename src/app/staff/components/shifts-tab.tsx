@@ -29,8 +29,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { shiftsApi, type Shift } from "@/lib/api/shifts";
-import { employeesApi, type Employee } from "@/lib/api/employees";
+import { type Shift } from "@/lib/features/shifts/types";
+import { shiftsService } from "@/lib/features/shifts/service";
+import { type Employee } from "@/lib/features/employees/types";
+import { employeesService } from "@/lib/features/employees/service";
 import { Clock, Plus, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
@@ -98,8 +100,8 @@ export function ShiftsTab() {
     try {
       setLoading(true);
       const [shiftsData, employeesData] = await Promise.all([
-        shiftsApi.getByDate(selectedDate),
-        employeesApi.getAll(),
+        shiftsService.getByDate(selectedDate),
+        employeesService.getAll(),
       ]);
       setShifts(shiftsData);
       setEmployees(employeesData);
@@ -172,7 +174,7 @@ export function ShiftsTab() {
           status: data.status as Shift["status"],
           department: data.department as Shift["department"],
         };
-        await shiftsApi.update(editingShift.id, payload);
+        await shiftsService.update(editingShift.id, payload);
         toast.success("Shift updated successfully");
       } else {
         const payload = {
@@ -181,7 +183,7 @@ export function ShiftsTab() {
           status: data.status as Shift["status"],
           department: data.department as Shift["department"],
         };
-        await shiftsApi.create(payload);
+        await shiftsService.create(payload);
         toast.success("Shift created successfully");
       }
       setDialogOpen(false);
@@ -196,7 +198,7 @@ export function ShiftsTab() {
     if (!deletingShift) return;
 
     try {
-      await shiftsApi.delete(deletingShift.id);
+      await shiftsService.delete(deletingShift.id);
       toast.success("Shift deleted successfully");
       setDeleteDialogOpen(false);
       setDeletingShift(null);

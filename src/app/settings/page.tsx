@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Configuration from "./components/configuration";
-import { configurationApi, type HotelConfig } from "@/lib/api/configuration";
+import { configurationService } from "@/lib/features/configuration/service";
+import type { HotelConfig } from "@/lib/features/configuration/types";
 
 export default function ConfigurationPage() {
   const [hotelConfig, setHotelConfig] = useState<HotelConfig | null>(null);
@@ -11,7 +12,7 @@ export default function ConfigurationPage() {
   useEffect(() => {
     const fetchConfig = async () => {
       try {
-        const config = await configurationApi.getHotelConfig();
+        const config = await configurationService.getHotelConfig();
         setHotelConfig(config);
       } catch (err) {
         console.error("Error fetching hotel config:", err);

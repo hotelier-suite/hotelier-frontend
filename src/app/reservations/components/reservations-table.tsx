@@ -18,7 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Eye, Edit, Trash2 } from "lucide-react";
-import { type Reservation } from "@/lib/api/reservations";
+import { type Reservation } from "@/lib/features/reservations/types";
 
 interface ReservationsTableProps {
   reservations: Reservation[];
@@ -53,13 +53,9 @@ export function ReservationsTable({
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "CONFIRMED":
-        return (
-          <Badge className="bg-green-100 text-green-800">Confirmed</Badge>
-        );
+        return <Badge className="bg-green-100 text-green-800">Confirmed</Badge>;
       case "PENDING":
-        return (
-          <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>
-        );
+        return <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>;
       case "CHECKED_IN":
         return <Badge className="bg-blue-100 text-blue-800">Checked In</Badge>;
       case "CHECKED_OUT":
@@ -179,7 +175,7 @@ export function ReservationsTable({
                 <TableCell>
                   <div className="text-sm">
                     {reservation.discountPercent ||
-                      reservation.discountAmount ? (
+                    reservation.discountAmount ? (
                       <div>
                         {reservation.discountPercent && (
                           <div>{reservation.discountPercent}% discount</div>

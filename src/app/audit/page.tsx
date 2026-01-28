@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthContext } from "@/contexts/auth-context";
 import {
-  auditApi,
   type AuditLog,
   type AuditLogQuery,
   AuditAction,
-} from "@/lib/api/audit";
+} from "@/lib/features/audit/types";
+import { auditService } from "@/lib/features/audit/service";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Shield, Activity, Users, BarChart3 } from "lucide-react";
@@ -54,15 +54,13 @@ export default function AuditPage() {
       try {
         setLoading(true);
         setError(null);
-        const response = await auditApi.getAll(query);
+        const response = await auditService.getAll(query);
         setLogs(response.data);
         setTotal(response.total);
       } catch (err: unknown) {
         console.error("Error loading audit logs:", err);
         setError(
-          err instanceof Error
-            ? err.message
-            : "Error loading audit logs",
+          err instanceof Error ? err.message : "Error loading audit logs",
         );
         setLogs([]);
         setTotal(0);
@@ -97,9 +95,7 @@ export default function AuditPage() {
             <Shield className="h-8 w-8" />
             System Audit
           </h1>
-          <p className="text-muted-foreground">
-            Loading audit records...
-          </p>
+          <p className="text-muted-foreground">Loading audit records...</p>
         </div>
         <div className="grid gap-4 md:grid-cols-4">
           {[1, 2, 3, 4].map((i) => (
@@ -165,9 +161,7 @@ export default function AuditPage() {
       <div className="grid gap-4 md:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total Records
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Total Records</CardTitle>
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -180,16 +174,12 @@ export default function AuditPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Active Users
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Active Users</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{uniqueUsers}</div>
-            <p className="text-xs text-muted-foreground">
-              In current records
-            </p>
+            <p className="text-xs text-muted-foreground">In current records</p>
           </CardContent>
         </Card>
 
@@ -215,9 +205,7 @@ export default function AuditPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{criticalActions}</div>
-            <p className="text-xs text-muted-foreground">
-              In current records
-            </p>
+            <p className="text-xs text-muted-foreground">In current records</p>
           </CardContent>
         </Card>
       </div>

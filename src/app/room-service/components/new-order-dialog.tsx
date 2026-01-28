@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Plus, Trash2, Loader2 } from "lucide-react";
-import { MenuItem } from "@/lib/api/restaurant";
+import type { MenuItem } from "@/lib/features/restaurant/types";
 
 const orderItemSchema = z.object({
   menuItemId: z
@@ -206,9 +206,7 @@ export function NewOrderDialog({
           </div>
 
           <div>
-            <Label htmlFor="specialInstructions">
-              Special Instructions
-            </Label>
+            <Label htmlFor="specialInstructions">Special Instructions</Label>
             <Textarea
               id="specialInstructions"
               {...form.register("specialInstructions")}

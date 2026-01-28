@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useAuthContext } from "@/contexts/auth-context";
-import {
-  parkingApi,
-  type Vehicle,
-  type ParkingSpace,
-  type ParkingIncident,
-} from "@/lib/api/parking";
+import { parkingService } from "@/lib/features/parking/service";
+import type {
+  Vehicle,
+  ParkingSpace,
+  ParkingIncident,
+} from "@/lib/features/parking/types";
 import { toast } from "sonner";
 import ParkingDashboard from "./components/parking-dashboard";
 
@@ -23,15 +23,15 @@ export default function ParkingPage() {
     try {
       setLoading(true);
       const [vehiclesData, spacesData, incidentsData] = await Promise.all([
-        parkingApi.getVehicles().catch((err) => {
+        parkingService.getVehicles().catch((err) => {
           console.warn("Failed to fetch vehicles:", err);
           return [];
         }),
-        parkingApi.getParkingSpaces().catch((err) => {
+        parkingService.getParkingSpaces().catch((err) => {
           console.warn("Failed to fetch spaces:", err);
           return [];
         }),
-        parkingApi.getIncidents().catch((err) => {
+        parkingService.getIncidents().catch((err) => {
           console.warn("Failed to fetch incidents:", err);
           return [];
         }),
@@ -76,7 +76,7 @@ export default function ParkingPage() {
   }) => {
     try {
       // Create the vehicle in the backend
-      const createdVehicle = await parkingApi.createVehicle({
+      const createdVehicle = await parkingService.createVehicle({
         licensePlate: newVehicleData.licensePlate.toUpperCase(),
         brand: newVehicleData.brand,
         model: newVehicleData.model,
@@ -97,10 +97,10 @@ export default function ParkingPage() {
         prev.map((space) =>
           space.code === newVehicleData.assignedSpace
             ? {
-              ...space,
-              status: "occupied",
-              currentVehicle: newVehicleData.licensePlate.toUpperCase(),
-            }
+                ...space,
+                status: "occupied",
+                currentVehicle: newVehicleData.licensePlate.toUpperCase(),
+              }
             : space,
         ),
       );
@@ -114,20 +114,20 @@ export default function ParkingPage() {
 
   const handleVehicleExit = async (vehicleId: string) => {
     try {
-      await parkingApi.checkOutVehicle(vehicleId);
+      await parkingService.checkOutVehicle(vehicleId);
 
       // Update local state
       setVehicles((prev) =>
         prev.map((vehicle) =>
           vehicle.id === vehicleId
             ? {
-              ...vehicle,
-              status: "exited",
-              exitTime: new Date()
-                .toISOString()
-                .slice(0, 16)
-                .replace("T", " "),
-            }
+                ...vehicle,
+                status: "exited",
+                exitTime: new Date()
+                  .toISOString()
+                  .slice(0, 16)
+                  .replace("T", " "),
+              }
             : vehicle,
         ),
       );
@@ -159,7 +159,7 @@ export default function ParkingPage() {
     priority: string;
   }) => {
     try {
-      const createdIncident = await parkingApi.createIncident({
+      const createdIncident = await parkingService.createIncident({
         type: incidentData.type,
         description: incidentData.description,
         vehicle: incidentData.vehicle || undefined,

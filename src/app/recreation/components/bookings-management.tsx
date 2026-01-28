@@ -8,11 +8,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  recreationalApi,
-  type RecreationalBooking,
-  type RecreationalFacility,
-} from "@/lib/api/recreational";
+import { recreationalService } from "@/lib/features/recreational/service";
+import type {
+  RecreationalBooking,
+  RecreationalFacility,
+} from "@/lib/features/recreational/types";
 import { BookingDialog } from "./booking-dialog";
 import { BookingDetailsDialog } from "./booking-details-dialog";
 import { BookingsFilters } from "./bookings-filters";
@@ -74,9 +74,12 @@ export function BookingsManagement({
       setActioningId(booking.id);
       const bookingId =
         typeof booking.id === "string" ? parseInt(booking.id) : booking.id;
-      const updatedBooking = await recreationalApi.updateBooking(bookingId, {
-        status: "CONFIRMED",
-      });
+      const updatedBooking = await recreationalService.updateBooking(
+        bookingId,
+        {
+          status: "CONFIRMED",
+        },
+      );
 
       onBookingsChange(
         bookings.map((b) => (b.id === booking.id ? updatedBooking : b)),
@@ -104,7 +107,7 @@ export function BookingsManagement({
       setActioningId(booking.id);
       const bookingId =
         typeof booking.id === "string" ? parseInt(booking.id) : booking.id;
-      const updatedBooking = await recreationalApi.cancelBooking(
+      const updatedBooking = await recreationalService.cancelBooking(
         bookingId,
         "Cancelled by hotel staff",
       );
@@ -127,7 +130,8 @@ export function BookingsManagement({
       setActioningId(booking.id);
       const bookingId =
         typeof booking.id === "string" ? parseInt(booking.id) : booking.id;
-      const updatedBooking = await recreationalApi.checkInBooking(bookingId);
+      const updatedBooking =
+        await recreationalService.checkInBooking(bookingId);
 
       onBookingsChange(
         bookings.map((b) => (b.id === booking.id ? updatedBooking : b)),
@@ -147,7 +151,8 @@ export function BookingsManagement({
       setActioningId(booking.id);
       const bookingId =
         typeof booking.id === "string" ? parseInt(booking.id) : booking.id;
-      const updatedBooking = await recreationalApi.checkOutBooking(bookingId);
+      const updatedBooking =
+        await recreationalService.checkOutBooking(bookingId);
 
       onBookingsChange(
         bookings.map((b) => (b.id === booking.id ? updatedBooking : b)),

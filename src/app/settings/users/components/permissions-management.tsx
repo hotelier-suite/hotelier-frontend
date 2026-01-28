@@ -10,7 +10,8 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { SystemPermission, systemPermissionsApi } from "@/lib/api/roles";
+import { systemPermissionsService } from "@/lib/features/roles/service";
+import type { SystemPermission } from "@/lib/features/roles/types";
 
 export function PermissionsManagement() {
   const [permissionsByResource, setPermissionsByResource] = useState<
@@ -26,7 +27,7 @@ export function PermissionsManagement() {
     try {
       setLoading(true);
       const permissionsByResourceData =
-        await systemPermissionsApi.getByResource();
+        await systemPermissionsService.getByResource();
       setPermissionsByResource(permissionsByResourceData);
     } catch {
       toast.error("Error", {

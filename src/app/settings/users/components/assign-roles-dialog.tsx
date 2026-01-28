@@ -13,8 +13,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { SystemRole } from "@/lib/api/roles";
-import { User } from "@/lib/api/auth";
+import type { SystemRole } from "@/lib/features/roles/types";
+import type { User } from "@/lib/features/auth/types";
 
 interface AssignRolesDialogProps {
   user: User | null;
@@ -130,9 +130,7 @@ export function AssignRolesDialog({
           <div className="flex items-center justify-between w-full">
             <p className="text-sm text-muted-foreground">
               {selectedRoles.length}{" "}
-              {selectedRoles.length === 1
-                ? "role selected"
-                : "roles selected"}
+              {selectedRoles.length === 1 ? "role selected" : "roles selected"}
             </p>
             <div className="flex gap-2">
               <Button variant="outline" onClick={() => onOpenChange(false)}>

@@ -11,7 +11,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { inventoryApi, type InventoryItem } from "@/lib/api/inventory";
+import { type InventoryItem } from "@/lib/features/inventory/types";
+import { inventoryService } from "@/lib/features/inventory/service";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
@@ -35,7 +36,7 @@ export function DeleteInventoryItemDialog({
 
     setIsDeleting(true);
     try {
-      await inventoryApi.deleteInventoryItem(item.id);
+      await inventoryService.deleteInventoryItem(item.id);
 
       toast.success("Product deleted successfully");
 
@@ -43,9 +44,7 @@ export function DeleteInventoryItemDialog({
       onItemDeleted?.();
     } catch (error) {
       console.error("Error deleting inventory item:", error);
-      toast.error(
-        "Could not delete product. Please try again.",
-      );
+      toast.error("Could not delete product. Please try again.");
     } finally {
       setIsDeleting(false);
     }
@@ -59,11 +58,12 @@ export function DeleteInventoryItemDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>Delete product?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. The product &quot;{item.name}&quot; will be permanently deleted from inventory.
+            This action cannot be undone. The product &quot;{item.name}&quot;
+            will be permanently deleted from inventory.
             {item.currentStock > 0 && (
               <span className="block mt-2 text-amber-600 font-medium">
-                ⚠️ Warning: This product has {item.currentStock}{" "}
-                {item.unit} in stock.
+                ⚠️ Warning: This product has {item.currentStock} {item.unit} in
+                stock.
               </span>
             )}
           </AlertDialogDescription>

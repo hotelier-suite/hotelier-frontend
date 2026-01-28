@@ -18,7 +18,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Truck } from "lucide-react";
-import { InventoryItem } from "@/lib/api/inventory";
+import { InventoryItem } from "@/lib/features/inventory/types";
 import {
   inventoryCategoryTranslations,
   inventoryStatusTranslations,
@@ -34,14 +34,12 @@ export function InventoryTable({ items, onReorder }: InventoryTableProps) {
   const getStockBadge = (status: string) => {
     const translatedStatus =
       inventoryStatusTranslations[
-      status.toUpperCase() as keyof typeof inventoryStatusTranslations
+        status.toUpperCase() as keyof typeof inventoryStatusTranslations
       ] || status;
 
     switch (status.toLowerCase()) {
       case "available":
-        return (
-          <Badge className="bg-green-100 text-green-800">Available</Badge>
-        );
+        return <Badge className="bg-green-100 text-green-800">Available</Badge>;
       case "low_stock":
         return (
           <Badge className="bg-yellow-100 text-yellow-800">Low Stock</Badge>
@@ -101,12 +99,13 @@ export function InventoryTable({ items, onReorder }: InventoryTableProps) {
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
                       <div
-                        className={`h-2 rounded-full ${item.currentStock <= item.minimumStock
-                          ? "bg-red-600"
-                          : item.currentStock <= item.minimumStock * 1.5
-                            ? "bg-yellow-600"
-                            : "bg-green-600"
-                          }`}
+                        className={`h-2 rounded-full ${
+                          item.currentStock <= item.minimumStock
+                            ? "bg-red-600"
+                            : item.currentStock <= item.minimumStock * 1.5
+                              ? "bg-yellow-600"
+                              : "bg-green-600"
+                        }`}
                         style={{
                           width: `${Math.min(
                             (item.currentStock / item.maximumStock) * 100,
@@ -133,11 +132,11 @@ export function InventoryTable({ items, onReorder }: InventoryTableProps) {
                     {(item.status === "low_stock" ||
                       item.status === "critical" ||
                       item.status === "out_of_stock") && (
-                        <Button size="sm" onClick={() => onReorder(item.id)}>
-                          <Truck className="mr-2 h-4 w-4" />
-                          Restock
-                        </Button>
-                      )}
+                      <Button size="sm" onClick={() => onReorder(item.id)}>
+                        <Truck className="mr-2 h-4 w-4" />
+                        Restock
+                      </Button>
+                    )}
                   </div>
                 </TableCell>
               </TableRow>

@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import { useAuthContext } from "@/contexts/auth-context";
 import { useRouter } from "next/navigation";
-import { roomsApi, type Room } from "@/lib/api/rooms";
-import { reservationsApi, type Reservation } from "@/lib/api/reservations";
+import { type Room } from "@/lib/features/rooms/types";
+import { roomsService } from "@/lib/features/rooms/service";
+import { type Reservation } from "@/lib/features/reservations/types";
+import { reservationsService } from "@/lib/features/reservations/service";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Bed, Users, Sparkles, Wrench, AlertCircle } from "lucide-react";
 import { RoomStatusBoard } from "./components/room-status-board";
@@ -12,11 +14,11 @@ import { RoomStatusBoard } from "./components/room-status-board";
 interface RoomWithStatus extends Room {
   currentReservation?: Reservation;
   status:
-  | "available"
-  | "occupied"
-  | "cleaning"
-  | "maintenance"
-  | "out_of_order";
+    | "available"
+    | "occupied"
+    | "cleaning"
+    | "maintenance"
+    | "out_of_order";
   guestName?: string;
   checkInDate?: string;
   checkOutDate?: string;
@@ -56,8 +58,8 @@ export default function RoomStatusBoardPage() {
 
       try {
         const [roomsData, reservationsData] = await Promise.all([
-          roomsApi.getAll(),
-          reservationsApi.getAll(),
+          roomsService.getAll(),
+          reservationsService.getAll(),
         ]);
 
         const processedRoomsWithStatus = roomsData.map(
@@ -125,9 +127,9 @@ export default function RoomStatusBoardPage() {
               checkOutDate: currentReservation?.checkOutDate,
               nextReservation: nextReservation
                 ? {
-                  guestName: nextReservation.guestName || "No name",
-                  checkInDate: nextReservation.checkInDate,
-                }
+                    guestName: nextReservation.guestName || "No name",
+                    checkInDate: nextReservation.checkInDate,
+                  }
                 : undefined,
             };
           },
@@ -182,9 +184,7 @@ export default function RoomStatusBoardPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">Room Dashboard</h1>
-          <p className="text-muted-foreground">
-            Loading room status...
-          </p>
+          <p className="text-muted-foreground">Loading room status...</p>
         </div>
         <div className="animate-pulse bg-muted h-96 rounded-lg"></div>
       </div>
@@ -211,9 +211,7 @@ export default function RoomStatusBoardPage() {
             <div className="text-2xl font-bold text-green-600 dark:text-green-400">
               {statusCounts.available}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Ready for guests
-            </p>
+            <p className="text-xs text-muted-foreground">Ready for guests</p>
           </CardContent>
         </Card>
 

@@ -9,9 +9,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { reservationsApi, type Reservation } from "@/lib/api/reservations";
-import { roomsApi, type Room } from "@/lib/api/rooms";
-import { configurationApi } from "@/lib/api/configuration";
+import { type Reservation } from "@/lib/features/reservations/types";
+import { reservationsService } from "@/lib/features/reservations/service";
+import { type Room } from "@/lib/features/rooms/types";
+import { roomsService } from "@/lib/features/rooms/service";
+import { configurationService } from "@/lib/features/configuration/service";
 
 import { Reservations } from "./components/reservations";
 
@@ -25,9 +27,11 @@ export default function ReservationsPage() {
     const fetchData = async () => {
       try {
         const [reservationsData, roomsData, hotelConfig] = await Promise.all([
-          reservationsApi.getAll(),
-          roomsApi.getAll(),
-          configurationApi.getHotelConfig().catch(() => ({ currency: "COP" })),
+          reservationsService.getAll(),
+          roomsService.getAll(),
+          configurationService
+            .getHotelConfig()
+            .catch(() => ({ currency: "COP" })),
         ]);
 
         setReservations(reservationsData);

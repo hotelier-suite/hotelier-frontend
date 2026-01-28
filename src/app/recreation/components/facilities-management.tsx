@@ -27,12 +27,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  recreationalApi,
-  type RecreationalFacility,
-  type FacilityType,
-  type FacilityStatus,
-} from "@/lib/api/recreational";
+import { recreationalService } from "@/lib/features/recreational/service";
+import type {
+  RecreationalFacility,
+  FacilityType,
+  FacilityStatus,
+} from "@/lib/features/recreational/types";
 import { FacilityDialog } from "./facility-dialog";
 import { FacilityDetailsDialog } from "./facility-details-dialog";
 import { toast } from "sonner";
@@ -73,7 +73,7 @@ export function FacilitiesManagement({
 
     try {
       setDeletingId(Number(facility.id));
-      await recreationalApi.deleteFacility(Number(facility.id));
+      await recreationalService.deleteFacility(Number(facility.id));
       onFacilitiesChange(facilities.filter((f) => f.id !== facility.id));
       toast.success("Facility deleted successfully");
     } catch (error) {
@@ -89,7 +89,7 @@ export function FacilitiesManagement({
       const newStatus: FacilityStatus = facility.available
         ? "OUT_OF_ORDER"
         : "AVAILABLE";
-      const updatedFacility = await recreationalApi.updateFacility(
+      const updatedFacility = await recreationalService.updateFacility(
         Number(facility.id),
         {
           status: newStatus,

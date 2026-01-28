@@ -1,12 +1,12 @@
-import { parkingApi } from "@/lib/api/parking";
+import { parkingService } from "@/lib/features/parking/service";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Car, MapPin, AlertTriangle } from "lucide-react";
 
 export default async function ParkingOverviewPage() {
   const [parkingSpaces, incidents] = await Promise.all([
-    parkingApi.getParkingSpaces().catch(() => []),
-    parkingApi.getIncidents().catch(() => []),
+    parkingService.getParkingSpaces().catch(() => []),
+    parkingService.getIncidents().catch(() => []),
   ]);
 
   const occupiedSpaces = parkingSpaces.filter(
@@ -28,16 +28,12 @@ export default async function ParkingOverviewPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total Spaces
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Total Spaces</CardTitle>
             <MapPin className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{parkingSpaces.length}</div>
-            <p className="text-xs text-muted-foreground">
-              Available spaces
-            </p>
+            <p className="text-xs text-muted-foreground">Available spaces</p>
           </CardContent>
         </Card>
 
@@ -74,9 +70,7 @@ export default async function ParkingOverviewPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{incidents.length}</div>
-            <p className="text-xs text-muted-foreground">
-              Reported incidents
-            </p>
+            <p className="text-xs text-muted-foreground">Reported incidents</p>
           </CardContent>
         </Card>
       </div>

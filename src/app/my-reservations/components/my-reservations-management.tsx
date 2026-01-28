@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react";
 import { useAuthContext } from "@/contexts/auth-context";
 import {
-  reservationsApi,
   type Reservation,
   type BookingChannel,
-} from "@/lib/api/reservations";
-import { roomsApi, type Room } from "@/lib/api/rooms";
-import { configurationApi } from "@/lib/api/configuration";
+} from "@/lib/features/reservations/types";
+import { reservationsService } from "@/lib/features/reservations/service";
+import { type Room } from "@/lib/features/rooms/types";
+import { roomsService } from "@/lib/features/rooms/service";
+import { configurationService } from "@/lib/features/configuration/service";
 
 interface Companion {
   name: string;
@@ -60,9 +61,11 @@ export function MyReservationsManagement() {
       if (!user?.id) return;
       try {
         const [mine, allRooms, cfg] = await Promise.all([
-          reservationsApi.getMine(user.id),
-          roomsApi.getAll(),
-          configurationApi.getHotelConfig().catch(() => ({ currency: "COP" })),
+          reservationsService.getMine(user.id),
+          roomsService.getAll(),
+          configurationService
+            .getHotelConfig()
+            .catch(() => ({ currency: "COP" })),
         ]);
         setMyReservations(mine);
         setRooms(allRooms);
@@ -114,8 +117,8 @@ export function MyReservationsManagement() {
         payload.discountAmount = formData.discountAmount;
       }
 
-      await reservationsApi.createSelf(payload);
-      const mine = await reservationsApi.getMine(user!.id);
+      await reservationsService.createSelf(payload);
+      const mine = await reservationsService.getMine(user!.id);
       setMyReservations(mine);
 
       setOpenDialog(false);

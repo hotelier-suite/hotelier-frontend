@@ -39,7 +39,8 @@ import {
   Calendar,
   RefreshCw,
 } from "lucide-react";
-import { auditApi, type AuditStatistics } from "@/lib/api/audit";
+import { type AuditStatistics } from "@/lib/features/audit/types";
+import { auditService } from "@/lib/features/audit/service";
 import { format } from "date-fns";
 import { enUS } from "date-fns/locale";
 
@@ -53,13 +54,11 @@ export function AuditStatistics() {
     try {
       setLoading(true);
       setError(null);
-      const data = await auditApi.getStatistics(period);
+      const data = await auditService.getStatistics(period);
       setStatistics(data);
     } catch (err: unknown) {
       console.error("Error loading audit statistics:", err);
-      setError(
-        err instanceof Error ? err.message : "Error loading statistics",
-      );
+      setError(err instanceof Error ? err.message : "Error loading statistics");
     } finally {
       setLoading(false);
     }
@@ -167,9 +166,7 @@ export function AuditStatistics() {
       <div className="grid gap-4 md:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total Records
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Total Records</CardTitle>
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -184,26 +181,20 @@ export function AuditStatistics() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Active Users
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Active Users</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
               {statistics.userStats.length}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Users with activity
-            </p>
+            <p className="text-xs text-muted-foreground">Users with activity</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Daily Average
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Daily Average</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -216,9 +207,7 @@ export function AuditStatistics() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Action Types
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Action Types</CardTitle>
             <Shield className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -237,9 +226,7 @@ export function AuditStatistics() {
             <Calendar className="h-4 w-4" />
             Daily Activity
           </CardTitle>
-          <CardDescription>
-            Number of audit records per day
-          </CardDescription>
+          <CardDescription>Number of audit records per day</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="h-80">

@@ -10,10 +10,8 @@ import {
 } from "@/components/ui/card";
 import { useAuthenticatedUser } from "@/hooks/use-authenticated-user";
 import { Invoice } from "@/lib/types";
-import {
-  reservationsApi,
-  ReservationBillingDetails,
-} from "@/lib/api/reservations";
+import { type ReservationBillingDetails } from "@/lib/features/reservations/types";
+import { reservationsService } from "@/lib/features/reservations/service";
 import { InvoiceDetailsDialog } from "./invoice-details-dialog";
 import { InvoiceFilters } from "./invoice-filters";
 import { InvoiceTable } from "./invoice-table";
@@ -52,7 +50,7 @@ export default function InvoiceManagement({
       setLoadingReservations(true);
       try {
         const billingData =
-          await reservationsApi.getReservationsWithBillingDetails();
+          await reservationsService.getReservationsWithBillingDetails();
         // Show ALL reservations without paid invoices (pending payment)
         setReservationsBillingData(
           billingData.filter((bd) => !bd.hasInvoice && bd.grandTotal > 0),
@@ -97,9 +95,7 @@ export default function InvoiceManagement({
       <div className="flex justify-between items-center">
         <div>
           <h3 className="text-lg font-semibold">Invoices</h3>
-          <p className="text-sm text-muted-foreground">
-            Invoice management
-          </p>
+          <p className="text-sm text-muted-foreground">Invoice management</p>
           {reservationsBillingData.length > 0 && (
             <p className="text-sm font-medium text-orange-600 mt-1">
               {reservationsBillingData.length} reservation(s) with pending

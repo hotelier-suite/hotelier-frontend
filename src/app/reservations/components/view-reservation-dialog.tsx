@@ -20,7 +20,7 @@ import {
   CreditCard,
   MapPin,
 } from "lucide-react";
-import { type Reservation } from "@/lib/api/reservations";
+import { type Reservation } from "@/lib/features/reservations/types";
 import Link from "next/link";
 
 interface ViewReservationDialogProps {
@@ -55,13 +55,9 @@ export function ViewReservationDialog({
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "CONFIRMED":
-        return (
-          <Badge className="bg-green-100 text-green-800">Confirmed</Badge>
-        );
+        return <Badge className="bg-green-100 text-green-800">Confirmed</Badge>;
       case "PENDING":
-        return (
-          <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>
-        );
+        return <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>;
       case "CHECKED_IN":
         return <Badge className="bg-blue-100 text-blue-800">Checked-in</Badge>;
       case "CHECKED_OUT":
@@ -94,7 +90,7 @@ export function ViewReservationDialog({
       case "AGENCY":
         return "Agency";
       case "PHONE":
-        return "Phone";;
+        return "Phone";
       default:
         return channel;
     }
@@ -125,9 +121,7 @@ export function ViewReservationDialog({
             Reservation #{reservation.id}
             {getStatusBadge(reservation.status)}
           </DialogTitle>
-          <DialogDescription>
-            Complete reservation details
-          </DialogDescription>
+          <DialogDescription>Complete reservation details</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
@@ -339,8 +333,7 @@ export function ViewReservationDialog({
               Created: {new Date(reservation.createdAt).toLocaleString("en-US")}
             </p>
             <p>
-              Updated:{" "}
-              {new Date(reservation.updatedAt).toLocaleString("en-US")}
+              Updated: {new Date(reservation.updatedAt).toLocaleString("en-US")}
             </p>
           </div>
         </div>

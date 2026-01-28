@@ -18,7 +18,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Clock, CheckCircle, Truck } from "lucide-react";
-import { RoomServiceOrder, RoomServiceOrderItem } from "@/lib/api/restaurant";
+import type {
+  RoomServiceOrder,
+  RoomServiceOrderItem,
+} from "@/lib/features/restaurant/types";
 import { useAuthenticatedUser } from "@/hooks/use-authenticated-user";
 
 interface RoomServiceOrdersProps {

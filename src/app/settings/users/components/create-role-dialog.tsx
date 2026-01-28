@@ -16,7 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { CreateRoleRequest } from "@/lib/api/roles";
+import type { CreateRoleRequest } from "@/lib/features/roles/types";
 import { Plus } from "lucide-react";
 
 const createRoleSchema = z.object({

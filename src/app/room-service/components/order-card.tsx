@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Clock, Coffee, CheckCircle, Eye } from "lucide-react";
-import { RoomServiceOrder } from "@/lib/api/restaurant";
+import type { RoomServiceOrder } from "@/lib/features/restaurant/types";
 
 interface OrderCardProps {
   order: RoomServiceOrder;

@@ -3,9 +3,13 @@
 import { useEffect, useState } from "react";
 import { useAuthContext } from "@/contexts/auth-context";
 import { useRouter } from "next/navigation";
-import { reportsApi } from "@/lib/api/reports";
-import { inventoryApi } from "@/lib/api/inventory";
-import { employeesApi, DepartmentStats, Employee } from "@/lib/api/employees";
+import { reportsService } from "@/lib/features/reports/service";
+import { inventoryService } from "@/lib/features/inventory/service";
+import {
+  type DepartmentStats,
+  type Employee,
+} from "@/lib/features/employees/types";
+import { employeesService } from "@/lib/features/employees/service";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -119,11 +123,11 @@ export default function ReportsPage() {
       try {
         // Get monthly revenue comparison for the whole year
         const monthlyRevenueData =
-          await reportsApi.getMonthlyRevenueComparison(selectedYear);
+          await reportsService.getMonthlyRevenueComparison(selectedYear);
         setMonthlyData(monthlyRevenueData);
 
         // Get occupancy data for selected period
-        const occupancy = await reportsApi.getOccupancyByMonthYear(
+        const occupancy = await reportsService.getOccupancyByMonthYear(
           selectedYear,
           selectedMonth,
         );
@@ -137,22 +141,22 @@ export default function ReportsPage() {
           ? `${selectedYear}-${String(selectedMonth).padStart(2, "0")}-${new Date(selectedYear, selectedMonth, 0).getDate()}`
           : `${selectedYear}-12-31`;
 
-        const financial = await reportsApi.getFinancialSummary(
+        const financial = await reportsService.getFinancialSummary(
           startDate,
           endDate,
         );
         setFinancialSummary(financial);
 
         // Get inventory statistics
-        const invStats = await inventoryApi.getInventoryStats();
+        const invStats = await inventoryService.getInventoryStats();
         setInventoryStats(invStats);
 
         // Get employee department statistics
-        const deptStats = await employeesApi.getDepartmentStats();
+        const deptStats = await employeesService.getDepartmentStats();
         setDepartmentStats(deptStats);
 
         // Get all employees for performance chart
-        const allEmployees = await employeesApi.getAll();
+        const allEmployees = await employeesService.getAll();
         setEmployees(allEmployees);
       } catch (error) {
         console.error("Error fetching reports data:", error);
@@ -179,17 +183,17 @@ export default function ReportsPage() {
   const avgOccupancy =
     occupancyData.length > 0
       ? (
-        occupancyData.reduce(
-          (acc, item) => acc + item.occupancyPercentage,
-          0,
-        ) / occupancyData.length
-      ).toFixed(1)
+          occupancyData.reduce(
+            (acc, item) => acc + item.occupancyPercentage,
+            0,
+          ) / occupancyData.length
+        ).toFixed(1)
       : "0";
 
   const handleDownloadReport = async () => {
     try {
       toast("Generating PDF report...");
-      await reportsApi.downloadFinancialReport(selectedYear, selectedMonth);
+      await reportsService.downloadFinancialReport(selectedYear, selectedMonth);
       toast("Report downloaded successfully");
     } catch (error) {
       console.error("Error downloading report:", error);
@@ -259,9 +263,7 @@ export default function ReportsPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total Revenue
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
             <DollarSign className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -288,9 +290,7 @@ export default function ReportsPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Gross Profit
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Gross Profit</CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -320,9 +320,7 @@ export default function ReportsPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Room Revenue
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Room Revenue</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -333,7 +331,7 @@ export default function ReportsPage() {
               {(
                 (financialSummary.revenue.room /
                   financialSummary.revenue.total) *
-                100 || 0
+                  100 || 0
               ).toFixed(1)}
               % del total
             </p>
@@ -364,9 +362,7 @@ export default function ReportsPage() {
                 </Badge>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">
-                  Additional Services
-                </span>
+                <span className="text-sm font-medium">Additional Services</span>
                 <Badge variant="outline">
                   ${financialSummary.revenue.services.toLocaleString()}
                 </Badge>
@@ -423,9 +419,7 @@ export default function ReportsPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Stock Alerts
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Stock Alerts</CardTitle>
             <AlertTriangle className="h-4 w-4 text-orange-500" />
           </CardHeader>
           <CardContent>

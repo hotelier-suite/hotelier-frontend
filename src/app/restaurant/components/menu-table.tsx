@@ -28,7 +28,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { MenuItem } from "@/lib/api/restaurant";
+import type { MenuItem } from "@/lib/features/restaurant/types";
 import { Edit2, Trash2, Plus } from "lucide-react";
 import { MenuItemDialog } from "./menu-item-dialog";
 import { useAuthenticatedUser } from "@/hooks/use-authenticated-user";

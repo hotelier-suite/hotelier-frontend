@@ -17,7 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Supplier } from "@/lib/api/inventory";
+import { Supplier } from "@/lib/features/inventory/types";
 
 interface SuppliersListProps {
   suppliers: Supplier[];

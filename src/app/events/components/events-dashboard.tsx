@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { eventsApi, EventBooking as ApiEventBooking } from "@/lib/api/events";
-import { venuesApi, Venue as ApiVenue } from "@/lib/api/venues";
+import { type EventBooking as ApiEventBooking } from "@/lib/features/events/types";
+import { eventsService } from "@/lib/features/events/service";
+import { type Venue as ApiVenue } from "@/lib/features/venues/types";
+import { venuesService } from "@/lib/features/venues/service";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalendarIcon, MapPin, DollarSign, Users } from "lucide-react";
@@ -27,7 +29,7 @@ export default function EventsDashboard({
   const handleEventAdd = async (eventData: ApiEventBooking) => {
     try {
       // Create the event via API
-      const newEvent = await eventsApi.create({
+      const newEvent = await eventsService.create({
         title: eventData.title,
         eventDate: eventData.eventDate,
         startTime: eventData.startTime,
@@ -70,7 +72,7 @@ export default function EventsDashboard({
       );
 
       // Update the event via API
-      const updatedEvent = await eventsApi.update(eventId, updates);
+      const updatedEvent = await eventsService.update(eventId, updates);
 
       console.log("Dashboard: Event updated successfully:", updatedEvent);
 
@@ -90,9 +92,7 @@ export default function EventsDashboard({
       if (error instanceof Error) {
         toast.error(`Error updating event: ${error.message}`);
       } else {
-        toast.error(
-          "Error updating event. Please try again.",
-        );
+        toast.error("Error updating event. Please try again.");
       }
     }
   };
@@ -100,16 +100,14 @@ export default function EventsDashboard({
   const handleEventDelete = async (eventId: number) => {
     try {
       // Delete the event via API
-      await eventsApi.delete(eventId);
+      await eventsService.delete(eventId);
 
       // Update local state
       setEvents(events.filter((event) => event.id !== eventId));
       toast.success("Event deleted successfully");
     } catch (error) {
       console.error("Error deleting event:", error);
-      toast.error(
-        "Error deleting event. Please try again.",
-      );
+      toast.error("Error deleting event. Please try again.");
     }
   };
 
@@ -119,7 +117,7 @@ export default function EventsDashboard({
 
   const handleVenueUpdate = async (id: number, updates: Partial<ApiVenue>) => {
     try {
-      const updatedVenue = await venuesApi.update(id, updates);
+      const updatedVenue = await venuesService.update(id, updates);
       setVenues(
         venues.map((venue) =>
           (typeof venue.id === "string" ? parseInt(venue.id) : venue.id) === id
@@ -130,9 +128,7 @@ export default function EventsDashboard({
       toast.success("Venue updated successfully");
     } catch (error) {
       console.error("Error updating venue:", error);
-      toast.error(
-        "Error updating venue. Please try again.",
-      );
+      toast.error("Error updating venue. Please try again.");
     }
   };
 
@@ -159,8 +155,7 @@ export default function EventsDashboard({
           <CardContent>
             <div className="text-2xl font-bold">{events.length}</div>
             <p className="text-xs text-muted-foreground">
-              {events.filter((e) => e.status === "CONFIRMED").length}{" "}
-              confirmed
+              {events.filter((e) => e.status === "CONFIRMED").length} confirmed
             </p>
           </CardContent>
         </Card>
@@ -182,9 +177,7 @@ export default function EventsDashboard({
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Event Revenue
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Event Revenue</CardTitle>
             <DollarSign className="h-4 w-4 text-purple-600" />
           </CardHeader>
           <CardContent>

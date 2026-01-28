@@ -8,11 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  recreationalApi,
-  type RecreationalFacility,
-  type RecreationalBooking,
-} from "@/lib/api/recreational";
+import { recreationalService } from "@/lib/features/recreational/service";
+import type {
+  RecreationalFacility,
+  RecreationalBooking,
+} from "@/lib/features/recreational/types";
 import { FacilitiesManagement } from "./components/facilities-management";
 import { BookingsManagement } from "./components/bookings-management";
 import { RecreationalStats } from "./components/recreational-stats";
@@ -35,8 +35,8 @@ export default function RecreationPage() {
       try {
         setLoading(true);
         const [facilitiesData, bookingsData] = await Promise.all([
-          recreationalApi.getFacilities(),
-          recreationalApi.getBookings(),
+          recreationalService.getFacilities(),
+          recreationalService.getBookings(),
         ]);
         setFacilities(facilitiesData);
         setBookings(bookingsData);
@@ -137,14 +137,14 @@ export default function RecreationPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Bookings Today</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Bookings Today
+            </CardTitle>
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{totalBookingsToday}</div>
-            <p className="text-xs text-muted-foreground">
-              scheduled bookings
-            </p>
+            <p className="text-xs text-muted-foreground">scheduled bookings</p>
           </CardContent>
         </Card>
 
@@ -157,9 +157,7 @@ export default function RecreationPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{pendingBookings}</div>
-            <p className="text-xs text-muted-foregreen">
-              require confirmation
-            </p>
+            <p className="text-xs text-muted-foregreen">require confirmation</p>
           </CardContent>
         </Card>
 
@@ -233,8 +231,7 @@ export default function RecreationPage() {
                       {facility.status === "AVAILABLE" && "Available"}
                       {facility.status === "OCCUPIED" && "Occupied"}
                       {facility.status === "MAINTENANCE" && "Maintenance"}
-                      {facility.status === "OUT_OF_ORDER" &&
-                        "Out of Service"}
+                      {facility.status === "OUT_OF_ORDER" && "Out of Service"}
                       {facility.status === "RESERVED" && "Reserved"}
                       {facility.status === "CLEANING" && "Cleaning"}
                     </Badge>

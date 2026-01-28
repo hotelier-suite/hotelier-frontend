@@ -29,7 +29,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { employeesApi, type Employee } from "@/lib/api/employees";
+import { type Employee } from "@/lib/features/employees/types";
+import { employeesService } from "@/lib/features/employees/service";
 import { UserPlus, Pencil, Trash2, Search } from "lucide-react";
 import { toast } from "sonner";
 
@@ -91,7 +92,7 @@ export function EmployeesTab() {
   const fetchEmployees = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await employeesApi.getAll();
+      const data = await employeesService.getAll();
       setEmployees(data);
       setFilteredEmployees(data);
     } catch (error) {
@@ -160,7 +161,7 @@ export function EmployeesTab() {
           department: formData.department as Employee["department"],
           status: formData.status as Employee["status"],
         };
-        await employeesApi.update(Number(editingEmployee.id), payload);
+        await employeesService.update(Number(editingEmployee.id), payload);
         toast.success("Employee updated successfully");
       } else {
         const payload = {
@@ -168,7 +169,7 @@ export function EmployeesTab() {
           department: formData.department as Employee["department"],
           status: formData.status as Employee["status"],
         };
-        await employeesApi.create(payload);
+        await employeesService.create(payload);
         toast.success("Employee created successfully");
       }
       setDialogOpen(false);
@@ -183,7 +184,7 @@ export function EmployeesTab() {
     if (!deletingEmployee) return;
 
     try {
-      await employeesApi.delete(Number(deletingEmployee.id));
+      await employeesService.delete(Number(deletingEmployee.id));
       toast.success("Employee deleted successfully");
       setDeleteDialogOpen(false);
       setDeletingEmployee(null);

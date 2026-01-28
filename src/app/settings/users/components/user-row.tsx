@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { Shield } from "lucide-react";
-import { User } from "@/lib/api/auth";
+import type { User } from "@/lib/features/auth/types";
 
 interface UserRowProps {
   user: User;

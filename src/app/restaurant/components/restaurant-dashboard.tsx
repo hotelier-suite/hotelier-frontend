@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
-import {
+import { restaurantService } from "@/lib/features/restaurant/service";
+import type {
   RoomServiceOrder,
   MenuItem,
   BeverageInventoryItem,
-  restaurantApi,
-} from "@/lib/api/restaurant";
+} from "@/lib/features/restaurant/types";
 import { useAuthenticatedUser } from "@/hooks/use-authenticated-user";
 
 interface RestaurantSale {
@@ -56,7 +56,7 @@ export default function RestaurantDashboard({
 
   const refreshOrders = async () => {
     try {
-      const orders = await restaurantApi.getRoomServiceOrders();
+      const orders = await restaurantService.getRoomServiceOrders();
       setRoomServiceOrders(orders);
     } catch (error) {
       console.error("Error refreshing orders:", error);
@@ -65,7 +65,7 @@ export default function RestaurantDashboard({
 
   const refreshMenuItems = async () => {
     try {
-      const items = await restaurantApi.getMenuItems();
+      const items = await restaurantService.getMenuItems();
       setMenuItems(items);
     } catch (error) {
       console.error("Error refreshing menu items:", error);
@@ -74,7 +74,7 @@ export default function RestaurantDashboard({
 
   const handleDeleteMenuItem = async (item: MenuItem) => {
     try {
-      await restaurantApi.deleteMenuItem(item);
+      await restaurantService.deleteMenuItem(item);
       toast("Item deleted", {
         description: "The menu item has been deleted successfully",
       });
@@ -94,8 +94,7 @@ export default function RestaurantDashboard({
           error.message.includes("Authentication required") ||
           error.message.includes("401")
         ) {
-          errorMessage =
-            "Your session has expired. Please log in again.";;
+          errorMessage = "Your session has expired. Please log in again.";
         } else if (error.message) {
           errorMessage = error.message;
         }
@@ -111,7 +110,7 @@ export default function RestaurantDashboard({
     setLoadingOrders((prev) => new Set(prev).add(orderId));
     try {
       // Update backend first
-      await restaurantApi.updateRoomServiceOrder(orderId, {
+      await restaurantService.updateRoomServiceOrder(orderId, {
         status: "PREPARING",
       });
 
@@ -145,7 +144,7 @@ export default function RestaurantDashboard({
     setLoadingOrders((prev) => new Set(prev).add(orderId));
     try {
       // Update backend first
-      await restaurantApi.updateRoomServiceOrder(orderId, {
+      await restaurantService.updateRoomServiceOrder(orderId, {
         status: "READY",
       });
 
@@ -177,7 +176,7 @@ export default function RestaurantDashboard({
     setLoadingOrders((prev) => new Set(prev).add(orderId));
     try {
       // Update backend first
-      await restaurantApi.updateRoomServiceOrder(orderId, {
+      await restaurantService.updateRoomServiceOrder(orderId, {
         status: "DELIVERED",
       });
 
@@ -186,10 +185,10 @@ export default function RestaurantDashboard({
         roomServiceOrders.map((order) =>
           order.id === orderId
             ? {
-              ...order,
-              status: "delivered" as const,
-              estimatedTime: "Delivered",
-            }
+                ...order,
+                status: "delivered" as const,
+                estimatedTime: "Delivered",
+              }
             : order,
         ),
       );
@@ -216,15 +215,15 @@ export default function RestaurantDashboard({
       beverageInventory.map((item) =>
         item.id === itemId
           ? {
-            ...item,
-            stock: newStock,
-            status:
-              newStock > item.minimumStock
-                ? ("available" as const)
-                : newStock === 0
-                  ? ("out_of_stock" as const)
-                  : ("low_stock" as const),
-          }
+              ...item,
+              stock: newStock,
+              status:
+                newStock > item.minimumStock
+                  ? ("available" as const)
+                  : newStock === 0
+                    ? ("out_of_stock" as const)
+                    : ("low_stock" as const),
+            }
           : item,
       ),
     );
@@ -232,7 +231,7 @@ export default function RestaurantDashboard({
 
   const refreshBeverageInventory = async () => {
     try {
-      const items = await restaurantApi.getBeverageInventory();
+      const items = await restaurantService.getBeverageInventory();
       setBeverageInventory(items);
     } catch (error) {
       console.error("Error refreshing inventory:", error);
@@ -298,9 +297,7 @@ export default function RestaurantDashboard({
           {!hasRole("client") && (
             <TabsTrigger value="inventory">Inventory</TabsTrigger>
           )}
-          {!hasRole("client") && (
-            <TabsTrigger value="sales">Sales</TabsTrigger>
-          )}
+          {!hasRole("client") && <TabsTrigger value="sales">Sales</TabsTrigger>}
         </TabsList>
 
         <TabsContent value="orders" className="space-y-4">

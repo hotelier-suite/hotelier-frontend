@@ -7,7 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { User } from "@/lib/api/auth";
+import type { User } from "@/lib/features/auth/types";
 import { UserRow } from "./user-row";
 
 interface UsersTableProps {

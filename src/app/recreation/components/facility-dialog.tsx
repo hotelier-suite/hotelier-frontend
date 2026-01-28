@@ -34,12 +34,12 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
-import {
-  recreationalApi,
-  type RecreationalFacility,
-  type FacilityType,
-  type CreateRecreationalFacilityData,
-} from "@/lib/api/recreational";
+import { recreationalService } from "@/lib/features/recreational/service";
+import type {
+  RecreationalFacility,
+  FacilityType,
+  CreateRecreationalFacilityData,
+} from "@/lib/features/recreational/types";
 import { toast } from "sonner";
 
 const facilitySchema = z.object({
@@ -210,13 +210,13 @@ export function FacilityDialog({
       let result: RecreationalFacility;
 
       if (facility) {
-        result = await recreationalApi.updateFacility(
+        result = await recreationalService.updateFacility(
           Number(facility.id),
           facilityData,
         );
         toast.success("Facility updated successfully");
       } else {
-        result = await recreationalApi.createFacility(facilityData);
+        result = await recreationalService.createFacility(facilityData);
         toast.success("Facility created successfully");
       }
 

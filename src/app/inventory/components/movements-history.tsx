@@ -16,7 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { InventoryMovement } from "@/lib/api/inventory";
+import { InventoryMovement } from "@/lib/features/inventory/types";
 
 interface MovementsHistoryProps {
   movements: InventoryMovement[];
@@ -35,9 +35,7 @@ export function MovementsHistory({ movements }: MovementsHistoryProps) {
     <Card>
       <CardHeader>
         <CardTitle>Movement History</CardTitle>
-        <CardDescription>
-          Inventory entries and exits log
-        </CardDescription>
+        <CardDescription>Inventory entries and exits log</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>

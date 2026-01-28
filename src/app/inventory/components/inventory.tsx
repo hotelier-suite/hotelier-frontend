@@ -5,7 +5,7 @@ import {
   InventoryItem,
   InventoryMovement,
   Supplier,
-} from "@/lib/api/inventory";
+} from "@/lib/features/inventory/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -132,11 +132,15 @@ export function Inventory({
                 ? item.currentStock + Number.parseInt(newMovement.quantity)
                 : item.currentStock - Number.parseInt(newMovement.quantity);
 
-            let newStatus: "available" | "low_stock" | "critical" | "out_of_stock" =
-              "available";
+            let newStatus:
+              | "available"
+              | "low_stock"
+              | "critical"
+              | "out_of_stock" = "available";
             if (newStock <= 0) newStatus = "out_of_stock";
             else if (newStock <= item.minimumStock) newStatus = "low_stock";
-            else if (newStock <= item.minimumStock * 1.5) newStatus = "critical";
+            else if (newStock <= item.minimumStock * 1.5)
+              newStatus = "critical";
 
             return {
               ...item,
@@ -176,10 +180,10 @@ export function Inventory({
         inventoryItems.map((i) =>
           i.id === itemId
             ? {
-              ...i,
-              currentStock: i.maximumStock,
-              status: "available" as const,
-            }
+                ...i,
+                currentStock: i.maximumStock,
+                status: "available" as const,
+              }
             : i,
         ),
       );
@@ -280,9 +284,7 @@ export function Inventory({
                 </div>
                 <div className="flex justify-end space-x-2">
                   <Button variant="outline">Cancel</Button>
-                  <Button onClick={handleAddMovement}>
-                    Register Movement
-                  </Button>
+                  <Button onClick={handleAddMovement}>Register Movement</Button>
                 </div>
               </div>
             </DialogContent>
@@ -328,10 +330,10 @@ export function Inventory({
                       <SelectContent>
                         <SelectItem value="Linens">Linens</SelectItem>
                         <SelectItem value="Amenities">Amenities</SelectItem>
-                        <SelectItem value="Housekeeping">Housekeeping</SelectItem>
-                        <SelectItem value="Maintenance">
-                          Maintenance
+                        <SelectItem value="Housekeeping">
+                          Housekeeping
                         </SelectItem>
+                        <SelectItem value="Maintenance">Maintenance</SelectItem>
                         <SelectItem value="Office">Office</SelectItem>
                       </SelectContent>
                     </Select>

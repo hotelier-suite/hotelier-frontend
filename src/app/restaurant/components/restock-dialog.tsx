@@ -12,7 +12,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import { BeverageInventoryItem, restaurantApi } from "@/lib/api/restaurant";
+import { restaurantService } from "@/lib/features/restaurant/service";
+import type { BeverageInventoryItem } from "@/lib/features/restaurant/types";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { restockSchema, RestockFormData } from "@/lib/schemas/restaurant";
@@ -44,7 +45,9 @@ export function RestockDialog({
 
     setLoading(true);
     try {
-      await restaurantApi.updateBeverageItem(item.id, { stock: data.newStock });
+      await restaurantService.updateBeverageItem(item.id, {
+        stock: data.newStock,
+      });
 
       toast("Inventory updated", {
         description: `Updated ${item.name} stock to ${data.newStock} units`,

@@ -33,8 +33,8 @@ import {
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
 import { Invoice, InvoiceConcept } from "@/lib/types";
-import { billingApi } from "@/lib/api/billing";
-import { ReservationBillingDetails } from "@/lib/api/reservations";
+import { billingService } from "@/lib/features/billing/service";
+import { type ReservationBillingDetails } from "@/lib/features/reservations/types";
 import { ReservationSelector } from "./reservation-selector";
 import { BillingDetailsDisplay } from "./billing-details-display";
 
@@ -182,7 +182,7 @@ export function NewInvoiceDialog({
       };
 
       // Send to backend
-      const createdInvoice = await billingApi.createInvoice(invoiceData);
+      const createdInvoice = await billingService.createInvoice(invoiceData);
       onInvoiceAdd(createdInvoice as Invoice);
 
       // Show success toast
@@ -195,8 +195,7 @@ export function NewInvoiceDialog({
     } catch (error) {
       console.error("Error creating invoice:", error);
       toast.error("Error", {
-        description:
-          "Could not create the invoice. Please try again.",
+        description: "Could not create the invoice. Please try again.",
       });
     }
   };
@@ -288,19 +287,13 @@ export function NewInvoiceDialog({
                     </FormControl>
                     <SelectContent>
                       <SelectItem value="CASH">Cash</SelectItem>
-                      <SelectItem value="CREDIT_CARD">
-                        Credit Card
-                      </SelectItem>
-                      <SelectItem value="DEBIT_CARD">
-                        Debit Card
-                      </SelectItem>
+                      <SelectItem value="CREDIT_CARD">Credit Card</SelectItem>
+                      <SelectItem value="DEBIT_CARD">Debit Card</SelectItem>
                       <SelectItem value="BANK_TRANSFER">
                         Bank Transfer
                       </SelectItem>
                       <SelectItem value="CHECK">Check</SelectItem>
-                      <SelectItem value="GIFT_CARD">
-                        Gift Card
-                      </SelectItem>
+                      <SelectItem value="GIFT_CARD">Gift Card</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />

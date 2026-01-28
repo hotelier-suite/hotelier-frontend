@@ -26,7 +26,7 @@ import {
   type AuditLogQuery,
   AuditAction,
   AuditResource,
-} from "@/lib/api/audit";
+} from "@/lib/features/audit/types";
 import { cn } from "@/lib/utils";
 
 interface AuditFiltersProps {
@@ -125,7 +125,8 @@ export function AuditFilters({
             Search Filters
             {activeFiltersCount > 0 && (
               <Badge variant="secondary">
-                {activeFiltersCount} active filter{activeFiltersCount !== 1 ? "s" : ""}
+                {activeFiltersCount} active filter
+                {activeFiltersCount !== 1 ? "s" : ""}
               </Badge>
             )}
           </div>
@@ -179,12 +180,8 @@ export function AuditFilters({
                 <SelectItem value={AuditAction.READ}>Read</SelectItem>
                 <SelectItem value={AuditAction.UPDATE}>Update</SelectItem>
                 <SelectItem value={AuditAction.DELETE}>Delete</SelectItem>
-                <SelectItem value={AuditAction.LOGIN}>
-                  Login
-                </SelectItem>
-                <SelectItem value={AuditAction.LOGOUT}>
-                  Logout
-                </SelectItem>
+                <SelectItem value={AuditAction.LOGIN}>Login</SelectItem>
+                <SelectItem value={AuditAction.LOGOUT}>Logout</SelectItem>
                 <SelectItem value={AuditAction.LOGIN_FAILED}>
                   Login Failed
                 </SelectItem>
@@ -239,9 +236,7 @@ export function AuditFilters({
                 <SelectItem value={AuditResource.RECREATIONAL}>
                   Recreation
                 </SelectItem>
-                <SelectItem value={AuditResource.PARKING}>
-                  Parking
-                </SelectItem>
+                <SelectItem value={AuditResource.PARKING}>Parking</SelectItem>
               </SelectContent>
             </Select>
           </div>

@@ -5,12 +5,12 @@ import { useAuthContext } from "@/contexts/auth-context";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Car, MapPin, Users } from "lucide-react";
-import {
-  parkingApi,
+import { parkingService } from "@/lib/features/parking/service";
+import type {
   Vehicle,
   ParkingSpace,
   ParkingIncident,
-} from "@/lib/api/parking";
+} from "@/lib/features/parking/types";
 import { toast } from "sonner";
 import VehicleManagement from "./vehicle-management";
 import SpaceManagement from "./space-management";
@@ -98,7 +98,7 @@ export default function ParkingDashboard({
   const handleSpaceMaintenance = async (spaceId: string) => {
     try {
       // Update in the backend
-      const updatedSpace = await parkingApi.updateParkingSpace(spaceId, {
+      const updatedSpace = await parkingService.updateParkingSpace(spaceId, {
         status: "maintenance",
       });
 
@@ -117,7 +117,7 @@ export default function ParkingDashboard({
   const handleSpaceEnable = async (spaceId: string) => {
     try {
       // Update in the backend
-      const updatedSpace = await parkingApi.updateParkingSpace(spaceId, {
+      const updatedSpace = await parkingService.updateParkingSpace(spaceId, {
         status: "available",
       });
 
@@ -156,7 +156,7 @@ export default function ParkingDashboard({
 
   const handleResolveIncident = async (incidentId: string) => {
     try {
-      const updatedIncident = await parkingApi.updateIncident(incidentId, {
+      const updatedIncident = await parkingService.updateIncident(incidentId, {
         status: "resolved",
         resolvedAt: new Date().toISOString(),
       });

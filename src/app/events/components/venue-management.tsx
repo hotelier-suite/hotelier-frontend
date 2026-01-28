@@ -5,7 +5,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
-import { venuesApi, Venue as ApiVenue } from "@/lib/api/venues";
+import { type Venue as ApiVenue } from "@/lib/features/venues/types";
+import { venuesService } from "@/lib/features/venues/service";
 import {
   Card,
   CardContent,
@@ -130,7 +131,7 @@ export default function VenueManagement({
 
   const handleAddVenue = async (data: VenueFormData) => {
     try {
-      const createdVenue = await venuesApi.create(data);
+      const createdVenue = await venuesService.create(data);
       onVenueAdd(createdVenue);
       newVenueForm.reset();
       toast.success("Venue created successfully");

@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Users, Clock, Calendar, CheckCircle } from "lucide-react";
-import { employeesApi, type Employee } from "@/lib/api/employees";
-import { attendanceApi } from "@/lib/api/attendance";
+import { type Employee } from "@/lib/features/employees/types";
+import { employeesService } from "@/lib/features/employees/service";
+import { attendanceService } from "@/lib/features/attendance/service";
 import { EmployeesTab } from "./components/employees-tab";
 import { ShiftsTab } from "./components/shifts-tab";
 import { AttendanceTab } from "./components/attendance-tab";
@@ -28,8 +29,8 @@ export default function StaffPage() {
       try {
         const today = new Date().toISOString().split("T")[0];
         const [staffData, attendanceData] = await Promise.all([
-          employeesApi.getAll(),
-          attendanceApi.getByDate(today),
+          employeesService.getAll(),
+          attendanceService.getByDate(today),
         ]);
 
         setStaff(staffData);
@@ -78,18 +79,14 @@ export default function StaffPage() {
     <div className="container mx-auto p-6">
       <div className="mb-6">
         <h1 className="text-3xl font-bold">Staff</h1>
-        <p className="text-muted-foreground">
-          Staff and attendance management
-        </p>
+        <p className="text-muted-foreground">Staff and attendance management</p>
       </div>
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Total Staff
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Total Staff</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -102,9 +99,7 @@ export default function StaffPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              Active Staff
-            </CardTitle>
+            <CardTitle className="text-sm font-medium">Active Staff</CardTitle>
             <CheckCircle className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
@@ -124,7 +119,9 @@ export default function StaffPage() {
             <div className="text-2xl font-bold text-blue-600">
               {presentToday}
             </div>
-            <p className="text-xs text-muted-foreground">Today&apos;s attendance</p>
+            <p className="text-xs text-muted-foreground">
+              Today&apos;s attendance
+            </p>
           </CardContent>
         </Card>
 

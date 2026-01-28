@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar, Clock, User } from "lucide-react";
-import { shiftsApi } from "@/lib/api/shifts";
-import { employeesApi } from "@/lib/api/employees";
+import { shiftsService } from "@/lib/features/shifts/service";
+import { employeesService } from "@/lib/features/employees/service";
 import { ShiftsManagement } from "./components/shifts-management";
 
 export const dynamic = "force-dynamic";
@@ -9,8 +9,8 @@ export const dynamic = "force-dynamic";
 export default async function ShiftsPage() {
   // Fetch data server-side
   const [shifts, employees] = await Promise.all([
-    shiftsApi.getAll().catch(() => []),
-    employeesApi.getAll().catch(() => []),
+    shiftsService.getAll().catch(() => []),
+    employeesService.getAll().catch(() => []),
   ]);
 
   // Calculate shift counts for summary cards
@@ -38,9 +38,7 @@ export default async function ShiftsPage() {
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
-            Shift Management
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-900">Shift Management</h1>
           <p className="text-gray-600 mt-1">
             Manage staff shifts and schedules
           </p>

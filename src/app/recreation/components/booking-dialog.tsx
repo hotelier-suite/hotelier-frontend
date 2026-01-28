@@ -33,15 +33,15 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  recreationalApi,
-  type RecreationalBooking,
-  type RecreationalFacility,
-  type BookingPriority,
-  type CreateRecreationalBookingData,
-  type FacilityAvailability,
-  type TimeSlot,
-} from "@/lib/api/recreational";
+import { recreationalService } from "@/lib/features/recreational/service";
+import type {
+  RecreationalBooking,
+  RecreationalFacility,
+  BookingPriority,
+  CreateRecreationalBookingData,
+  FacilityAvailability,
+  TimeSlot,
+} from "@/lib/features/recreational/types";
 import { toast } from "sonner";
 
 const bookingSchema = z.object({
@@ -124,10 +124,11 @@ export function BookingDialog({
 
     try {
       setLoadingAvailability(true);
-      const availabilityData = await recreationalApi.getFacilityAvailability(
-        Number(selectedFacility.id),
-        bookingDate,
-      );
+      const availabilityData =
+        await recreationalService.getFacilityAvailability(
+          Number(selectedFacility.id),
+          bookingDate,
+        );
       setAvailability(availabilityData);
     } catch (error) {
       console.error("Error checking availability:", error);
@@ -275,13 +276,13 @@ export function BookingDialog({
       let result: RecreationalBooking;
 
       if (booking) {
-        result = await recreationalApi.updateBooking(
+        result = await recreationalService.updateBooking(
           Number(booking.id),
           bookingData,
         );
         toast.success("Booking updated successfully");
       } else {
-        result = await recreationalApi.createBooking(bookingData);
+        result = await recreationalService.createBooking(bookingData);
         toast.success("Booking created successfully");
       }
 
@@ -290,9 +291,7 @@ export function BookingDialog({
     } catch (error) {
       console.error("Error saving booking:", error);
       toast.error(
-        booking
-          ? "Error updating booking"
-          : "Error creating booking",
+        booking ? "Error updating booking" : "Error creating booking",
       );
     } finally {
       setLoading(false);
@@ -303,9 +302,7 @@ export function BookingDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>
-            {booking ? "Edit Booking" : "New Booking"}
-          </DialogTitle>
+          <DialogTitle>{booking ? "Edit Booking" : "New Booking"}</DialogTitle>
           <DialogDescription>
             {booking
               ? "Modify the recreational booking details"
@@ -326,10 +323,7 @@ export function BookingDialog({
                     <FormItem>
                       <FormLabel>Guest Name *</FormLabel>
                       <FormControl>
-                        <Input
-                          placeholder="John Doe"
-                          {...field}
-                        />
+                        <Input placeholder="John Doe" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -562,8 +556,7 @@ export function BookingDialog({
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm flex items-center">
                     <CalendarDays className="h-4 w-4 mr-2" />
-                    Availability -{" "}
-                    {new Date(bookingDate).toLocaleDateString()}
+                    Availability - {new Date(bookingDate).toLocaleDateString()}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>

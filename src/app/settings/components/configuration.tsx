@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { apiRequest } from "@/lib/api/base";
-import { type HotelConfig } from "@/lib/api/configuration";
+import type { HotelConfig } from "@/lib/features/configuration/types";
 import { HotelConfig as HotelConfigComponent } from "./hotel-config";
 
 interface HotelConfigFormData {
@@ -65,8 +65,7 @@ export default function Configuration({
           cancellationPolicy: hotelConfigData.cancellationPolicy || "",
         });
         toast("Settings saved", {
-          description:
-            "Hotel configuration has been successfully updated.",
+          description: "Hotel configuration has been successfully updated.",
         });
       }
     } catch (error) {

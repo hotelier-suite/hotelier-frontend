@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Package, AlertTriangle, Plus } from "lucide-react";
-import { BeverageInventoryItem } from "@/lib/api/restaurant";
+import type { BeverageInventoryItem } from "@/lib/features/restaurant/types";
 import { RestockDialog } from "./restock-dialog";
 
 interface InventoryTableProps {

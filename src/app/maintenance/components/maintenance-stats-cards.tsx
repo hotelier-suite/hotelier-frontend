@@ -8,7 +8,7 @@ import {
   AlertTriangle,
   TrendingUp,
 } from "lucide-react";
-import { MaintenanceStats } from "@/lib/api/maintenance";
+import { MaintenanceStats } from "@/lib/features/maintenance/types";
 
 interface MaintenanceStatsCardsProps {
   stats: MaintenanceStats;
@@ -34,9 +34,7 @@ export default function MaintenanceStatsCards({
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{stats.total}</div>
-          <p className="text-xs text-muted-foreground">
-            Registered requests
-          </p>
+          <p className="text-xs text-muted-foreground">Registered requests</p>
         </CardContent>
       </Card>
 

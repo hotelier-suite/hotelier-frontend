@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { SystemRole, UpdateRoleRequest } from "@/lib/api/roles";
+import type { SystemRole, UpdateRoleRequest } from "@/lib/features/roles/types";
 
 const updateRoleSchema = z.object({
   name: z
@@ -119,9 +119,7 @@ export function EditRoleDialog({
               Cancel
             </Button>
             <Button type="submit" disabled={form.formState.isSubmitting}>
-              {form.formState.isSubmitting
-                ? "Updating..."
-                : "Update Role"}
+              {form.formState.isSubmitting ? "Updating..." : "Update Role"}
             </Button>
           </DialogFooter>
         </form>

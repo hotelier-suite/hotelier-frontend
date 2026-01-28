@@ -20,7 +20,7 @@ import {
   stringToArray,
   arrayToString,
 } from "@/lib/schemas/restaurant";
-import { MenuItem } from "@/lib/api/restaurant";
+import type { MenuItem } from "@/lib/features/restaurant/types";
 
 const categories = [
   "Appetizers",

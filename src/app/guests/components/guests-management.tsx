@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { guestsApi, type Guest } from "@/lib/api/guests";
+import { type Guest } from "@/lib/features/guests/types";
+import { guestsService } from "@/lib/features/guests/service";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -43,7 +44,7 @@ export function GuestsManagement({ initialGuests }: GuestsManagementProps) {
   const loadGuests = async () => {
     try {
       setLoading(true);
-      const data = await guestsApi.getAll();
+      const data = await guestsService.getAll();
       setGuests(data);
     } catch (error) {
       console.error("Error loading guests:", error);
@@ -77,7 +78,7 @@ export function GuestsManagement({ initialGuests }: GuestsManagementProps) {
   const handleDelete = async (g: Guest) => {
     try {
       setLoading(true);
-      await guestsApi.delete(g.id);
+      await guestsService.delete(g.id);
       setGuests((prev) => prev.filter((x) => x.id !== g.id));
       toast.success("Guest deleted");
     } catch (e) {

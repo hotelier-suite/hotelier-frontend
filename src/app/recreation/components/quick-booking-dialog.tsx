@@ -29,14 +29,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  recreationalApi,
-  type RecreationalBooking,
-  type RecreationalFacility,
-  type CreateRecreationalBookingData,
-} from "@/lib/api/recreational";
+import { recreationalService } from "@/lib/features/recreational/service";
+import type {
+  RecreationalBooking,
+  RecreationalFacility,
+  CreateRecreationalBookingData,
+} from "@/lib/features/recreational/types";
 import { toast } from "sonner";
-import { reservationsApi, type Reservation } from "@/lib/api/reservations";
+import { reservationsService } from "@/lib/features/reservations/service";
+import type { Reservation } from "@/lib/features/reservations/types";
 
 const quickBookingSchema = z.object({
   guestName: z.string().min(1, "Guest name is required"),
@@ -90,7 +91,7 @@ export function QuickBookingDialog({
   useEffect(() => {
     const loadCurrentGuests = async () => {
       try {
-        const reservations = await reservationsApi.getCurrentGuests();
+        const reservations = await reservationsService.getCurrentGuests();
         const uniqueReservations = getUniqueReservations(reservations);
         setCurrentReservations(uniqueReservations);
       } catch (error) {
@@ -164,7 +165,7 @@ export function QuickBookingDialog({
         roomNumber: values.roomNumber || undefined,
       };
 
-      const result = await recreationalApi.createBooking(bookingData);
+      const result = await recreationalService.createBooking(bookingData);
 
       toast.success("Quick booking created successfully");
       onBookingCreated(result);
@@ -257,8 +258,8 @@ export function QuickBookingDialog({
           <DialogHeader>
             <DialogTitle>Attend Facility</DialogTitle>
             <DialogDescription>
-              Create a quick booking to attend our facilities with
-              minimum duration for immediate availability
+              Create a quick booking to attend our facilities with minimum
+              duration for immediate availability
             </DialogDescription>
           </DialogHeader>
 
@@ -462,14 +463,10 @@ export function QuickBookingDialog({
               {/* Preview */}
               {selectedFacility && (
                 <div className="bg-muted p-4 rounded-md space-y-2">
-                  <h4 className="font-semibold text-sm">
-                    Booking preview:
-                  </h4>
+                  <h4 className="font-semibold text-sm">Booking preview:</h4>
                   <div className="grid grid-cols-2 gap-2 text-sm">
                     <div>
-                      <span className="text-muted-foreground">
-                        Facility:
-                      </span>
+                      <span className="text-muted-foreground">Facility:</span>
                       <div className="font-medium">{selectedFacility.name}</div>
                     </div>
                     <div>

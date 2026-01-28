@@ -12,8 +12,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Plus, Search } from "lucide-react";
-import { reservationsApi, type Reservation } from "@/lib/api/reservations";
-import { type Room } from "@/lib/api/rooms";
+import { type Reservation } from "@/lib/features/reservations/types";
+import { reservationsService } from "@/lib/features/reservations/service";
+import { type Room } from "@/lib/features/rooms/types";
 
 import { NewReservationDialog } from "./new-reservation-dialog";
 import { EditReservationDialog } from "./edit-reservation-dialog";
@@ -58,7 +59,9 @@ export function Reservations({
   ) => {
     try {
       setLoading(true);
-      const updatedReservation = await reservationsApi.update(id, { status });
+      const updatedReservation = await reservationsService.update(id, {
+        status,
+      });
       setReservations((prev) =>
         prev.map((r) => (r.id === id ? updatedReservation : r)),
       );
@@ -107,7 +110,7 @@ export function Reservations({
         guestId: formData.guestId || null,
       };
 
-      await reservationsApi.createSelf(
+      await reservationsService.createSelf(
         reservationData as unknown as Omit<
           Reservation,
           | "id"
@@ -121,7 +124,7 @@ export function Reservations({
       );
 
       // Refresh the full list to ensure correct order from backend
-      const updatedReservations = await reservationsApi.getAll();
+      const updatedReservations = await reservationsService.getAll();
       setReservations(updatedReservations);
 
       toast("Success", { description: "Reservation created successfully" });
@@ -158,7 +161,7 @@ export function Reservations({
   ) => {
     try {
       setLoading(true);
-      const updatedReservation = await reservationsApi.update(id, data);
+      const updatedReservation = await reservationsService.update(id, data);
       setReservations(
         reservations.map((r) => (r.id === id ? updatedReservation : r)),
       );
@@ -184,7 +187,7 @@ export function Reservations({
   const handleCheckout = async (id: number) => {
     try {
       setProcessingCheckout(true);
-      const dto = await reservationsApi.checkout(id);
+      const dto = await reservationsService.checkout(id);
       const updated = dto.reservation;
       setReservations(reservations.map((r) => (r.id === id ? updated : r)));
       setViewDialogOpen(false);
@@ -210,7 +213,7 @@ export function Reservations({
 
     try {
       setLoading(true);
-      await reservationsApi.delete(Number(selectedReservation.id));
+      await reservationsService.delete(Number(selectedReservation.id));
       setReservations(
         reservations.filter((r) => r.id !== selectedReservation.id),
       );
@@ -244,9 +247,7 @@ export function Reservations({
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold">Reservations Management</h1>
-          <p className="text-muted-foreground">
-            Manage hotel reservations
-          </p>
+          <p className="text-muted-foreground">Manage hotel reservations</p>
           <div className="flex items-center space-x-4 mt-4">
             <div className="relative flex-1 max-w-sm">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />

@@ -23,8 +23,9 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Plus, Loader2 } from "lucide-react";
-import { shiftsApi, type Shift } from "@/lib/api/shifts";
-import { type Employee } from "@/lib/api/employees";
+import { type Shift } from "@/lib/features/shifts/types";
+import { shiftsService } from "@/lib/features/shifts/service";
+import { type Employee } from "@/lib/features/employees/types";
 
 const createShiftSchema = z
   .object({
@@ -108,7 +109,7 @@ export function CreateShiftDialog({
         status: "SCHEDULED" as const,
       };
 
-      const createdShift = await shiftsApi.create(shiftToCreate);
+      const createdShift = await shiftsService.create(shiftToCreate);
       onShiftCreated(createdShift);
 
       form.reset();
@@ -220,11 +221,11 @@ export function CreateShiftDialog({
                 form.setValue(
                   "position",
                   value as
-                  | "RECEPTION"
-                  | "HOUSEKEEPING"
-                  | "RESTAURANT"
-                  | "MAINTENANCE"
-                  | "SECURITY",
+                    | "RECEPTION"
+                    | "HOUSEKEEPING"
+                    | "RESTAURANT"
+                    | "MAINTENANCE"
+                    | "SECURITY",
                 )
               }
             >

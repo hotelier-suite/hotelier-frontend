@@ -29,7 +29,7 @@ import type {
   RecreationalBooking,
   RecreationalFacility,
   BookingStatus,
-} from "@/lib/api/recreational";
+} from "@/lib/features/recreational/types";
 
 interface BookingsTableProps {
   bookings: RecreationalBooking[];
@@ -118,8 +118,7 @@ export function BookingsTable({
 }: BookingsTableProps) {
   const getFacilityName = (facilityId: number) => {
     return (
-      facilities.find((f) => f.id === facilityId)?.name ||
-      "Facility not found"
+      facilities.find((f) => f.id === facilityId)?.name || "Facility not found"
     );
   };
 

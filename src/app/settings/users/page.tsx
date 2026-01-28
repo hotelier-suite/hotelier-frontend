@@ -7,10 +7,10 @@ import { Users, Shield, Lock } from "lucide-react";
 import { UsersManagement } from "./components/users-management";
 import { RolesManagement } from "./components/roles-management";
 import { PermissionsManagement } from "./components/permissions-management";
-import { authApi } from "@/lib/api/auth";
-import { rolesApi } from "@/lib/api/roles";
-import type { User } from "@/lib/api/auth";
-import type { SystemRole } from "@/lib/api/roles";
+import { authService } from "@/lib/features/auth/service";
+import { rolesService } from "@/lib/features/roles/service";
+import type { User } from "@/lib/features/auth/types";
+import type { SystemRole } from "@/lib/features/roles/types";
 
 export default function UsersManagementPage() {
   const [users, setUsers] = useState<User[]>([]);
@@ -21,8 +21,8 @@ export default function UsersManagementPage() {
     const fetchData = async () => {
       try {
         const [usersData, rolesData] = await Promise.all([
-          authApi.getAllUsers().catch(() => []),
-          rolesApi.getAll().catch(() => []),
+          authService.getAllUsers().catch(() => []),
+          rolesService.getAll().catch(() => []),
         ]);
         setUsers(usersData);
         setRoles(rolesData);

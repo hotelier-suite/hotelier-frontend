@@ -1,4 +1,4 @@
-import type { Attendance } from "@/lib/api/attendance";
+import type { Attendance } from "@/lib/features/attendance/types";
 
 export const calculateHours = (clockIn: string, clockOut: string) => {
   if (!clockIn || !clockOut) return 0;

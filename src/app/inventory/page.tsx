@@ -20,7 +20,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { inventoryApi, type InventoryItem } from "@/lib/api/inventory";
+import { type InventoryItem } from "@/lib/features/inventory/types";
+import { inventoryService } from "@/lib/features/inventory/service";
 import { CreateInventoryItemDialog } from "@/components/inventory/CreateInventoryItemDialog";
 import { EditInventoryItemDialog } from "@/components/inventory/EditInventoryItemDialog";
 import { DeleteInventoryItemDialog } from "@/components/inventory/DeleteInventoryItemDialog";
@@ -36,7 +37,7 @@ export default function InventoryPage() {
 
   const fetchInventoryData = async () => {
     try {
-      const inventoryData = await inventoryApi.getInventoryItems();
+      const inventoryData = await inventoryService.getInventoryItems();
       setItems(inventoryData);
     } catch (error) {
       console.error("Error fetching inventory data:", error);
@@ -79,9 +80,7 @@ export default function InventoryPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold">Inventory</h1>
-          <p className="text-muted-foreground">
-            Loading inventory data...
-          </p>
+          <p className="text-muted-foreground">Loading inventory data...</p>
         </div>
         <div className="animate-pulse bg-gray-200 h-96 rounded-lg"></div>
       </div>
@@ -135,7 +134,9 @@ export default function InventoryPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Critical Stock</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Critical Stock
+            </CardTitle>
             <AlertTriangle className="h-4 w-4 text-red-600" />
           </CardHeader>
           <CardContent>
@@ -157,9 +158,7 @@ export default function InventoryPage() {
             <div className="text-2xl font-bold text-yellow-600">
               {lowStockItems.length}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Needs restocking
-            </p>
+            <p className="text-xs text-muted-foreground">Needs restocking</p>
           </CardContent>
         </Card>
 

@@ -7,7 +7,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Search } from "lucide-react";
-import type { RecreationalFacility } from "@/lib/api/recreational";
+import type { RecreationalFacility } from "@/lib/features/recreational/types";
 
 interface BookingsFiltersProps {
   searchTerm: string;

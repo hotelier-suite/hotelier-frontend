@@ -9,7 +9,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Edit, MapPin } from "lucide-react";
-import type { Venue } from "@/lib/api/venues";
+import type { Venue } from "@/lib/features/venues/types";
 
 interface VenuesTableProps {
   venues: Venue[];

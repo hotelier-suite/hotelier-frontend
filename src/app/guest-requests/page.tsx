@@ -1,4 +1,4 @@
-import { guestRequestsApi } from "@/lib/api/guest-requests";
+import { guestRequestsService } from "@/lib/features/guest-requests/service";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MessageSquare, Clock, CheckCircle, XCircle } from "lucide-react";
 import GuestRequestsInterface from "./components/guest-requests-interface";
@@ -6,7 +6,7 @@ import GuestRequestsInterface from "./components/guest-requests-interface";
 export const dynamic = "force-dynamic";
 
 export default async function GuestRequestsPage() {
-  const requests = await guestRequestsApi.getAll();
+  const requests = await guestRequestsService.getAll();
 
   const statusCounts = {
     PENDING: requests.filter((r) => r.status === "PENDING").length,
@@ -19,9 +19,7 @@ export default async function GuestRequestsPage() {
     <div className="container mx-auto py-6 space-y-6">
       <div className="mb-6">
         <h1 className="text-3xl font-bold">Guest Requests</h1>
-        <p className="text-muted-foreground">
-          Manage guest requests and needs
-        </p>
+        <p className="text-muted-foreground">Manage guest requests and needs</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
@@ -32,9 +30,7 @@ export default async function GuestRequestsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{statusCounts.PENDING}</div>
-            <p className="text-xs text-muted-foreground">
-              Pending requests
-            </p>
+            <p className="text-xs text-muted-foreground">Pending requests</p>
           </CardContent>
         </Card>
 
@@ -73,9 +69,7 @@ export default async function GuestRequestsPage() {
             <div className="text-2xl font-bold text-red-600">
               {statusCounts.CANCELLED}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Cancelled requests
-            </p>
+            <p className="text-xs text-muted-foreground">Cancelled requests</p>
           </CardContent>
         </Card>
       </div>

@@ -24,11 +24,11 @@ import {
 } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import {
-  type RecreationalBooking,
-  type RecreationalFacility,
-  type BookingStatus,
-} from "@/lib/api/recreational";
+import type {
+  RecreationalBooking,
+  RecreationalFacility,
+  BookingStatus,
+} from "@/lib/features/recreational/types";
 
 interface BookingDetailsDialogProps {
   booking: RecreationalBooking | null;

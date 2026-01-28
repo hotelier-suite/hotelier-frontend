@@ -5,17 +5,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Bed, Users, Wrench, Sparkles, AlertCircle } from "lucide-react";
-import { type Room } from "@/lib/api/rooms";
-import { type Reservation } from "@/lib/api/reservations";
+import { type Room } from "@/lib/features/rooms/types";
+import { type Reservation } from "@/lib/features/reservations/types";
 
 interface RoomWithStatus extends Room {
   currentReservation?: Reservation;
   status:
-  | "available"
-  | "occupied"
-  | "cleaning"
-  | "maintenance"
-  | "out_of_order";
+    | "available"
+    | "occupied"
+    | "cleaning"
+    | "maintenance"
+    | "out_of_order";
   guestName?: string;
   checkInDate?: string;
   checkOutDate?: string;
@@ -126,9 +126,7 @@ export function RoomStatusBoard({ initialRooms }: RoomStatusBoardProps) {
           <Card key={room.id} className="relative">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-lg">
-                  Room {room.number}
-                </CardTitle>
+                <CardTitle className="text-lg">Room {room.number}</CardTitle>
                 <Badge
                   className={`${getStatusColor(room.status)} text-white flex items-center gap-1`}
                 >

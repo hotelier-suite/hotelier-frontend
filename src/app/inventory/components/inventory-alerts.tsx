@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { AlertTriangle, Truck } from "lucide-react";
-import { InventoryItem } from "@/lib/api/inventory";
+import { InventoryItem } from "@/lib/features/inventory/types";
 import { unitTranslations } from "@/lib/translations/inventory";
 
 interface InventoryAlertsProps {
@@ -42,12 +42,13 @@ export function InventoryAlerts({ items, onReorder }: InventoryAlertsProps) {
             >
               <div className="flex items-center space-x-4">
                 <AlertTriangle
-                  className={`h-5 w-5 ${item.status === "out_of_stock"
-                    ? "text-red-600"
-                    : item.status === "critical"
-                      ? "text-red-500"
-                      : "text-yellow-500"
-                    }`}
+                  className={`h-5 w-5 ${
+                    item.status === "out_of_stock"
+                      ? "text-red-600"
+                      : item.status === "critical"
+                        ? "text-red-500"
+                        : "text-yellow-500"
+                  }`}
                 />
                 <div>
                   <div className="font-medium">{item.name}</div>

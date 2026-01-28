@@ -27,10 +27,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  recreationalApi,
-  type BookingStatistics,
-} from "@/lib/api/recreational";
+import { recreationalService } from "@/lib/features/recreational/service";
+import type { BookingStatistics } from "@/lib/features/recreational/types";
 import { toast } from "sonner";
 
 export function RecreationalStats() {
@@ -45,7 +43,7 @@ export function RecreationalStats() {
       const startDate = new Date();
       startDate.setDate(startDate.getDate() - parseInt(period));
 
-      const data = await recreationalApi.getStatistics(
+      const data = await recreationalService.getStatistics(
         startDate.toISOString().split("T")[0],
         endDate,
       );

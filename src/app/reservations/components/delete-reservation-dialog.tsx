@@ -11,7 +11,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Loader2 } from "lucide-react";
-import { type Reservation } from "@/lib/api/reservations";
+import { type Reservation } from "@/lib/features/reservations/types";
 
 interface DeleteReservationDialogProps {
   isOpen: boolean;

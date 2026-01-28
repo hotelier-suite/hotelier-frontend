@@ -30,8 +30,10 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { attendanceApi, type Attendance } from "@/lib/api/attendance";
-import { employeesApi, type Employee } from "@/lib/api/employees";
+import { type Attendance } from "@/lib/features/attendance/types";
+import { attendanceService } from "@/lib/features/attendance/service";
+import { type Employee } from "@/lib/features/employees/types";
+import { employeesService } from "@/lib/features/employees/service";
 import {
   Calendar,
   Clock,
@@ -116,8 +118,8 @@ export function AttendanceTab() {
     try {
       setLoading(true);
       const [attendanceData, employeesData] = await Promise.all([
-        attendanceApi.getByDate(selectedDate),
-        employeesApi.getAll(),
+        attendanceService.getByDate(selectedDate),
+        employeesService.getAll(),
       ]);
       setAttendances(attendanceData);
       setEmployees(employeesData);
@@ -204,14 +206,14 @@ export function AttendanceTab() {
           ...data,
           status: data.status as Attendance["status"],
         };
-        await attendanceApi.update(editingAttendance.id, payload);
+        await attendanceService.update(editingAttendance.id, payload);
         toast.success("Attendance updated successfully");
       } else {
         const payload = {
           ...data,
           status: data.status as Attendance["status"],
         };
-        await attendanceApi.create(payload);
+        await attendanceService.create(payload);
         toast.success("Attendance registered successfully");
       }
       setDialogOpen(false);
@@ -226,7 +228,7 @@ export function AttendanceTab() {
     if (!deletingAttendance) return;
 
     try {
-      await attendanceApi.delete(deletingAttendance.id);
+      await attendanceService.delete(deletingAttendance.id);
       toast.success("Attendance deleted successfully");
       setDeleteDialogOpen(false);
       setDeletingAttendance(null);
@@ -377,8 +379,8 @@ export function AttendanceTab() {
                           {typeof attendance.hoursWorked === "number"
                             ? attendance.hoursWorked.toFixed(1)
                             : parseFloat(
-                              attendance.hoursWorked?.toString() || "0",
-                            ).toFixed(1)}
+                                attendance.hoursWorked?.toString() || "0",
+                              ).toFixed(1)}
                           h
                         </TableCell>
                         <TableCell>
@@ -549,8 +551,8 @@ export function AttendanceTab() {
           <DialogHeader>
             <DialogTitle>Confirm Deletion</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this attendance record?
-              This action cannot be undone.
+              Are you sure you want to delete this attendance record? This
+              action cannot be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

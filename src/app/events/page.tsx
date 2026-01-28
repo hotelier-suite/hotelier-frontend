@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import EventsDashboard from "./components/events-dashboard";
-import { eventsApi, EventBooking } from "@/lib/api/events";
-import { venuesApi, Venue } from "@/lib/api/venues";
+import { type EventBooking } from "@/lib/features/events/types";
+import { eventsService } from "@/lib/features/events/service";
+import { type Venue } from "@/lib/features/venues/types";
+import { venuesService } from "@/lib/features/venues/service";
 
 interface EventsData {
   events: EventBooking[];
@@ -22,8 +24,8 @@ export default function EventsPage() {
 
         // Fetch all data from API
         const [events, venues] = await Promise.all([
-          eventsApi.getAll(),
-          venuesApi.getAll(),
+          eventsService.getAll(),
+          venuesService.getAll(),
         ]);
 
         console.log("Loaded data from API:", { events, venues });

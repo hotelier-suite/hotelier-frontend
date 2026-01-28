@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Clock, Coffee, CheckCircle } from "lucide-react";
-import { RoomServiceOrder } from "@/lib/api/restaurant";
+import type { RoomServiceOrder } from "@/lib/features/restaurant/types";
 
 interface OrderStatusCardsProps {
   orders: RoomServiceOrder[];

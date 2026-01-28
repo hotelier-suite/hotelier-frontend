@@ -30,19 +30,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { AlertTriangle } from "lucide-react";
-import { Vehicle, ParkingSpace } from "@/lib/api/parking";
+import type { Vehicle, ParkingSpace } from "@/lib/features/parking/types";
 
 // Zod schema for validation
 const incidentFormSchema = z.object({
   type: z.string().min(1, "Please select the incident type"),
-  description: z
-    .string()
-    .min(1, "Please enter a description of the incident"),
+  description: z.string().min(1, "Please enter a description of the incident"),
   vehicle: z.string().optional(),
   space: z.string().optional(),
-  priority: z
-    .string()
-    .min(1, "Please select the incident priority"),
+  priority: z.string().min(1, "Please select the incident priority"),
 });
 
 type IncidentFormValues = z.infer<typeof incidentFormSchema>;

@@ -9,7 +9,7 @@ import {
 } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { authApi } from "@/lib/api/auth";
+import { authService } from "@/lib/features/auth/service";
 import { authCookies } from "@/lib/auth-cookies";
 
 interface UserRole {
@@ -122,7 +122,7 @@ export function useAuth() {
         try {
           const refreshToken = authCookies.getRefreshToken();
           if (refreshToken) {
-            const response = await authApi.refreshToken();
+            const response = await authService.refreshToken();
 
             // Update stored tokens
             authCookies.setTokens(response.accessToken, response.refreshToken);
@@ -162,7 +162,7 @@ export function useAuth() {
 
     try {
       // Call the real backend API
-      const response = await authApi.login(email, password);
+      const response = await authService.login(email, password);
 
       const user: AuthUser = {
         id: response.user.id, // Keep as number, not string
@@ -219,7 +219,7 @@ export function useAuth() {
 
     try {
       // Call logout API first while we still have the token
-      await authApi.logout();
+      await authService.logout();
     } catch (error) {
       // Ignore logout API errors - we'll clear state anyway
       console.error("Logout API error (ignored):", error);

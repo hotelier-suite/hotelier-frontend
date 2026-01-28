@@ -10,7 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { guestsApi, type Guest } from "@/lib/api/guests";
+import { type Guest } from "@/lib/features/guests/types";
+import { guestsService } from "@/lib/features/guests/service";
 import type { UseFormReturn } from "react-hook-form";
 
 interface ReservationFormData {
@@ -43,7 +44,7 @@ export function GuestSearchSection({
     let active = true;
     (async () => {
       try {
-        const list = await guestsApi.search(guestSearch || "");
+        const list = await guestsService.search(guestSearch || "");
         if (active) setGuestOptions(list.slice(0, 20));
       } catch (e) {
         console.error("Error loading guests:", e);

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { roomsApi } from "@/lib/api/rooms";
-import { reservationsApi } from "@/lib/api/reservations";
+import { roomsService } from "@/lib/features/rooms/service";
+import { reservationsService } from "@/lib/features/reservations/service";
 
 export interface ActiveGuest {
   id: string;
@@ -20,8 +20,8 @@ export function useActiveGuests() {
       try {
         // Get rooms and reservations
         const [rooms, reservations] = await Promise.all([
-          roomsApi.getAll(),
-          reservationsApi.getAll(),
+          roomsService.getAll(),
+          reservationsService.getAll(),
         ]);
 
         // Filter active reservations (checked in or confirmed for today)

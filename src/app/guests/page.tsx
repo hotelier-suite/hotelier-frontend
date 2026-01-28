@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { guestsApi, type Guest } from "@/lib/api/guests";
+import { type Guest } from "@/lib/features/guests/types";
+import { guestsService } from "@/lib/features/guests/service";
 import { GuestsManagement } from "./components/guests-management";
 
 export default function GuestsPage() {
@@ -11,7 +12,7 @@ export default function GuestsPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const guestsData = await guestsApi.getAll();
+        const guestsData = await guestsService.getAll();
         setGuests(guestsData);
       } catch (error) {
         console.error("Error fetching guests:", error);
@@ -28,9 +29,7 @@ export default function GuestsPage() {
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-bold">Guests</h1>
-          <p className="text-muted-foreground">
-            Loading guest data...
-          </p>
+          <p className="text-muted-foreground">Loading guest data...</p>
         </div>
         <div className="animate-pulse bg-gray-200 h-96 rounded-lg"></div>
       </div>

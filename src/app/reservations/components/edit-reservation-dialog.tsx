@@ -22,8 +22,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
-import { type Room } from "@/lib/api/rooms";
-import { type Reservation, reservationsApi } from "@/lib/api/reservations";
+import { type Room } from "@/lib/features/rooms/types";
+import { type Reservation } from "@/lib/features/reservations/types";
+import { reservationsService } from "@/lib/features/reservations/service";
 
 const editReservationFormSchema = z
   .object({
@@ -152,7 +153,7 @@ export function EditReservationDialog({
     (async () => {
       try {
         setAvailabilityLoading(true);
-        const list = await reservationsApi.getAvailability(start, end, {
+        const list = await reservationsService.getAvailability(start, end, {
           guests: totalGuests > 0 ? totalGuests : undefined,
         });
         if (!cancelled) {
@@ -268,9 +269,7 @@ export function EditReservationDialog({
       <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Edit Reservation #{reservation.id}</DialogTitle>
-          <DialogDescription>
-            Modify the reservation details
-          </DialogDescription>
+          <DialogDescription>Modify the reservation details</DialogDescription>
         </DialogHeader>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -422,8 +421,8 @@ export function EditReservationDialog({
                       if (!formValues.checkInDate || !formValues.checkOutDate) {
                         return (
                           <div className="p-2 text-center text-sm text-muted-foreground">
-                            Select check-in and check-out dates to see
-                            available rooms
+                            Select check-in and check-out dates to see available
+                            rooms
                           </div>
                         );
                       }
@@ -471,11 +470,11 @@ export function EditReservationDialog({
                   form.setValue(
                     "status",
                     value as
-                    | "PENDING"
-                    | "CONFIRMED"
-                    | "CHECKED_IN"
-                    | "CHECKED_OUT"
-                    | "CANCELLED",
+                      | "PENDING"
+                      | "CONFIRMED"
+                      | "CHECKED_IN"
+                      | "CHECKED_OUT"
+                      | "CANCELLED",
                   )
                 }
               >

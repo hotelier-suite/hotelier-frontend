@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  reservationsApi,
-  type Reservation as ApiReservation,
-} from "@/lib/api/reservations";
-import { roomsApi, type Room as ApiRoom } from "@/lib/api/rooms";
-import { reportsApi } from "@/lib/api/reports";
+import { type Reservation as ApiReservation } from "@/lib/features/reservations/types";
+import { reservationsService } from "@/lib/features/reservations/service";
+import { type Room as ApiRoom } from "@/lib/features/rooms/types";
+import { roomsService } from "@/lib/features/rooms/service";
+import { reportsService } from "@/lib/features/reports/service";
 import { StatsGrid } from "./components/stats-grid";
 import { RecentActivities } from "./components/recent-activities";
 import { UpcomingEvents } from "./components/upcoming-events";
@@ -41,9 +40,11 @@ export default function Dashboard() {
       try {
         const currentYear = new Date().getFullYear();
         const [reservationsData, roomsData, revenueData] = await Promise.all([
-          reservationsApi.getAll().catch(() => [] as ApiReservation[]),
-          roomsApi.getAll().catch(() => []),
-          reportsApi.getMonthlyRevenueComparison(currentYear).catch(() => []),
+          reservationsService.getAll().catch(() => [] as ApiReservation[]),
+          roomsService.getAll().catch(() => []),
+          reportsService
+            .getMonthlyRevenueComparison(currentYear)
+            .catch(() => []),
         ]);
         // Coerce API reservation id to number for local calculations
         const normalized = reservationsData.map((r) => ({

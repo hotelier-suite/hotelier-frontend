@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 import { useAuthContext } from "@/contexts/auth-context";
 import RestaurantDashboard from "./components/restaurant-dashboard";
-import {
-  restaurantApi,
-  type RoomServiceOrder,
-  type MenuItem,
-  type BeverageInventoryItem,
-} from "@/lib/api/restaurant";
+import { restaurantService } from "@/lib/features/restaurant/service";
+import type {
+  RoomServiceOrder,
+  MenuItem,
+  BeverageInventoryItem,
+} from "@/lib/features/restaurant/types";
 
 interface RestaurantSale {
   date: string;
@@ -46,11 +46,11 @@ export default function RestaurantPage() {
         setLoading(true);
         const [roomServiceOrders, menuItems, beverageInventory] =
           await Promise.all([
-            restaurantApi
+            restaurantService
               .getRoomServiceOrders()
               .catch(() => [] as RoomServiceOrder[]),
-            restaurantApi.getMenuItems().catch(() => [] as MenuItem[]),
-            restaurantApi
+            restaurantService.getMenuItems().catch(() => [] as MenuItem[]),
+            restaurantService
               .getBeverageInventory()
               .catch(() => [] as BeverageInventoryItem[]),
           ]);

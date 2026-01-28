@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/use-auth";
 import { PersonalInfoForm } from "./personal-info-form";
-import { usersApi } from "@/lib/api/users";
+import { usersService } from "@/lib/features/users/service";
 
 interface ProfileData {
   name: string;
@@ -42,7 +42,7 @@ export default function ProfileDashboard({
         bio: validatedData.bio || "",
       };
 
-      await usersApi.update(user.id, {
+      await usersService.update(user.id, {
         name: validatedData.name,
         email: validatedData.email,
         phone: validatedData.phone || "",

@@ -18,7 +18,7 @@ import {
   Cell,
 } from "recharts";
 import { TrendingUp, Award } from "lucide-react";
-import { Employee } from "@/lib/api/employees";
+import { type Employee } from "@/lib/features/employees/types";
 
 interface EmployeePerformanceChartProps {
   employees: Employee[];
@@ -83,8 +83,7 @@ const CustomTooltip = ({
             ⏳ Pending: <span className="font-medium">{data.pending}</span>
           </p>
           <p className="text-sm text-gray-600">
-            Total assigned:{" "}
-            <span className="font-medium">{data.assigned}</span>
+            Total assigned: <span className="font-medium">{data.assigned}</span>
           </p>
         </div>
         <p className="text-xs text-gray-500 mt-2 pt-2 border-t">
@@ -134,14 +133,10 @@ export function EmployeePerformanceChart({
             <Award className="h-5 w-5" />
             Employee Performance
           </CardTitle>
-          <CardDescription>
-            Task completion rate by employee
-          </CardDescription>
+          <CardDescription>Task completion rate by employee</CardDescription>
         </CardHeader>
         <CardContent className="flex items-center justify-center h-[350px]">
-          <p className="text-muted-foreground">
-            No performance data available
-          </p>
+          <p className="text-muted-foreground">No performance data available</p>
         </CardContent>
       </Card>
     );
@@ -151,9 +146,9 @@ export function EmployeePerformanceChart({
   const avgPerformance =
     performanceData.length > 0
       ? Math.round(
-        performanceData.reduce((acc, emp) => acc + emp.completionRate, 0) /
-        performanceData.length,
-      )
+          performanceData.reduce((acc, emp) => acc + emp.completionRate, 0) /
+            performanceData.length,
+        )
       : 0;
 
   const topPerformer = performanceData[0];
@@ -167,9 +162,7 @@ export function EmployeePerformanceChart({
               <Award className="h-5 w-5" />
               Employee Performance
             </CardTitle>
-            <CardDescription>
-              Task completion rate by employee
-            </CardDescription>
+            <CardDescription>Task completion rate by employee</CardDescription>
           </div>
           <div className="text-right space-y-1">
             <div className="flex items-center gap-2">

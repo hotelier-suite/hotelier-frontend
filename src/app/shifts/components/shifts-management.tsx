@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { shiftsApi, type Shift } from "@/lib/api/shifts";
-import { type Employee } from "@/lib/api/employees";
+import { type Shift } from "@/lib/features/shifts/types";
+import { shiftsService } from "@/lib/features/shifts/service";
+import { type Employee } from "@/lib/features/employees/types";
 import { ShiftFilters } from "./shift-filters";
 import { CreateShiftDialog } from "./create-shift-dialog";
 import { ShiftsList } from "./shifts-list";
@@ -40,7 +41,7 @@ export function ShiftsManagement({
     status: Shift["status"],
   ) => {
     try {
-      const updatedShift = await shiftsApi.update(shiftId, { status });
+      const updatedShift = await shiftsService.update(shiftId, { status });
       setShifts((prev) =>
         prev.map((shift) => (shift.id === shiftId ? updatedShift : shift)),
       );
@@ -55,7 +56,7 @@ export function ShiftsManagement({
     if (!confirm("Are you sure you want to delete this shift?")) return;
 
     try {
-      await shiftsApi.delete(shiftId);
+      await shiftsService.delete(shiftId);
       setShifts((prev) => prev.filter((shift) => shift.id !== shiftId));
       toast.success("Shift deleted successfully");
     } catch (error) {

@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from "react";
 import MaintenanceDashboard from "./components/maintenance-dashboard";
-import {
-  maintenanceApi,
-  GeneralMaintenanceRequest,
-} from "@/lib/api/maintenance";
-import { housekeepingApi, MaintenanceReport } from "@/lib/api/housekeeping";
+import { GeneralMaintenanceRequest } from "@/lib/features/maintenance/types";
+import { maintenanceService } from "@/lib/features/maintenance/service";
+import { MaintenanceReport } from "@/lib/features/housekeeping/types";
+import { housekeepingService } from "@/lib/features/housekeeping/service";
 
 export default function MaintenancePage() {
   const [loading, setLoading] = useState(true);
@@ -23,8 +22,8 @@ export default function MaintenancePage() {
 
         // Fetch both general maintenance requests and housekeeping incident reports
         const [generalRequests, incidentReports] = await Promise.all([
-          maintenanceApi.getAll(),
-          housekeepingApi.getMaintenanceReports(),
+          maintenanceService.getAll(),
+          housekeepingService.getMaintenanceReports(),
         ]);
 
         setRequests(generalRequests);

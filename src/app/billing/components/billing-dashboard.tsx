@@ -8,7 +8,7 @@ import { FileText, CreditCard, DollarSign, Receipt } from "lucide-react";
 import InvoiceManagement from "./invoice-management";
 import PaymentManagement from "./payment-management";
 import FinancialReports from "./financial-reports";
-import { billingApi } from "@/lib/api/billing";
+import { billingService } from "@/lib/features/billing/service";
 import { Invoice } from "@/lib/types";
 
 interface Payment {
@@ -49,10 +49,10 @@ export default function BillingDashboard({
   const isClient = hasRole("client");
   const clientInvoices = isClient
     ? invoices.filter(
-      (invoice) =>
-        invoice.guest === user?.name ||
-        invoice.guest.toLowerCase().includes(user?.name?.toLowerCase() || ""),
-    )
+        (invoice) =>
+          invoice.guest === user?.name ||
+          invoice.guest.toLowerCase().includes(user?.name?.toLowerCase() || ""),
+      )
     : invoices;
 
   const handleProcessPayment = async (
@@ -62,7 +62,7 @@ export default function BillingDashboard({
   ) => {
     try {
       // Update invoice status in backend
-      const updated = await billingApi.markInvoiceAsPaid(
+      const updated = await billingService.markInvoiceAsPaid(
         String(invoiceId),
         paymentMethod,
       );
@@ -89,7 +89,7 @@ export default function BillingDashboard({
 
   const handleDownloadInvoice = async (invoiceId: string | number) => {
     try {
-      await billingApi.downloadInvoice(String(invoiceId));
+      await billingService.downloadInvoice(String(invoiceId));
     } catch (error) {
       console.error("Error downloading invoice:", error);
       // Here you could show an error notification to the user
@@ -143,9 +143,7 @@ export default function BillingDashboard({
             <div className="text-2xl font-bold">
               ${safeMonthlyRevenue.toLocaleString()}
             </div>
-            <p className="text-xs text-muted-foreground">
-              +12% vs last month
-            </p>
+            <p className="text-xs text-muted-foreground">+12% vs last month</p>
           </CardContent>
         </Card>
         <Card>
@@ -174,7 +172,9 @@ export default function BillingDashboard({
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Collection Rate</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Collection Rate
+            </CardTitle>
             <CreditCard className="h-4 w-4 text-purple-600" />
           </CardHeader>
           <CardContent>
@@ -230,8 +230,8 @@ export default function BillingDashboard({
                       You have no pending invoices
                     </p>
                     <p className="text-sm text-muted-foreground/70">
-                      Invoices will appear here when hotel staff
-                      assigns them to you
+                      Invoices will appear here when hotel staff assigns them to
+                      you
                     </p>
                   </div>
                 ) : (

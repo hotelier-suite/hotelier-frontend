@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import { useAuthContext } from "@/contexts/auth-context";
 import ProfileDashboard from "./components/profile-dashboard";
-import { usersApi, type UserResponseDto } from "@/lib/api/users";
-import { authApi } from "@/lib/api/auth";
+import { type UserResponseDto } from "@/lib/features/users/types";
+import { usersService } from "@/lib/features/users/service";
+import { authService } from "@/lib/features/auth/service";
 import { useRouter } from "next/navigation";
 
 interface ProfileData {
@@ -52,7 +53,7 @@ export default function ProfilePage() {
       try {
         setLoading(true);
         // Try full profile (requires users:read)
-        const me: UserResponseDto = await usersApi.getMyProfile();
+        const me: UserResponseDto = await usersService.getMyProfile();
         const prefs = safeParsePrefs(me.preferences);
         const data: ProfileData = {
           name: me.name || "",
@@ -67,7 +68,7 @@ export default function ProfilePage() {
       } catch {
         // Fallback for users without users:read permission
         try {
-          const authMe = await authApi.getCurrentUser();
+          const authMe = await authService.getCurrentUser();
           const fallbackData: ProfileData = {
             name: authMe.name || "",
             email: authMe.email || "",

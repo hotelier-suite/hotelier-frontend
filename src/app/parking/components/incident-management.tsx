@@ -18,7 +18,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CheckCircle } from "lucide-react";
-import { ParkingIncident } from "@/lib/api/parking";
+import type { ParkingIncident } from "@/lib/features/parking/types";
 
 interface IncidentManagementProps {
   incidents: ParkingIncident[];
@@ -50,9 +50,7 @@ export default function IncidentManagement({
   const getIncidentStatusBadge = (status: string) => {
     switch (status) {
       case "pending":
-        return (
-          <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>
-        );
+        return <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>;
       case "in_progress":
         return <Badge className="bg-blue-100 text-blue-800">In Progress</Badge>;
       case "resolved":

@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { UseFormReturn } from "react-hook-form";
-import type { Room } from "@/lib/api/rooms";
+import type { Room } from "@/lib/features/rooms/types";
 
 interface ReservationFormData {
   guestName: string;
@@ -94,8 +94,7 @@ export function DateSelectionSection({
                 if (!formValues.checkInDate || !formValues.checkOutDate) {
                   return (
                     <div className="p-2 text-center text-sm text-muted-foreground">
-                      Select check-in and check-out dates to see
-                      available rooms
+                      Select check-in and check-out dates to see available rooms
                     </div>
                   );
                 }

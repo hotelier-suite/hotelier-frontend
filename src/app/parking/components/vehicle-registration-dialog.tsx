@@ -24,10 +24,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Plus } from "lucide-react";
-import { ParkingSpace } from "@/lib/api/parking";
+import type { ParkingSpace } from "@/lib/features/parking/types";
 
 const vehicleSchema = z.object({
-  licensePlate: z.string().min(3, "License plate must have at least 3 characters"),
+  licensePlate: z
+    .string()
+    .min(3, "License plate must have at least 3 characters"),
   brand: z.string().min(2, "Brand is required"),
   model: z.string().min(1, "Model is required"),
   color: z.string().min(1, "Color is required"),
@@ -96,9 +98,7 @@ export default function VehicleRegistrationDialog({
       <DialogContent className="max-w-2xl">
         <DialogHeader>
           <DialogTitle>Register Vehicle</DialogTitle>
-          <DialogDescription>
-            Register entry of a new vehicle
-          </DialogDescription>
+          <DialogDescription>Register entry of a new vehicle</DialogDescription>
         </DialogHeader>
         <form onSubmit={vehicleForm.handleSubmit(handleSubmit)}>
           <div className="grid gap-4 py-4">

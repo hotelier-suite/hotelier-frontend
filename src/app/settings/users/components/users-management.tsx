@@ -9,14 +9,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { toast } from "sonner";
-import { SystemRole, rolesApi } from "@/lib/api/roles";
-import { User, authApi } from "@/lib/api/auth";
+import { rolesService } from "@/lib/features/roles/service";
+import { authService } from "@/lib/features/auth/service";
+import { usersService } from "@/lib/features/users/service";
+import type { SystemRole } from "@/lib/features/roles/types";
+import type { User } from "@/lib/features/auth/types";
 import { Users } from "lucide-react";
 import { AssignRolesDialog } from "./assign-roles-dialog";
 import { UserSearch } from "./user-search";
 import { UsersTable } from "./users-table";
 import { LoadingState } from "./loading-state";
-import { usersApi } from "@/lib/api/users";
 
 interface UsersManagementProps {
   initialUsers: User[];
@@ -39,8 +41,8 @@ export function UsersManagement({
     try {
       setLoading(true);
       const [usersData, rolesData] = await Promise.all([
-        authApi.getAllUsers(),
-        rolesApi.getAll(),
+        authService.getAllUsers(),
+        rolesService.getAll(),
       ]);
       setUsers(usersData);
       setRoles(rolesData);
@@ -79,7 +81,7 @@ export function UsersManagement({
         });
       }
 
-      await usersApi.update(userId, { roleIds: validRoleIds });
+      await usersService.update(userId, { roleIds: validRoleIds });
       await refreshData();
       toast("Success", { description: "Roles assigned successfully" });
 
@@ -99,7 +101,7 @@ export function UsersManagement({
   const openRoleAssignDialog = async (user: User) => {
     try {
       setSelectedUser(user);
-      const userRoles = await rolesApi.getUserRoles(Number(user.id));
+      const userRoles = await rolesService.getUserRoles(Number(user.id));
       console.log("Fetched user roles:", userRoles);
       setSelectedUserRoles(userRoles);
       setRoleAssignDialogOpen(true);

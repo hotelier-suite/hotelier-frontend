@@ -13,7 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { SystemRole, SystemPermission } from "@/lib/api/roles";
+import type { SystemRole, SystemPermission } from "@/lib/features/roles/types";
 
 interface AssignPermissionsDialogProps {
   role: SystemRole | null;

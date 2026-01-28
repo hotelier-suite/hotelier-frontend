@@ -13,11 +13,11 @@ import {
 } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import {
-  type RecreationalFacility,
-  type FacilityType,
-  type FacilityStatus,
-} from "@/lib/api/recreational";
+import type {
+  RecreationalFacility,
+  FacilityType,
+  FacilityStatus,
+} from "@/lib/features/recreational/types";
 
 interface FacilityDetailsDialogProps {
   facility: RecreationalFacility | null;

@@ -31,13 +31,15 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import {
+  rolesService,
+  systemPermissionsService,
+} from "@/lib/features/roles/service";
+import type {
   SystemRole,
   SystemPermission,
   CreateRoleRequest,
   UpdateRoleRequest,
-  rolesApi,
-  systemPermissionsApi,
-} from "@/lib/api/roles";
+} from "@/lib/features/roles/types";
 import { Edit, Shield, Trash2 } from "lucide-react";
 import { CreateRoleDialog } from "./create-role-dialog";
 import { EditRoleDialog } from "./edit-role-dialog";
@@ -60,8 +62,8 @@ export function RolesManagement() {
     try {
       setLoading(true);
       const [rolesData, permissionsData] = await Promise.all([
-        rolesApi.getAll(),
-        systemPermissionsApi.getAll(),
+        rolesService.getAll(),
+        systemPermissionsService.getAll(),
       ]);
       setRoles(rolesData);
       setPermissions(permissionsData);
@@ -77,7 +79,7 @@ export function RolesManagement() {
 
   const handleCreateRole = async (data: CreateRoleRequest) => {
     try {
-      await rolesApi.create(data);
+      await rolesService.create(data);
       await loadData();
       setCreateDialogOpen(false);
       toast("Success", { description: "Role created successfully" });
@@ -90,7 +92,7 @@ export function RolesManagement() {
     if (!selectedRole) return;
 
     try {
-      await rolesApi.update(selectedRole.id, data);
+      await rolesService.update(selectedRole.id, data);
       await loadData();
       setEditDialogOpen(false);
       setSelectedRole(null);
@@ -102,7 +104,7 @@ export function RolesManagement() {
 
   const handleDeleteRole = async (role: SystemRole) => {
     try {
-      await rolesApi.delete(role.id);
+      await rolesService.delete(role.id);
       await loadData();
       toast("Success", { description: "Role deleted successfully" });
     } catch {
@@ -115,7 +117,7 @@ export function RolesManagement() {
     permissionIds: number[],
   ) => {
     try {
-      await rolesApi.update(roleId, { permissionIds });
+      await rolesService.update(roleId, { permissionIds });
       await loadData();
       setPermissionsDialogOpen(false);
       setSelectedRole(null);

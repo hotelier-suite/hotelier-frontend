@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, User } from "lucide-react";
-import { type Shift } from "@/lib/api/shifts";
+import { type Shift } from "@/lib/features/shifts/types";
 
 interface ShiftsListProps {
   shifts: Shift[];

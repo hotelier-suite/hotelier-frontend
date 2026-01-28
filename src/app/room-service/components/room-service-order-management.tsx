@@ -6,11 +6,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Coffee, Plus } from "lucide-react";
 
-import {
+import type {
   RoomServiceOrder,
   RoomServiceOrderItem,
   MenuItem,
-} from "@/lib/api/restaurant";
+} from "@/lib/features/restaurant/types";
 import { OrderStatusCards } from "./order-status-cards";
 import { OrderFilters } from "./order-filters";
 import { OrderCard } from "./order-card";
@@ -124,9 +124,7 @@ export function RoomServiceOrderManagement({
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Room Service</h1>
-          <p className="text-muted-foreground">
-            Room service order management
-          </p>
+          <p className="text-muted-foreground">Room service order management</p>
         </div>
         <Button onClick={() => setShowNewOrderDialog(true)}>
           <Plus className="h-4 w-4 mr-2" />

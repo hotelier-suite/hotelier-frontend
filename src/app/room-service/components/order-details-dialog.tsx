@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { RoomServiceOrder } from "@/lib/api/restaurant";
+import type { RoomServiceOrder } from "@/lib/features/restaurant/types";
 
 interface OrderDetailsDialogProps {
   open: boolean;

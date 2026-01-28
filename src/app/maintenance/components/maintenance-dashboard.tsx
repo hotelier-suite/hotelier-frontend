@@ -6,10 +6,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Wrench, Clock, CheckCircle, AlertTriangle } from "lucide-react";
 import {
   GeneralMaintenanceRequest,
-  maintenanceApi,
   MaintenanceStats,
-} from "@/lib/api/maintenance";
-import { MaintenanceReport } from "@/lib/api/housekeeping";
+} from "@/lib/features/maintenance/types";
+import { maintenanceService } from "@/lib/features/maintenance/service";
+import { MaintenanceReport } from "@/lib/features/housekeeping/types";
 import MaintenanceTable from "./maintenance-table";
 import MaintenanceStatsCards from "./maintenance-stats-cards";
 
@@ -36,7 +36,7 @@ export default function MaintenanceDashboard({
   const fetchRequests = async () => {
     setLoading(true);
     try {
-      const data = await maintenanceApi.getAll();
+      const data = await maintenanceService.getAll();
       setRequests(data);
       // Reset create dialog state when refreshing
       setIsCreateDialogOpen(false);
@@ -49,7 +49,7 @@ export default function MaintenanceDashboard({
 
   const fetchStats = async () => {
     try {
-      const statsData = await maintenanceApi.getStats();
+      const statsData = await maintenanceService.getStats();
       setStats(statsData);
     } catch (error) {
       console.error("Error fetching maintenance stats:", error);
@@ -66,7 +66,7 @@ export default function MaintenanceDashboard({
 
   const handleDeleteRequest = async (id: number) => {
     try {
-      await maintenanceApi.delete(id);
+      await maintenanceService.delete(id);
       await fetchRequests();
     } catch (error) {
       console.error("Error deleting maintenance request:", error);
@@ -82,7 +82,7 @@ export default function MaintenanceDashboard({
 
   const handleStatusUpdate = async (id: number, status: string) => {
     try {
-      await maintenanceApi.updateStatus(id, status);
+      await maintenanceService.updateStatus(id, status);
       await fetchRequests();
     } catch (error) {
       console.error("Error updating status:", error);
@@ -187,24 +187,26 @@ export default function MaintenanceDashboard({
                                 Room {report.roomNumber}
                               </h3>
                               <span
-                                className={`px-2 py-1 text-xs rounded-full ${report.priority === "high"
-                                  ? "bg-red-100 text-red-800"
-                                  : report.priority === "medium"
-                                    ? "bg-yellow-100 text-yellow-800"
-                                    : "bg-green-100 text-green-800"
-                                  }`}
+                                className={`px-2 py-1 text-xs rounded-full ${
+                                  report.priority === "high"
+                                    ? "bg-red-100 text-red-800"
+                                    : report.priority === "medium"
+                                      ? "bg-yellow-100 text-yellow-800"
+                                      : "bg-green-100 text-green-800"
+                                }`}
                               >
                                 {report.priority}
                               </span>
                               <span
-                                className={`px-2 py-1 text-xs rounded-full ${report.status === "pending"
-                                  ? "bg-orange-100 text-orange-800"
-                                  : report.status === "in_progress"
-                                    ? "bg-blue-100 text-blue-800"
-                                    : report.status === "completed"
-                                      ? "bg-green-100 text-green-800"
-                                      : "bg-gray-100 text-gray-800"
-                                  }`}
+                                className={`px-2 py-1 text-xs rounded-full ${
+                                  report.status === "pending"
+                                    ? "bg-orange-100 text-orange-800"
+                                    : report.status === "in_progress"
+                                      ? "bg-blue-100 text-blue-800"
+                                      : report.status === "completed"
+                                        ? "bg-green-100 text-green-800"
+                                        : "bg-gray-100 text-gray-800"
+                                }`}
                               >
                                 {report.status === "pending"
                                   ? "Pending"

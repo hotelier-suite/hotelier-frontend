@@ -5,7 +5,8 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
-import { guestRequestsApi, type GuestRequest } from "@/lib/api/guest-requests";
+import { type GuestRequest } from "@/lib/features/guest-requests/types";
+import { guestRequestsService } from "@/lib/features/guest-requests/service";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -134,7 +135,7 @@ export default function GuestRequestsInterface({
         status: "PENDING" as const,
       };
 
-      const createdRequest = await guestRequestsApi.create(requestData);
+      const createdRequest = await guestRequestsService.create(requestData);
       setRequests((prev) => [createdRequest, ...prev]);
 
       form.reset();
@@ -155,7 +156,7 @@ export default function GuestRequestsInterface({
     try {
       setLoading(true);
       const numericId = typeof id === "string" ? parseInt(id) : id;
-      const updatedRequest = await guestRequestsApi.update(numericId, {
+      const updatedRequest = await guestRequestsService.update(numericId, {
         status: newStatus,
       });
       setRequests((prev) =>
@@ -287,10 +288,10 @@ export default function GuestRequestsInterface({
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="MAINTENANCE">
-                          Maintenance
+                        <SelectItem value="MAINTENANCE">Maintenance</SelectItem>
+                        <SelectItem value="HOUSEKEEPING">
+                          Housekeeping
                         </SelectItem>
-                        <SelectItem value="HOUSEKEEPING">Housekeeping</SelectItem>
                         <SelectItem value="TOWELS">Towels</SelectItem>
                         <SelectItem value="ROOM_SERVICE">
                           Room Service

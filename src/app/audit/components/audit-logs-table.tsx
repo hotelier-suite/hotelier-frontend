@@ -37,7 +37,11 @@ import {
   Clock,
   Smartphone,
 } from "lucide-react";
-import { type AuditLog, AuditAction, AuditResource } from "@/lib/api/audit";
+import {
+  type AuditLog,
+  AuditAction,
+  AuditResource,
+} from "@/lib/features/audit/types";
 
 interface AuditLogsTableProps {
   logs: AuditLog[];
@@ -297,9 +301,7 @@ export function AuditLogsTable({
                           </DialogTrigger>
                           <DialogContent className="max-w-2xl max-h-[80vh]">
                             <DialogHeader>
-                              <DialogTitle>
-                                Audit Record Details
-                              </DialogTitle>
+                              <DialogTitle>Audit Record Details</DialogTitle>
                               <DialogDescription>
                                 Complete information for record #{log.id}
                               </DialogDescription>
@@ -405,7 +407,7 @@ export function AuditLogsTable({
 
                                   {selectedLog.details &&
                                     Object.keys(selectedLog.details).length >
-                                    0 && (
+                                      0 && (
                                       <div>
                                         <h4 className="font-semibold mb-2">
                                           Additional Details

@@ -21,9 +21,11 @@ import {
 } from "@/components/ui/select";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { restaurantApi, RoomServiceOrder } from "@/lib/api/restaurant";
-import { employeesApi, type Employee } from "@/lib/api/employees";
-import { reservationsApi } from "@/lib/api/reservations";
+import { restaurantService } from "@/lib/features/restaurant/service";
+import type { RoomServiceOrder } from "@/lib/features/restaurant/types";
+import { employeesService } from "@/lib/features/employees/service";
+import type { Employee } from "@/lib/features/employees/types";
+import { reservationsService } from "@/lib/features/reservations/service";
 
 interface MenuItem {
   id: string;
@@ -81,7 +83,7 @@ export function RoomServiceDialog({
       let employeesRes: Employee[] = [];
 
       try {
-        menuItemsRes = await restaurantApi.getMenuItems();
+        menuItemsRes = await restaurantService.getMenuItems();
         console.log("Room Service Dialog - Menu items fetched:", menuItemsRes);
       } catch (error) {
         console.error("Room Service Dialog - Menu items fetch failed:", error);
@@ -90,7 +92,7 @@ export function RoomServiceDialog({
 
       try {
         // Get all current reservations
-        const currentReservations = await reservationsApi.getAll();
+        const currentReservations = await reservationsService.getAll();
 
         // Map to our simple format and deduplicate by room number
         const roomsMap = new Map<string, OccupiedRoom>();
@@ -123,7 +125,7 @@ export function RoomServiceDialog({
       }
 
       try {
-        employeesRes = await employeesApi.getAll();
+        employeesRes = await employeesService.getAll();
         console.log("Room Service Dialog - Employees fetched:", employeesRes);
       } catch (error) {
         console.error("Room Service Dialog - Employees fetch failed:", error);
@@ -263,7 +265,7 @@ export function RoomServiceDialog({
 
       // Call backend API to create the order
       const createdOrder =
-        await restaurantApi.createRoomServiceOrder(orderData);
+        await restaurantService.createRoomServiceOrder(orderData);
       console.log("Room Service Dialog - Order created:", createdOrder);
 
       // Create local order data for callback with required fields

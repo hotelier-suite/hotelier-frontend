@@ -31,7 +31,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { toast } from "sonner";
-import { housekeepingApi, Room } from "@/lib/api/housekeeping";
+import { Room } from "@/lib/features/housekeeping/types";
+import { housekeepingService } from "@/lib/features/housekeeping/service";
 
 // Zod schema for form validation
 const incidentReportSchema = z.object({
@@ -87,7 +88,8 @@ export default function IncidentReportDialog({
   const loadRooms = async () => {
     try {
       setLoading(true);
-      const availableRooms = await housekeepingApi.getRoomsForIncidentReports();
+      const availableRooms =
+        await housekeepingService.getRoomsForIncidentReports();
       setRooms(availableRooms);
     } catch (error) {
       console.error("Error loading rooms:", error);
@@ -102,7 +104,7 @@ export default function IncidentReportDialog({
       setLoading(true);
 
       // Create incident report through API
-      await housekeepingApi.createIncidentReport({
+      await housekeepingService.createIncidentReport({
         roomNumber: data.room,
         type: data.type,
         priority: data.priority,
@@ -142,9 +144,7 @@ export default function IncidentReportDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Maintenance Request</DialogTitle>
-          <DialogDescription>
-            Create a new maintenance report
-          </DialogDescription>
+          <DialogDescription>Create a new maintenance report</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -201,16 +201,12 @@ export default function IncidentReportDialog({
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="Plumbing">Plumbing</SelectItem>
-                        <SelectItem value="Electrical">
-                          Electrical
-                        </SelectItem>
+                        <SelectItem value="Electrical">Electrical</SelectItem>
                         <SelectItem value="Air Conditioning">
                           Air Conditioning
                         </SelectItem>
                         <SelectItem value="Furniture">Furniture</SelectItem>
-                        <SelectItem value="Appliances">
-                          Appliances
-                        </SelectItem>
+                        <SelectItem value="Appliances">Appliances</SelectItem>
                         <SelectItem value="Structural">Structural</SelectItem>
                         <SelectItem value="Aesthetic">Aesthetic</SelectItem>
                         <SelectItem value="General">General</SelectItem>

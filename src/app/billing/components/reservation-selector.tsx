@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ReservationBillingDetails } from "@/lib/api/reservations";
+import { type ReservationBillingDetails } from "@/lib/features/reservations/types";
 
 interface ReservationSelectorProps {
   value: string;
@@ -32,9 +32,7 @@ export function ReservationSelector({
           <SelectTrigger>
             <SelectValue
               placeholder={
-                loading
-                  ? "Loading reservations..."
-                  : "Select reservation"
+                loading ? "Loading reservations..." : "Select reservation"
               }
             />
           </SelectTrigger>

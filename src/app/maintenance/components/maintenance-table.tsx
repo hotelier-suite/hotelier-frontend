@@ -24,7 +24,7 @@ import {
   CheckCircle,
   Play,
 } from "lucide-react";
-import { GeneralMaintenanceRequest } from "@/lib/api/maintenance";
+import { GeneralMaintenanceRequest } from "@/lib/features/maintenance/types";
 
 interface MaintenanceTableProps {
   requests: GeneralMaintenanceRequest[];
@@ -111,9 +111,7 @@ export default function MaintenanceTable({
   if (requests.length === 0) {
     return (
       <div className="text-center py-8">
-        <p className="text-muted-foreground">
-          No maintenance requests.
-        </p>
+        <p className="text-muted-foreground">No maintenance requests.</p>
       </div>
     );
   }

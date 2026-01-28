@@ -4,7 +4,8 @@ import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { guestsApi, type Guest } from "@/lib/api/guests";
+import { type Guest } from "@/lib/features/guests/types";
+import { guestsService } from "@/lib/features/guests/service";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -96,10 +97,10 @@ export function GuestFormDialog({
   const onSubmit = async (data: GuestFormData) => {
     try {
       if (editingGuest) {
-        const updated = await guestsApi.update(editingGuest.id, data);
+        const updated = await guestsService.update(editingGuest.id, data);
         onGuestSaved(updated, true);
       } else {
-        const created = await guestsApi.create(data);
+        const created = await guestsService.create(data);
         onGuestSaved(created, false);
       }
     } catch (e: unknown) {
@@ -114,12 +115,8 @@ export function GuestFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>
-            {editingGuest ? "Edit Guest" : "New Guest"}
-          </DialogTitle>
-          <DialogDescription>
-            Complete the guest information
-          </DialogDescription>
+          <DialogTitle>{editingGuest ? "Edit Guest" : "New Guest"}</DialogTitle>
+          <DialogDescription>Complete the guest information</DialogDescription>
         </DialogHeader>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

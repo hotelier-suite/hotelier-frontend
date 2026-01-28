@@ -11,7 +11,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Bell } from "lucide-react";
-import { notificationsApi, type Notification } from "@/lib/api/notifications";
+import { notificationsService } from "@/lib/features/notifications/service";
+import type { Notification } from "@/lib/features/notifications/types";
 import { cn } from "@/lib/utils";
 
 export function NotificationsMenu() {
@@ -26,7 +27,7 @@ export function NotificationsMenu() {
   const load = async () => {
     try {
       setLoading(true);
-      const data = await notificationsApi.list(false);
+      const data = await notificationsService.list(false);
       setItems(data);
     } finally {
       setLoading(false);
@@ -42,14 +43,14 @@ export function NotificationsMenu() {
   }, []);
 
   const markOne = async (id: number) => {
-    await notificationsApi.markRead(id);
+    await notificationsService.markRead(id);
     setItems((prev) =>
       prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)),
     );
   };
 
   const markAll = async () => {
-    await notificationsApi.markAllRead();
+    await notificationsService.markAllRead();
     setItems((prev) => prev.map((n) => ({ ...n, isRead: true })));
   };
 

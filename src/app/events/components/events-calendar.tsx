@@ -13,7 +13,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { CalendarIcon, Clock, MapPin, Users } from "lucide-react";
-import { EventBooking } from "@/lib/api/events";
+import { type EventBooking } from "@/lib/features/events/types";
 
 interface EventsCalendarProps {
   events: EventBooking[];

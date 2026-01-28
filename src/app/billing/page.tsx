@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 import BillingDashboard from "./components/billing-dashboard";
 import {
-  billingApi,
-  Invoice,
-  Payment,
-  FinancialReport,
-} from "@/lib/api/billing";
+  type Invoice,
+  type Payment,
+  type FinancialReport,
+} from "@/lib/features/billing/types";
+import { billingService } from "@/lib/features/billing/service";
 
 interface BillingData {
   invoices: Invoice[];
@@ -25,9 +25,9 @@ export default function BillingPage() {
       try {
         setLoading(true);
         const [invoices, payments, reports] = await Promise.all([
-          billingApi.getInvoices(),
-          billingApi.getPayments(),
-          billingApi.getFinancialReports(),
+          billingService.getInvoices(),
+          billingService.getPayments(),
+          billingService.getFinancialReports(),
         ]);
         setData({ invoices, payments, reports });
         setError(null);
