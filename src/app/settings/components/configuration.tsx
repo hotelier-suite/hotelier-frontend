@@ -46,7 +46,7 @@ export default function Configuration({
       const result = await apiRequest<{ success: boolean }>(
         "/configuration/hotel",
         {
-          method: "PUT",
+          method: "PATCH",
           body: JSON.stringify(backendData),
         },
       );
