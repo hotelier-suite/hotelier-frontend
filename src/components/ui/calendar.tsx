@@ -1,6 +1,8 @@
 "use client";
 
 import * as React from "react";
+import { useLocale } from "next-intl";
+import { getIntlLocale } from "@/lib/utils/locale";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -24,6 +26,8 @@ function Calendar({
   buttonVariant?: React.ComponentProps<typeof Button>["variant"];
 }) {
   const defaultClassNames = getDefaultClassNames();
+  const locale = useLocale();
+  const intlLocale = getIntlLocale(locale);
 
   return (
     <DayPicker
@@ -37,7 +41,7 @@ function Calendar({
       captionLayout={captionLayout}
       formatters={{
         formatMonthDropdown: (date) =>
-          date.toLocaleString("default", { month: "short" }),
+          date.toLocaleString(intlLocale, { month: "short" }),
         ...formatters,
       }}
       classNames={{

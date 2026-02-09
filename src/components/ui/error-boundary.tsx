@@ -20,6 +20,12 @@ interface ErrorBoundaryState {
 interface ErrorBoundaryProps {
   children: React.ReactNode;
   fallback?: React.ComponentType<{ error: Error; retry: () => void }>;
+  translations?: {
+    title?: string;
+    description?: string;
+    retry?: string;
+    goHome?: string;
+  };
 }
 
 export class ErrorBoundary extends React.Component<
@@ -56,6 +62,15 @@ export class ErrorBoundary extends React.Component<
         );
       }
 
+      const t = {
+        title: this.props.translations?.title ?? "Something went wrong",
+        description:
+          this.props.translations?.description ??
+          "An unexpected error has occurred. Please try again.",
+        retry: this.props.translations?.retry ?? "Retry",
+        goHome: this.props.translations?.goHome ?? "Go to home",
+      };
+
       return (
         <div className="min-h-screen flex items-center justify-center p-4 bg-background">
           <Card className="w-full max-w-md">
@@ -63,10 +78,8 @@ export class ErrorBoundary extends React.Component<
               <div className="mx-auto w-12 h-12 rounded-full bg-destructive/10 flex items-center justify-center mb-4">
                 <AlertTriangle className="w-6 h-6 text-destructive" />
               </div>
-              <CardTitle className="text-xl">Something went wrong</CardTitle>
-              <CardDescription>
-                An unexpected error has occurred. Please try again.
-              </CardDescription>
+              <CardTitle className="text-xl">{t.title}</CardTitle>
+              <CardDescription>{t.description}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {process.env.NODE_ENV === "development" && this.state.error && (
@@ -79,11 +92,11 @@ export class ErrorBoundary extends React.Component<
               <div className="flex gap-3 justify-center">
                 <Button variant="outline" onClick={this.handleRetry}>
                   <RefreshCw className="w-4 h-4 mr-2" />
-                  Retry
+                  {t.retry}
                 </Button>
                 <Button onClick={() => (window.location.href = "/")}>
                   <Home className="w-4 h-4 mr-2" />
-                  Go to home
+                  {t.goHome}
                 </Button>
               </div>
             </CardContent>

@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useCallback, useSyncExternalStore } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useRouter, usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { useAuthContext } from "@/contexts/auth-context";
 import { authCookies } from "@/lib/auth-cookies";
 
@@ -11,13 +12,12 @@ interface RouteGuardProps {
 
 // Loading component for authentication
 function AuthLoadingSpinner() {
+  const t = useTranslations("RouteGuard");
   return (
     <div className="flex h-screen items-center justify-center bg-background">
       <div className="flex flex-col items-center space-y-4">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-        <p className="text-sm text-muted-foreground">
-          Verifying authentication...
-        </p>
+        <p className="text-sm text-muted-foreground">{t("verifying")}</p>
       </div>
     </div>
   );
@@ -44,36 +44,6 @@ export function RouteGuard({ children }: RouteGuardProps) {
   const isAuthPage =
     pathname.startsWith("/login") || pathname.startsWith("/register");
 
-  // Check if user should be redirected based on role and current path
-  const checkRoleBasedRedirection = useCallback(() => {
-    if (!isAuthenticated || !user || isLoading) return;
-
-    // Check if there's actually a valid token - prevent redirect during logout
-    const hasValidToken = authCookies.getAccessToken();
-    if (!hasValidToken) {
-      // No token means we're in the process of logging out, don't redirect
-      return;
-    }
-
-    // If user is a client and tries to access dashboard, redirect to my-reservations
-    if (hasRole("client") && pathname === "/") {
-      router.replace("/my-reservations");
-      return;
-    }
-
-    // If user is a client and on login page after authentication, redirect to my-reservations
-    if (hasRole("client") && isAuthPage) {
-      router.replace("/my-reservations");
-      return;
-    }
-
-    // If authenticated user (non-client) tries to access auth pages, redirect to dashboard
-    if (isAuthPage && !hasRole("client")) {
-      router.replace("/");
-      return;
-    }
-  }, [isAuthenticated, user, hasRole, pathname, router, isLoading, isAuthPage]);
-
   // Main authentication effect
   useEffect(() => {
     // Don't run on server or before hydration
@@ -85,7 +55,29 @@ export function RouteGuard({ children }: RouteGuardProps) {
     // If authenticated, handle role-based redirections
     if (isAuthenticated) {
       hasCheckedRef.current = false;
-      checkRoleBasedRedirection();
+
+      // Check if there's actually a valid token - prevent redirect during logout
+      const hasValidToken = authCookies.getAccessToken();
+      if (!hasValidToken) return;
+
+      // If user is a client and tries to access dashboard, redirect to my-reservations
+      if (hasRole("client") && pathname === "/") {
+        router.replace("/my-reservations");
+        return;
+      }
+
+      // If user is a client and on login page after authentication, redirect to my-reservations
+      if (hasRole("client") && isAuthPage) {
+        router.replace("/my-reservations");
+        return;
+      }
+
+      // If authenticated user (non-client) tries to access auth pages, redirect to dashboard
+      if (isAuthPage && !hasRole("client")) {
+        router.replace("/");
+        return;
+      }
+
       return;
     }
 
@@ -114,9 +106,10 @@ export function RouteGuard({ children }: RouteGuardProps) {
     pathname,
     router,
     checkAuthStatus,
-    checkRoleBasedRedirection,
     isHydrated,
     isAuthPage,
+    user,
+    hasRole,
   ]);
 
   // Show loading spinner during hydration to prevent mismatch

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { Badge } from "./badge";
 
 interface CurrencyDisplayProps {
@@ -23,6 +24,7 @@ export function CurrencyDisplay({
 }: CurrencyDisplayProps) {
   const [dualDisplay, setDualDisplay] = useState<DualCurrencyData | null>(null);
   const [loading, setLoading] = useState(false);
+  const locale = useLocale();
 
   useEffect(() => {
     if (!showDual) return;
@@ -54,8 +56,9 @@ export function CurrencyDisplay({
   }, [amount, currency, showDual]);
 
   const formatAmount = (value: number, curr: string): string => {
-    const locale = curr === "COP" ? "es-CO" : "en-US";
-    return new Intl.NumberFormat(locale, {
+    const fmtLocale =
+      curr === "COP" ? "es-CO" : locale === "es" ? "es-ES" : "en-US";
+    return new Intl.NumberFormat(fmtLocale, {
       style: "currency",
       currency: curr.toUpperCase(),
       minimumFractionDigits: curr === "COP" ? 0 : 2,
@@ -118,6 +121,8 @@ export function CurrencyConverter({
 }: CurrencyConverterProps) {
   const [result, setResult] = useState<ConversionResult | null>(null);
   const [loading, setLoading] = useState(false);
+  const locale = useLocale();
+  const t = useTranslations("CurrencyConverter");
 
   useEffect(() => {
     const convertCurrency = async () => {
@@ -172,12 +177,14 @@ export function CurrencyConverter({
 
   return (
     <div className="text-sm text-gray-600">
-      {new Intl.NumberFormat("en-US", {
+      {new Intl.NumberFormat(locale === "es" ? "es-ES" : "en-US", {
         style: "currency",
         currency: result.toCurrency,
         minimumFractionDigits: result.toCurrency === "COP" ? 0 : 2,
       }).format(result.convertedAmount)}
-      <span className="text-xs ml-1">(Rate: {result.rate})</span>
+      <span className="text-xs ml-1">
+        ({t("rate")}: {result.rate})
+      </span>
     </div>
   );
 }

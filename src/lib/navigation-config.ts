@@ -1,6 +1,6 @@
 // Navigation item to permission mapping
 export interface NavigationItem {
-  title: string;
+  titleKey: string;
   url: string;
   icon: string;
   requiredPermissions?: string[];
@@ -9,17 +9,17 @@ export interface NavigationItem {
 }
 
 export interface NavigationGroup {
-  title: string;
+  titleKey: string;
   items: NavigationItem[];
 }
 
 // Define permission requirements for each navigation item
 export const navigationConfig: NavigationGroup[] = [
   {
-    title: "Main Panel",
+    titleKey: "mainPanel",
     items: [
       {
-        title: "Dashboard",
+        titleKey: "dashboard",
         url: "/",
         icon: "Home",
         requiredPermissions: ["dashboard:read"],
@@ -27,54 +27,54 @@ export const navigationConfig: NavigationGroup[] = [
     ],
   },
   {
-    title: "Operations",
+    titleKey: "operations",
     items: [
       {
-        title: "Reservations",
+        titleKey: "reservations",
         url: "/reservations",
         icon: "CalendarDays",
         requiredPermissions: ["reservations:read"],
         excludeRoles: ["client"],
       },
       {
-        title: "Room Board",
+        titleKey: "roomBoard",
         url: "/room-board",
         icon: "Grid3X3",
         requiredPermissions: ["rooms:read", "reservations:read"],
         excludeRoles: ["client"],
       },
       {
-        title: "My Reservations",
+        titleKey: "myReservations",
         url: "/my-reservations",
         icon: "CalendarClock",
         requiredRoles: ["client"],
       },
       {
-        title: "Guests",
+        titleKey: "guests",
         url: "/guests",
         icon: "UserPlus",
         requiredPermissions: ["guests:read"],
       },
       {
-        title: "Housekeeping",
+        titleKey: "housekeeping",
         url: "/housekeeping",
         icon: "Bed",
         requiredPermissions: ["housekeeping:read"],
       },
       {
-        title: "Restaurant",
+        titleKey: "restaurant",
         url: "/restaurant",
         icon: "Utensils",
         requiredPermissions: ["restaurant:read"],
       },
       {
-        title: "Corporate Events",
+        titleKey: "corporateEvents",
         url: "/events",
         icon: "Calendar",
         requiredPermissions: ["events:read"],
       },
       {
-        title: "Recreational Facilities",
+        titleKey: "recreationalFacilities",
         url: "/recreation",
         icon: "Dumbbell",
         requiredPermissions: ["recreational:read"],
@@ -82,10 +82,10 @@ export const navigationConfig: NavigationGroup[] = [
     ],
   },
   {
-    title: "Financial Management",
+    titleKey: "financialManagement",
     items: [
       {
-        title: "Billing",
+        titleKey: "billing",
         url: "/billing",
         icon: "DollarSign",
         requiredRoles: ["administrator", "manager", "receptionist", "client"],
@@ -93,28 +93,28 @@ export const navigationConfig: NavigationGroup[] = [
     ],
   },
   {
-    title: "Resources",
+    titleKey: "resources",
     items: [
       {
-        title: "Inventory",
+        titleKey: "inventory",
         url: "/inventory",
         icon: "Package",
         requiredPermissions: ["inventory:read"],
       },
       {
-        title: "Staff",
+        titleKey: "staff",
         url: "/staff",
         icon: "UserCheck",
         excludeRoles: ["client"],
       },
       {
-        title: "Parking",
+        titleKey: "parking",
         url: "/parking",
         icon: "Car",
         requiredPermissions: ["parking:read"],
       },
       {
-        title: "Maintenance",
+        titleKey: "maintenance",
         url: "/maintenance",
         icon: "Wrench",
         requiredPermissions: ["maintenance:read"],
@@ -123,10 +123,10 @@ export const navigationConfig: NavigationGroup[] = [
     ],
   },
   {
-    title: "Analytics",
+    titleKey: "analytics",
     items: [
       {
-        title: "Reports",
+        titleKey: "reports",
         url: "/reports",
         icon: "BarChart3",
         requiredPermissions: ["reports:read"],
@@ -134,30 +134,30 @@ export const navigationConfig: NavigationGroup[] = [
     ],
   },
   {
-    title: "System",
+    titleKey: "system",
     items: [
       {
-        title: "Settings",
+        titleKey: "settings",
         url: "/settings",
         icon: "Settings",
         requiredPermissions: ["configuration:read"],
       },
       {
-        title: "Users",
+        titleKey: "users",
         url: "/settings/users",
         icon: "User",
         requiredPermissions: ["users:read"],
         requiredRoles: ["administrator"],
       },
       {
-        title: "System Audit",
+        titleKey: "systemAudit",
         url: "/audit",
         icon: "Eye",
         requiredPermissions: ["users:read"],
         requiredRoles: ["administrator", "manager"],
       },
       {
-        title: "Profile",
+        titleKey: "profile",
         url: "/profile",
         icon: "UserCheck",
         // No specific permissions required - all authenticated users can access their profile

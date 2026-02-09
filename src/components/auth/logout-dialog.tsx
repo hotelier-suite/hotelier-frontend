@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,21 +25,21 @@ export function LogoutDialog({
   onConfirm,
   isLoading = false,
 }: LogoutDialogProps) {
+  const t = useTranslations("LogoutDialog");
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
             <LogOut className="h-5 w-5 text-destructive" />
-            Log Out
+            {t("title")}
           </AlertDialogTitle>
-          <AlertDialogDescription>
-            Are you sure you want to log out? You will need to log in again
-            to access the system.
-          </AlertDialogDescription>
+          <AlertDialogDescription>{t("description")}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isLoading}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={isLoading}>
+            {t("cancel")}
+          </AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirm}
             disabled={isLoading}
@@ -47,12 +48,12 @@ export function LogoutDialog({
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Logging out...
+                {t("loggingOut")}
               </>
             ) : (
               <>
                 <LogOut className="mr-2 h-4 w-4" />
-                Log Out
+                {t("confirm")}
               </>
             )}
           </AlertDialogAction>

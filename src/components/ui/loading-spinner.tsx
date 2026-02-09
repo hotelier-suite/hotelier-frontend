@@ -32,7 +32,7 @@ export function LoadingSpinner({
   );
 }
 
-export function FullPageLoader({ text = "Loading..." }: { text?: string }) {
+export function FullPageLoader({ text }: { text?: string }) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background">
       <LoadingSpinner size="lg" text={text} />

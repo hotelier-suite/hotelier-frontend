@@ -29,9 +29,10 @@ export const CURRENCIES: Record<SupportedCurrency, CurrencyConfig> = {
 
 export function formatCurrency(
   amount: number,
-  currencyCode: SupportedCurrency = "COP",
+  currencyCode: string = "COP",
 ): string {
-  const config = CURRENCIES[currencyCode];
+  const key = currencyCode as SupportedCurrency;
+  const config = CURRENCIES[key] || CURRENCIES.COP;
 
   try {
     return new Intl.NumberFormat(config.locale, {

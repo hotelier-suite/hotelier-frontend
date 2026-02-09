@@ -1,25 +1,29 @@
 import { z } from "zod";
 
 // Menu Item Schema
-export const menuItemSchema = z.object({
-  category: z.string().min(1, "Category is required"),
-  name: z.string().min(1, "Name is required"),
-  description: z.string().optional(),
-  price: z.number().min(0, "Price must be greater than 0"),
-  preparationTime: z.string().optional(),
-  available: z.boolean(),
-  ingredients: z.array(z.string()).optional(),
-  allergens: z.array(z.string()).optional(),
-});
+export function createMenuItemSchema(t: (key: string) => string) {
+  return z.object({
+    category: z.string().min(1, t("validation.categoryRequired")),
+    name: z.string().min(1, t("validation.nameRequired")),
+    description: z.string().optional(),
+    price: z.number().min(0, t("validation.priceMin")),
+    preparationTime: z.string().optional(),
+    available: z.boolean(),
+    ingredients: z.array(z.string()).optional(),
+    allergens: z.array(z.string()).optional(),
+  });
+}
 
-export type MenuItemFormData = z.infer<typeof menuItemSchema>;
+export type MenuItemFormData = z.infer<ReturnType<typeof createMenuItemSchema>>;
 
 // Restock Schema
-export const restockSchema = z.object({
-  newStock: z.number().min(0, "Stock must be 0 or greater"),
-});
+export function createRestockSchema(t: (key: string) => string) {
+  return z.object({
+    newStock: z.number().min(0, t("validation.stockMin")),
+  });
+}
 
-export type RestockFormData = z.infer<typeof restockSchema>;
+export type RestockFormData = z.infer<ReturnType<typeof createRestockSchema>>;
 
 // Helper function to convert comma-separated string to array
 export const stringToArray = (value: string): string[] => {

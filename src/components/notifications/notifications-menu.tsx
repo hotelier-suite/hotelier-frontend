@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -14,15 +14,14 @@ import { Bell } from "lucide-react";
 import { notificationsService } from "@/lib/features/notifications/service";
 import type { Notification } from "@/lib/features/notifications/types";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export function NotificationsMenu() {
+  const t = useTranslations("NotificationsMenu");
   const [items, setItems] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const unreadCount = useMemo(
-    () => items.filter((n) => !n.isRead).length,
-    [items],
-  );
+  const unreadCount = items.filter((n) => !n.isRead).length;
 
   const load = async () => {
     try {
@@ -69,7 +68,7 @@ export function NotificationsMenu() {
                 "absolute -top-0.5 -right-0.5 md:-top-1 md:-right-1 min-w-[1rem] px-1 h-4 rounded-full bg-destructive text-[10px] leading-4 text-white text-center",
                 unreadCount > 9 && "px-1.5",
               )}
-              aria-label={`${unreadCount} notifications`}
+              aria-label={t("notificationCount", { count: unreadCount })}
             >
               {unreadCount}
             </span>
@@ -81,12 +80,12 @@ export function NotificationsMenu() {
         className="w-80 max-h-[70vh] overflow-auto"
       >
         <DropdownMenuLabel>
-          Notifications {loading ? "(loading...)" : ""}
+          {t("title")} {loading ? t("loading") : ""}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         {items.length === 0 && (
           <div className="px-3 py-2 text-sm text-muted-foreground">
-            No notifications
+            {t("noNotifications")}
           </div>
         )}
         {items.slice(0, 10).map((n) => (
@@ -112,7 +111,7 @@ export function NotificationsMenu() {
                     markOne(n.id);
                   }}
                 >
-                  Mark as read
+                  {t("markAsRead")}
                 </button>
               )}
             </div>
@@ -126,7 +125,7 @@ export function NotificationsMenu() {
               onClick={markAll}
               className="justify-center text-primary"
             >
-              Mark all as read
+              {t("markAllAsRead")}
             </DropdownMenuItem>
           </>
         )}

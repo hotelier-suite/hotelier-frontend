@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 import {
   Home,
@@ -81,10 +81,10 @@ const iconMap: Record<string, React.ComponentType<IconProps>> = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const t = useTranslations("AppSidebar");
   const { user, isLoading, isAuthenticated } = useAuthContext();
   const pathname = usePathname();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_forceUpdate, setForceUpdate] = React.useState(0);
+  const [, setForceUpdate] = React.useState(0);
 
   // Listen to navigation update events to force re-render
   React.useEffect(() => {
@@ -117,7 +117,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     description?: string;
   }
 
-  const filteredNavigation = React.useMemo(() => {
+  const filteredNavigation = (() => {
     // If not authenticated or user doesn't exist, return empty array
     if (!isAuthenticated || !user) {
       return [];
@@ -160,10 +160,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       // Return basic navigation items that don't require specific permissions
       return [
         {
-          title: "Main Panel",
+          titleKey: "mainPanel",
           items: [
             {
-              title: "Dashboard",
+              titleKey: "dashboard",
               url: "/",
               icon: "Home",
             },
@@ -177,7 +177,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       userPermissions,
       userRoles,
     );
-  }, [isAuthenticated, user, isLoading]);
+  })();
 
   // Show loading state if authentication is being processed
   if (isLoading) {
@@ -190,12 +190,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>Status</SidebarGroupLabel>
+            <SidebarGroupLabel>{t("status")}</SidebarGroupLabel>
             <SidebarGroupContent>
               <div className="px-3 py-2 text-sm text-muted-foreground">
-                {isLoading
-                  ? "Loading user information..."
-                  : "Syncing permissions..."}
+                {isLoading ? t("loadingUserInfo") : t("syncingPermissions")}
               </div>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -215,10 +213,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarHeader>
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>System</SidebarGroupLabel>
+            <SidebarGroupLabel>{t("system")}</SidebarGroupLabel>
             <SidebarGroupContent>
               <div className="px-3 py-2 text-sm text-muted-foreground">
-                {isLoading ? "Loading..." : "Login to access"}
+                {isLoading ? t("loading") : t("loginToAccess")}
               </div>
             </SidebarGroupContent>
           </SidebarGroup>
@@ -235,20 +233,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <HotelierLogo variant="full" size="lg" showBackground={false} />
         </div>
         <div className="px-4 py-2 text-xs text-muted-foreground">
-          <div className="truncate">Welcome, {user?.name}</div>
+          <div className="truncate">{t("welcome", { name: user?.name })}</div>
           <div className="truncate sm:hidden">
-            {user?.roles?.map((role) => role.name).join(", ") || "client"}
+            {user?.roles?.map((role) => role.name).join(", ") ||
+              t("fallbackRole")}
           </div>
           <div className="hidden sm:block truncate">
-            Roles:{" "}
-            {user?.roles?.map((role) => role.name).join(", ") || "client"}
+            {t("roles", {
+              roles:
+                user?.roles?.map((role) => role.name).join(", ") ||
+                t("fallbackRole"),
+            })}
           </div>
         </div>
       </SidebarHeader>
       <SidebarContent>
         {filteredNavigation.map((group) => (
-          <SidebarGroup key={group.title}>
-            <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
+          <SidebarGroup key={group.titleKey}>
+            <SidebarGroupLabel>{t(group.titleKey)}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {group.items.map((item) => {
@@ -256,13 +258,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   const IconComponent = iconMap[item.icon];
 
                   return (
-                    <SidebarMenuItem key={`${group.title}-${item.url}`}>
+                    <SidebarMenuItem key={`${group.titleKey}-${item.url}`}>
                       <SidebarMenuButton asChild isActive={isActive}>
-                        <Link href={item.url}>
+                        <Link href={item.url as "/"}>
                           {IconComponent && (
                             <IconComponent className="h-4 w-4" />
                           )}
-                          <span>{item.title}</span>
+                          <span>{t(item.titleKey)}</span>
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
