@@ -13,7 +13,7 @@ import { OccupancyChart } from "./components/occupancy-chart";
 import { RevenueChart } from "./reports/components/revenue-chart";
 import { QuickActions } from "./components/quick-actions";
 import { useTranslations, useLocale } from "next-intl";
-import { getIntlLocale } from "@/lib/utils/locale";
+import { formatCurrency } from "@/lib/utils/currency";
 
 interface Reservation {
   id: number;
@@ -124,13 +124,7 @@ export default function Dashboard() {
   const monthlyRevenueCop = Number.isFinite(monthlyRevenueRaw)
     ? monthlyRevenueRaw
     : 0;
-  const intlLocale = getIntlLocale(locale);
-  const formattedMonthlyRevenue = new Intl.NumberFormat(intlLocale, {
-    style: "currency",
-    currency: "COP",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(monthlyRevenueCop);
+  const formattedMonthlyRevenue = formatCurrency(monthlyRevenueCop);
 
   // Calculate available rooms
   const availableRooms = rooms.length - activeReservations.length;

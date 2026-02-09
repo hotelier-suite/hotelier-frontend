@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useTranslations, useLocale } from "next-intl";
-import { getIntlLocale } from "@/lib/utils/locale";
+import { useTranslations } from "next-intl";
 import { formatCurrency } from "@/lib/utils/currency";
 import { useAuthContext } from "@/contexts/auth-context";
 import { useRouter } from "@/i18n/navigation";
@@ -82,8 +81,6 @@ interface InventoryStats {
 
 export default function ReportsPage() {
   const t = useTranslations("ReportsPage");
-  const locale = useLocale();
-  const intlLocale = getIntlLocale(locale);
   const { user, isLoading: authLoading } = useAuthContext();
   const router = useRouter();
 
@@ -283,7 +280,10 @@ export default function ReportsPage() {
                 <>
                   <TrendingUp className="h-3 w-3 text-green-600" />
                   <span className="text-green-600">
-                    {t("percentValue", { value: financialSummary.profitMargin.toFixed(1) })} {t("margin")}
+                    {t("percentValue", {
+                      value: financialSummary.profitMargin.toFixed(1),
+                    })}{" "}
+                    {t("margin")}
                   </span>
                 </>
               ) : (
@@ -309,7 +309,7 @@ export default function ReportsPage() {
             </div>
             <p className="text-xs text-muted-foreground">
               {t("expensesAmount", {
-                amount: financialSummary.expenses.toLocaleString(intlLocale),
+                amount: formatCurrency(financialSummary.expenses),
               })}
             </p>
           </CardContent>
@@ -323,7 +323,9 @@ export default function ReportsPage() {
             <Calendar className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{t("percentValue", { value: avgOccupancy })}</div>
+            <div className="text-2xl font-bold">
+              {t("percentValue", { value: avgOccupancy })}
+            </div>
             <p className="text-xs text-muted-foreground">
               {selectedMonth ? t("selectedMonth") : `${selectedYear}`}
             </p>
@@ -429,7 +431,7 @@ export default function ReportsPage() {
             </div>
             <p className="text-xs text-muted-foreground">
               {t("inValue", {
-                amount: inventoryStats.totalValue.toLocaleString(intlLocale),
+                amount: formatCurrency(inventoryStats.totalValue),
               })}
             </p>
           </CardContent>

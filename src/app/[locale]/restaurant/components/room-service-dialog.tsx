@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTranslations, useLocale } from "next-intl";
-import { getIntlLocale } from "@/lib/utils/locale";
+import { useTranslations } from "next-intl";
+import { formatCurrency } from "@/lib/utils/currency";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -61,8 +61,6 @@ export function RoomServiceDialog({
   onCreateOrder,
 }: RoomServiceDialogProps) {
   const t = useTranslations("RoomServiceDialogComp");
-  const locale = useLocale();
-  const intlLocale = getIntlLocale(locale);
   const [room, setRoom] = useState("");
   const [waiter, setWaiter] = useState("");
   const [selectedItem, setSelectedItem] = useState("");
@@ -311,15 +309,6 @@ export function RoomServiceDialog({
     } finally {
       setLoading(false);
     }
-  };
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat(intlLocale, {
-      style: "currency",
-      currency: "COP",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(amount);
   };
 
   // Debug logs before render
