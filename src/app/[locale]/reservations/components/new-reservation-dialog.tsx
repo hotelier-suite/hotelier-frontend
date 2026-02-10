@@ -127,12 +127,12 @@ function GuestSearchSection({
   const [guestOptions, setGuestOptions] = useState<Guest[]>([]);
 
   useEffect(() => {
-    if (!enabled) return;
+    if (!enabled || !guestSearch.trim()) return;
 
     let active = true;
     (async () => {
       try {
-        const list = await guestsService.search(guestSearch || "");
+        const list = await guestsService.search(guestSearch);
         if (active) setGuestOptions(list.slice(0, 20));
       } catch (e) {
         console.error("Error loading guests:", e);
@@ -143,6 +143,13 @@ function GuestSearchSection({
     };
   }, [guestSearch, enabled]);
 
+  const handleGuestSearchChange = (value: string) => {
+    setGuestSearch(value);
+    if (!value.trim()) {
+      setGuestOptions([]);
+    }
+  };
+
   if (!enabled) return null;
 
   return (
@@ -152,7 +159,7 @@ function GuestSearchSection({
         <Input
           placeholder={t("searchGuestPlaceholder")}
           value={guestSearch}
-          onChange={(e) => setGuestSearch(e.target.value)}
+          onChange={(e) => handleGuestSearchChange(e.target.value)}
         />
       </div>
       <div className="space-y-2">
