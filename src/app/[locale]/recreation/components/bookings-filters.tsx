@@ -1,0 +1,77 @@
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Search } from "lucide-react";
+import type { RecreationalFacility } from "@/lib/features/recreational/types";
+import { useTranslations } from "next-intl";
+
+interface BookingsFiltersProps {
+  searchTerm: string;
+  onSearchChange: (value: string) => void;
+  statusFilter: string;
+  onStatusChange: (value: string) => void;
+  facilityFilter: string;
+  onFacilityChange: (value: string) => void;
+  facilities: RecreationalFacility[];
+}
+
+export function BookingsFilters({
+  searchTerm,
+  onSearchChange,
+  statusFilter,
+  onStatusChange,
+  facilityFilter,
+  onFacilityChange,
+  facilities,
+}: BookingsFiltersProps) {
+  const t = useTranslations("BookingsFilters");
+  return (
+    <div className="flex flex-col sm:flex-row gap-4 mb-6">
+      <div className="flex-1">
+        <div className="relative">
+          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input
+            placeholder={t("searchPlaceholder")}
+            value={searchTerm}
+            onChange={(e) => onSearchChange(e.target.value)}
+            className="pl-8"
+          />
+        </div>
+      </div>
+
+      <Select value={statusFilter} onValueChange={onStatusChange}>
+        <SelectTrigger className="w-full sm:w-[180px]">
+          <SelectValue placeholder={t("status")} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">{t("allStatuses")}</SelectItem>
+          <SelectItem value="PENDING">{t("pending")}</SelectItem>
+          <SelectItem value="CONFIRMED">{t("confirmed")}</SelectItem>
+          <SelectItem value="CHECKED_IN">{t("inProgress")}</SelectItem>
+          <SelectItem value="COMPLETED">{t("completed")}</SelectItem>
+          <SelectItem value="CANCELLED">{t("cancelled")}</SelectItem>
+          <SelectItem value="NO_SHOW">{t("noShow")}</SelectItem>
+        </SelectContent>
+      </Select>
+
+      <Select value={facilityFilter} onValueChange={onFacilityChange}>
+        <SelectTrigger className="w-full sm:w-[200px]">
+          <SelectValue placeholder={t("facility")} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">{t("allFacilities")}</SelectItem>
+          {facilities.map((facility) => (
+            <SelectItem key={facility.id} value={facility.id.toString()}>
+              {facility.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}

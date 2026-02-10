@@ -1,5 +1,6 @@
 "use client";
 import { useState, useLayoutEffect, startTransition } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,11 +16,13 @@ import { NotificationsMenu } from "@/components/notifications/notifications-menu
 import { useTheme } from "next-themes";
 import { LogoutDialog } from "@/components/auth/logout-dialog";
 import { useAuth } from "@/hooks/use-auth";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { LanguageToggle } from "@/components/language-toggle";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 
 export function Header() {
+  const t = useTranslations("Header");
   const { setTheme, theme } = useTheme();
   const { user, logout, isLoading } = useAuth();
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
@@ -59,14 +62,19 @@ export function Header() {
 
         <div className="flex items-center flex-1 min-w-0 overflow-hidden">
           <h1 className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-foreground truncate transition-all duration-200 ml-1 sm:ml-0">
-            <span className="hidden xs:inline sm:inline">Hotelier Suite</span>
-            <span className="xs:hidden sm:hidden">Hotel</span>
+            <span className="hidden xs:inline sm:inline">
+              {t("hotelierSuite")}
+            </span>
+            <span className="xs:hidden sm:hidden">{t("hotelShort")}</span>
           </h1>
         </div>
 
         <div className="flex items-center space-x-0.5 sm:space-x-1 md:space-x-2 shrink-0">
           {/* Notifications */}
           <NotificationsMenu />
+
+          {/* Language Toggle */}
+          <LanguageToggle />
 
           {/* Theme Toggle - hidden on mobile, shown in user menu instead */}
           <DropdownMenu>
@@ -82,15 +90,15 @@ export function Header() {
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => setTheme("light")}>
                 <Sun className="mr-2 h-4 w-4" />
-                Light
+                {t("light")}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme("dark")}>
                 <Moon className="mr-2 h-4 w-4" />
-                Dark
+                {t("dark")}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setTheme("system")}>
                 <Monitor className="mr-2 h-4 w-4" />
-                System
+                {t("system")}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -130,15 +138,15 @@ export function Header() {
               <div className="lg:hidden">
                 <DropdownMenuItem onClick={() => setTheme("light")}>
                   <Sun className="mr-2 h-4 w-4" />
-                  Light Theme
+                  {t("lightTheme")}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("dark")}>
                   <Moon className="mr-2 h-4 w-4" />
-                  Dark Theme
+                  {t("darkTheme")}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("system")}>
                   <Monitor className="mr-2 h-4 w-4" />
-                  System Theme
+                  {t("systemTheme")}
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
               </div>
@@ -146,13 +154,13 @@ export function Header() {
               <DropdownMenuItem asChild>
                 <Link href="/profile" className="cursor-pointer">
                   <User className="mr-2 h-4 w-4" />
-                  <span>Profile</span>
+                  <span>{t("profile")}</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link href="/settings" className="cursor-pointer">
                   <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
+                  <span>{t("settings")}</span>
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -161,7 +169,7 @@ export function Header() {
                 onClick={() => setShowLogoutDialog(true)}
               >
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
+                <span>{t("logout")}</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

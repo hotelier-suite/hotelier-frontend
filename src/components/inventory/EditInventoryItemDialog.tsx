@@ -12,8 +12,10 @@ import {
   InventoryItemForm,
   type InventoryItemFormData,
 } from "./InventoryItemForm";
-import { inventoryApi, type InventoryItem } from "@/lib/api/inventory";
+import { type InventoryItem } from "@/lib/features/inventory/types";
+import { inventoryService } from "@/lib/features/inventory/service";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 interface EditInventoryItemDialogProps {
   item: InventoryItem | null;
@@ -28,6 +30,7 @@ export function EditInventoryItemDialog({
   onOpenChange,
   onItemUpdated,
 }: EditInventoryItemDialogProps) {
+  const t = useTranslations("EditInventoryItemDialog");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (data: InventoryItemFormData) => {
@@ -35,17 +38,15 @@ export function EditInventoryItemDialog({
 
     setIsSubmitting(true);
     try {
-      await inventoryApi.updateInventoryItem(item.id, data);
+      await inventoryService.updateInventoryItem(item.id, data);
 
-      toast.success("Product updated successfully");
+      toast.success(t("productUpdated"));
 
       onOpenChange(false);
       onItemUpdated?.();
     } catch (error) {
       console.error("Error updating inventory item:", error);
-      toast.error(
-        "Could not update product. Please try again.",
-      );
+      toast.error(t("errorUpdating"));
     } finally {
       setIsSubmitting(false);
     }
@@ -102,11 +103,8 @@ export function EditInventoryItemDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Edit Product</DialogTitle>
-          <DialogDescription>
-            Modify the product information. Marked fields are
-            required.
-          </DialogDescription>
+          <DialogTitle>{t("title")}</DialogTitle>
+          <DialogDescription>{t("description")}</DialogDescription>
         </DialogHeader>
 
         {item && (
@@ -115,7 +113,7 @@ export function EditInventoryItemDialog({
             onSubmit={handleSubmit}
             onCancel={handleCancel}
             isSubmitting={isSubmitting}
-            submitLabel="Save Changes"
+            submitLabel={t("saveChanges")}
           />
         )}
       </DialogContent>

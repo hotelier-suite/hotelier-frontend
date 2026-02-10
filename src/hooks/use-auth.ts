@@ -1,15 +1,10 @@
 "use client";
 
-import {
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-  startTransition,
-} from "react";
+import { useState, useEffect, useRef, startTransition } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { authApi } from "@/lib/api/auth";
+import { authService } from "@/lib/features/auth/service";
 import { authCookies } from "@/lib/auth-cookies";
 
 interface UserRole {
@@ -45,9 +40,10 @@ export function useAuth() {
   });
   const isHydrated = typeof window !== "undefined";
   const router = useRouter();
+  const t = useTranslations("Auth");
   const hasInitialized = useRef(false);
 
-  const checkAuthStatus = useCallback(async () => {
+  const checkAuthStatus = async () => {
     // Don't check if not hydrated yet
     if (!isHydrated) {
       return;
@@ -100,17 +96,23 @@ export function useAuth() {
         isLoading: false,
       });
     }
-  }, [isHydrated]);
+  };
+
+  // Keep a stable ref to checkAuthStatus for use in effects
+  const checkAuthStatusRef = useRef(checkAuthStatus);
+  useEffect(() => {
+    checkAuthStatusRef.current = checkAuthStatus;
+  });
 
   // Check authentication status on mount
   useEffect(() => {
     if (isHydrated && !hasInitialized.current) {
       hasInitialized.current = true;
       startTransition(() => {
-        void checkAuthStatus();
+        void checkAuthStatusRef.current();
       });
     }
-  }, [isHydrated, checkAuthStatus]);
+  }, [isHydrated]);
 
   // Set up periodic token refresh
   useEffect(() => {
@@ -122,7 +124,7 @@ export function useAuth() {
         try {
           const refreshToken = authCookies.getRefreshToken();
           if (refreshToken) {
-            const response = await authApi.refreshToken();
+            const response = await authService.refreshToken();
 
             // Update stored tokens
             authCookies.setTokens(response.accessToken, response.refreshToken);
@@ -149,20 +151,20 @@ export function useAuth() {
   useEffect(() => {
     const handleStorageChange = () => {
       if (isHydrated) {
-        void checkAuthStatus();
+        void checkAuthStatusRef.current();
       }
     };
 
     window.addEventListener("storage", handleStorageChange);
     return () => window.removeEventListener("storage", handleStorageChange);
-  }, [isHydrated, checkAuthStatus]);
+  }, [isHydrated]);
 
   const login = async (email: string, password: string) => {
     setAuthState((prev) => ({ ...prev, isLoading: true }));
 
     try {
       // Call the real backend API
-      const response = await authApi.login(email, password);
+      const response = await authService.login(email, password);
 
       const user: AuthUser = {
         id: response.user.id, // Keep as number, not string
@@ -197,19 +199,17 @@ export function useAuth() {
       setAuthState(newAuthState);
 
       // Show success message
-      toast("Welcome!", {
-        description: "You have logged in successfully.",
+      toast(t("welcomeTitle"), {
+        description: t("loginSuccess"),
       });
 
       // Navigate immediately - let React handle state updates naturally
       router.push("/");
     } catch (error: unknown) {
       setAuthState((prev) => ({ ...prev, isLoading: false }));
-      toast.error("Authentication error", {
+      toast.error(t("authError"), {
         description:
-          error instanceof Error
-            ? error.message
-            : "Incorrect credentials. Please try again.",
+          error instanceof Error ? error.message : t("incorrectCredentials"),
       });
     }
   };
@@ -219,7 +219,7 @@ export function useAuth() {
 
     try {
       // Call logout API first while we still have the token
-      await authApi.logout();
+      await authService.logout();
     } catch (error) {
       // Ignore logout API errors - we'll clear state anyway
       console.error("Logout API error (ignored):", error);
@@ -240,8 +240,8 @@ export function useAuth() {
     });
 
     // Show toast
-    toast("Session closed", {
-      description: "You have logged out successfully.",
+    toast(t("sessionClosed"), {
+      description: t("logoutSuccess"),
     });
 
     // Redirect to login - RouteGuard will not redirect back since no token exists
@@ -265,8 +265,8 @@ export function useAuth() {
       };
       authCookies.setUserData(userDataForStorage);
 
-      toast("Profile updated", {
-        description: "Your information has been updated successfully.",
+      toast(t("profileUpdated"), {
+        description: t("profileUpdatedDescription"),
       });
     }
   };

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { roomsApi } from "@/lib/api/rooms";
-import { reservationsApi } from "@/lib/api/reservations";
+import { useTranslations } from "next-intl";
+import { roomsService } from "@/lib/features/rooms/service";
+import { reservationsService } from "@/lib/features/reservations/service";
 
 export interface ActiveGuest {
   id: string;
@@ -11,6 +12,7 @@ export interface ActiveGuest {
 }
 
 export function useActiveGuests() {
+  const t = useTranslations("ActiveGuests");
   const [guests, setGuests] = useState<ActiveGuest[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -20,8 +22,8 @@ export function useActiveGuests() {
       try {
         // Get rooms and reservations
         const [rooms, reservations] = await Promise.all([
-          roomsApi.getAll(),
-          reservationsApi.getAll(),
+          roomsService.getAll(),
+          reservationsService.getAll(),
         ]);
 
         // Filter active reservations (checked in or confirmed for today)
@@ -47,9 +49,9 @@ export function useActiveGuests() {
           const room = rooms.find((r) => r.id === reservation.roomId);
           return {
             id: reservation.id.toString(),
-            name: reservation.guestName || "No name",
-            email: reservation.guestEmail || "Not available",
-            roomNumber: room?.number || "Not assigned",
+            name: reservation.guestName || t("unnamedGuest"),
+            email: reservation.guestEmail || t("notAvailable"),
+            roomNumber: room?.number || t("notAssigned"),
             checkOut: reservation.checkOutDate,
           };
         });
@@ -57,7 +59,7 @@ export function useActiveGuests() {
         setGuests(activeGuests);
         setError(null);
       } catch (err) {
-        setError("Error loading active guests");
+        setError(t("failedToLoad"));
         console.error("Error fetching occupied rooms:", err);
       } finally {
         setLoading(false);
@@ -65,7 +67,7 @@ export function useActiveGuests() {
     };
 
     fetchGuests();
-  }, []);
+  }, [t]);
 
   return { guests, loading, error };
 }

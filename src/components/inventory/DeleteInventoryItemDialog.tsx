@@ -11,9 +11,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { inventoryApi, type InventoryItem } from "@/lib/api/inventory";
+import { type InventoryItem } from "@/lib/features/inventory/types";
+import { inventoryService } from "@/lib/features/inventory/service";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface DeleteInventoryItemDialogProps {
   item: InventoryItem | null;
@@ -28,6 +30,7 @@ export function DeleteInventoryItemDialog({
   onOpenChange,
   onItemDeleted,
 }: DeleteInventoryItemDialogProps) {
+  const t = useTranslations("DeleteInventoryItemDialog");
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
@@ -35,17 +38,15 @@ export function DeleteInventoryItemDialog({
 
     setIsDeleting(true);
     try {
-      await inventoryApi.deleteInventoryItem(item.id);
+      await inventoryService.deleteInventoryItem(item.id);
 
-      toast.success("Product deleted successfully");
+      toast.success(t("productDeleted"));
 
       onOpenChange(false);
       onItemDeleted?.();
     } catch (error) {
       console.error("Error deleting inventory item:", error);
-      toast.error(
-        "Could not delete product. Please try again.",
-      );
+      toast.error(t("errorDeleting"));
     } finally {
       setIsDeleting(false);
     }
@@ -57,26 +58,30 @@ export function DeleteInventoryItemDialog({
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete product?</AlertDialogTitle>
+          <AlertDialogTitle>{t("title")}</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. The product &quot;{item.name}&quot; will be permanently deleted from inventory.
+            {t("description", { name: item.name })}
             {item.currentStock > 0 && (
               <span className="block mt-2 text-amber-600 font-medium">
-                ⚠️ Warning: This product has {item.currentStock}{" "}
-                {item.unit} in stock.
+                {t("stockWarning", {
+                  stock: item.currentStock,
+                  unit: item.unit,
+                })}
               </span>
             )}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={isDeleting}>
+            {t("cancel")}
+          </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
             disabled={isDeleting}
             className="bg-red-600 hover:bg-red-700"
           >
             {isDeleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Delete
+            {t("delete")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
