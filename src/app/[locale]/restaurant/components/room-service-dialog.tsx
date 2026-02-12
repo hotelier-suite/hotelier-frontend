@@ -256,15 +256,15 @@ export function RoomServiceDialog({
           rooms.find((r) => r.number === room)?.guestName ||
           t("guestFallback", { room }),
         items: orderItems.map((item) => ({
-          id: item.id,
-          name: item.name,
-          price: item.price.toString(),
+          item: item.name, // Backend expects 'item' not 'name'
+          price: parseFloat(item.price.toString()),
           quantity: item.quantity,
         })),
         total: calculateTotal(),
         estimatedTime: t("estimatedTime"),
         waiter,
-        specialInstructions: notes,
+        // Only include specialInstructions if it has content
+        ...(notes.trim() && { specialInstructions: notes.trim() }),
       };
 
       console.log("Room Service Dialog - Order data:", orderData);

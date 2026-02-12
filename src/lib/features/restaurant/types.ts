@@ -86,10 +86,16 @@ export interface BackendBeverageInventory {
   status: "AVAILABLE" | "LOW_STOCK" | "OUT_OF_STOCK";
 }
 
+export interface CreateRoomServiceOrderItem {
+  item: string;
+  quantity: number;
+  price: number;
+}
+
 export interface CreateRoomServiceOrderData {
   room: string;
   guest: string;
-  items: string[] | Record<string, unknown> | RoomServiceOrderItem[];
+  items: CreateRoomServiceOrderItem[];
   total: number;
   estimatedTime?: string;
   waiter?: string;
