@@ -3415,10 +3415,12 @@
     "title": "Users List",
     "description": "Manage system users",
     "addUser": "Add User",
+    "user": "User",
     "name": "Name",
     "email": "Email",
     "roles": "Roles",
     "status": "Status",
+    "lastAccess": "Last Access",
     "actions": "Actions",
     "active": "Active",
     "inactive": "Inactive",
@@ -3432,6 +3434,8 @@
     "active": "Active",
     "inactive": "Inactive",
     "noRoles": "No roles",
+    "never": "Never",
+    "assignRoles": "Assign Roles",
     "confirmDelete": "Are you sure you want to delete this user?",
     "confirmDeleteDesc": "This action cannot be undone.",
     "cancel": "Cancel",
@@ -3545,9 +3549,13 @@
   "AssignRolesDialog": {
     "title": "Assign Roles",
     "description": "Select roles to assign to {userName}",
+    "selectRolesFor": "Select roles for",
     "noRolesAvailable": "No roles available.",
+    "roleSelected": "role selected",
+    "rolesSelected": "roles selected",
     "cancel": "Cancel",
     "save": "Save",
+    "assignRoles": "Assign Roles",
     "rolesAssigned": "Roles assigned",
     "rolesAssignedDesc": "Roles have been assigned successfully.",
     "errorAssigning": "Error assigning roles"
@@ -3595,7 +3603,11 @@
   },
   "UsersPage": {
     "title": "Users Management",
-    "description": "Manage users, roles and permissions"
+    "description": "Manage users, roles and permissions",
+    "loading": "Loading users data...",
+    "usersTab": "Users",
+    "rolesTab": "Roles",
+    "permissionsTab": "Permissions"
   },
   "UsersError": {
     "title": "Error",
