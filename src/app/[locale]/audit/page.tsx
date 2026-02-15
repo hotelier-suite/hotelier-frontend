@@ -93,13 +93,6 @@ export default function AuditPage() {
   if (loading && logs.length === 0) {
     return (
       <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold flex items-center gap-2">
-            <Shield className="h-8 w-8" />
-            {t("title")}
-          </h1>
-          <p className="text-muted-foreground">{t("loadingAuditRecords")}</p>
-        </div>
         <div className="grid gap-4 md:grid-cols-4">
           {[1, 2, 3, 4].map((i) => (
             <Card key={i}>
@@ -118,15 +111,9 @@ export default function AuditPage() {
   if (!user || !hasRequiredPermissions(user)) {
     return (
       <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold flex items-center gap-2">
-            <Shield className="h-8 w-8" />
-            {t("accessDenied")}
-          </h1>
-          <p className="text-muted-foreground">
-            {t("noPermissionToAccessAuditRecords")}
-          </p>
-        </div>
+        <p className="text-muted-foreground">
+          {t("noPermissionToAccessAuditRecords")}
+        </p>
       </div>
     );
   }
@@ -150,16 +137,6 @@ export default function AuditPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold flex items-center gap-2">
-          <Shield className="h-8 w-8" />
-          {t("title")}
-        </h1>
-        <p className="text-muted-foreground">
-          {t("completeRecordOfAllSystemActivities")}
-        </p>
-      </div>
-
       {/* Quick Stats */}
       <div className="grid gap-4 md:grid-cols-4">
         <Card>

@@ -183,11 +183,7 @@ export default function ParkingDashboard({
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold">{t("title")}</h1>
-          <p className="text-muted-foreground">{t("subtitle")}</p>
-        </div>
+      <div className="flex justify-end items-center">
         <div className="flex space-x-2">
           {!hasRole("client") && (
             <ParkingIncidentReportDialog

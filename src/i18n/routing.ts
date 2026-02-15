@@ -97,9 +97,9 @@ export const routing = defineRouting({
       en: "/settings",
       es: "/configuracion",
     },
-    "/settings/users": {
-      en: "/settings/users",
-      es: "/configuracion/usuarios",
+    "/users": {
+      en: "/users",
+      es: "/usuarios",
     },
     "/audit": {
       en: "/audit",

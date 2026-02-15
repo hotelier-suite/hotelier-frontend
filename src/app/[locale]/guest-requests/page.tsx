@@ -19,11 +19,6 @@ export default async function GuestRequestsPage() {
 
   return (
     <div className="container mx-auto py-6 space-y-6">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold">{t("title")}</h1>
-        <p className="text-muted-foreground">{t("subtitle")}</p>
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

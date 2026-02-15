@@ -144,7 +144,7 @@ export const navigationConfig: NavigationGroup[] = [
       },
       {
         titleKey: "users",
-        url: "/settings/users",
+        url: "/users",
         icon: "User",
         requiredPermissions: ["users:read"],
         requiredRoles: ["administrator"],

@@ -125,13 +125,6 @@ export default function BillingDashboard({
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold">{t("title")}</h1>
-          <p className="text-muted-foreground">{t("subtitle")}</p>
-        </div>
-      </div>
-
       {/* Quick Stats */}
       <div className="grid gap-4 md:grid-cols-4">
         <Card>

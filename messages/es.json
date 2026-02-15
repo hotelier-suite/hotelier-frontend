@@ -999,8 +999,6 @@
     "tryAgain": "Intentar de nuevo"
   },
   "BillingDashboard": {
-    "title": "Facturación y Pagos",
-    "subtitle": "Gestión de facturas, pagos y reportes financieros",
     "monthlyRevenue": "Ingresos Mensuales",
     "vsLastMonth": "+12% vs mes anterior",
     "invoicesIssued": "Facturas Emitidas",
@@ -1918,8 +1916,6 @@
     "validationPriorityRequired": "Por favor seleccione la prioridad del incidente"
   },
   "ParkingDashboard": {
-    "title": "Gestión de Estacionamiento",
-    "subtitle": "Control de vehículos, espacios e incidentes",
     "occupiedSpaces": "Espacios Ocupados",
     "ofSpaces": "De {count} espacios",
     "availableSpaces": "Espacios Disponibles",
@@ -3040,8 +3036,6 @@
     "contactBtn": "Contactar"
   },
   "MaintenanceDashboard": {
-    "title": "Mantenimiento",
-    "subtitle": "Gestionar solicitudes y programación de mantenimiento",
     "all": "Todos",
     "incidents": "Incidentes",
     "scheduled": "Programados",
@@ -3407,14 +3401,16 @@
     "percentValue": "{value}%"
   },
   "Configuration": {
-    "title": "Configuración",
-    "description": "Gestionar la configuración del sistema del hotel",
     "loading": "Cargando configuración...",
     "errorLoading": "Error al cargar la configuración",
     "tryAgain": "Intentar de Nuevo",
     "hotelInfo": "Información del Hotel",
     "policies": "Políticas",
-    "notifications": "Notificaciones"
+    "notifications": "Notificaciones",
+    "settingsSaved": "Configuración guardada",
+    "settingsSavedDesc": "Tu configuración ha sido actualizada exitosamente",
+    "error": "Error",
+    "errorSaving": "No se pudo guardar la configuración"
   },
   "HotelConfigForm": {
     "title": "Información del Hotel",
@@ -4324,9 +4320,7 @@
     "userIdNotFound": "ID de usuario no encontrado",
     "profileUpdated": "Perfil actualizado",
     "changesSaved": "Tus cambios han sido guardados.",
-    "couldNotUpdateProfile": "No se pudo actualizar el perfil.",
-    "title": "Mi Perfil",
-    "description": "Gestiona tu información personal"
+    "couldNotUpdateProfile": "No se pudo actualizar el perfil."
   },
   "GuestRequestsInterfaceComp": {
     "searchPlaceholder": "Buscar por huésped, habitación o descripción...",
@@ -4841,27 +4835,28 @@
   },
   "PageTitles": {
     "dashboard": "Panel de Control",
-    "reservations": "Reservaciones",
+    "reservations": "Gestión de Reservaciones",
     "roomBoard": "Tablero de Habitaciones",
-    "roomService": "Servicio de Habitación",
-    "guests": "Huéspedes",
-    "guestRequests": "Solicitudes de Huéspedes",
-    "housekeeping": "Limpieza",
-    "restaurant": "Restaurante",
-    "events": "Eventos",
-    "recreation": "Recreación",
-    "billing": "Facturación",
-    "inventory": "Inventario",
-    "staff": "Personal",
-    "attendance": "Asistencia",
-    "parking": "Estacionamiento",
+    "roomService": "Gestión de Servicio de Habitación",
+    "guests": "Gestión de Huéspedes",
+    "guestRequests": "Gestión de Solicitudes de Huéspedes",
+    "housekeeping": "Gestión de Limpieza",
+    "restaurant": "Gestión de Restaurante",
+    "events": "Gestión de Eventos",
+    "recreation": "Gestión de Recreación",
+    "billing": "Facturación y Pagos",
+    "inventory": "Gestión de Inventario",
+    "staff": "Gestión de Personal",
+    "attendance": "Gestión de Asistencia",
+    "parking": "Gestión de Estacionamiento",
     "parkingLot": "Lote de Estacionamiento",
-    "maintenance": "Mantenimiento",
+    "maintenance": "Gestión de Mantenimiento",
     "reports": "Reportes",
     "settings": "Configuración",
-    "audit": "Auditoría",
+    "users": "Gestión de Usuarios",
+    "audit": "Registros de Auditoría",
     "profile": "Perfil",
     "myReservations": "Mis Reservaciones",
-    "shifts": "Turnos"
+    "shifts": "Gestión de Turnos"
   }
 }

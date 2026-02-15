@@ -69,10 +69,6 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold">{t("title")}</h1>
-          <p className="text-muted-foreground">{t("loadingData")}</p>
-        </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {[1, 2, 3, 4].map((i) => (
             <div
@@ -252,11 +248,6 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">{t("title")}</h1>
-        <p className="text-muted-foreground">{t("hotelOverview")}</p>
-      </div>
-
       <StatsGrid stats={stats} />
 
       {/* Charts and Activities Section - Side by Side */}

@@ -80,10 +80,6 @@ export default function InventoryPage() {
   if (loading) {
     return (
       <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold">{t("title")}</h1>
-          <p className="text-muted-foreground">{t("loadingInventoryData")}</p>
-        </div>
         <div className="animate-pulse bg-gray-200 h-96 rounded-lg"></div>
       </div>
     );
@@ -98,13 +94,7 @@ export default function InventoryPage() {
 
   return (
     <div className="container mx-auto p-6">
-      <div className="mb-6 flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold">{t("title")}</h1>
-          <p className="text-muted-foreground">
-            {t("inventoryManagementAndStockControl")}
-          </p>
-        </div>
+      <div className="mb-6 flex justify-end items-center">
         <div className="flex gap-2">
           <Button
             variant="outline"

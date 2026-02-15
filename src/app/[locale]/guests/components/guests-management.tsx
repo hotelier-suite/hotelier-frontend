@@ -93,11 +93,7 @@ export function GuestsManagement({ initialGuests }: GuestsManagementProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">{t("title")}</h1>
-          <p className="text-muted-foreground">{t("subtitle")}</p>
-        </div>
+      <div className="flex items-center justify-end">
         <Button onClick={openCreate}>
           <Plus className="mr-2 h-4 w-4" /> {t("newGuest")}
         </Button>

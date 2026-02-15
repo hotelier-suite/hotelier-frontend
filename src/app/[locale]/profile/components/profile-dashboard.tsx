@@ -72,16 +72,8 @@ export default function ProfileDashboard({
 
   return (
     <div className="container mx-auto py-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">{t("title")}</h1>
-          <p className="text-muted-foreground">{t("description")}</p>
-        </div>
-      </div>
-
       <PersonalInfoForm
         initialData={initialProfileData}
-        userAvatar={user?.avatar}
         isSaving={isSaving}
         onSave={handleSave}
       />

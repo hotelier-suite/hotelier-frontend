@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Card,
   CardContent,
@@ -66,7 +66,6 @@ type PersonalInfoFormData = z.infer<
 
 interface PersonalInfoFormProps {
   initialData: PersonalInfoFormData;
-  userAvatar?: string;
   isSaving: boolean;
   onSave: (data: PersonalInfoFormData) => Promise<void>;
   onChange?: (data: Partial<PersonalInfoFormData>) => void;
@@ -74,7 +73,6 @@ interface PersonalInfoFormProps {
 
 export function PersonalInfoForm({
   initialData,
-  userAvatar,
   isSaving,
   onSave,
   onChange,

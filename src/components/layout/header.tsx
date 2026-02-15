@@ -1,6 +1,7 @@
 "use client";
-import { useState, useLayoutEffect, startTransition } from "react";
+import { useState, useLayoutEffect, startTransition, useMemo } from "react";
 import { useTranslations } from "next-intl";
+import { usePathname } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Settings, User, LogOut, Sun, Moon, Monitor } from "lucide-react";
 import { NotificationsMenu } from "@/components/notifications/notifications-menu";
 import { useTheme } from "next-themes";
@@ -23,10 +24,21 @@ import { Separator } from "@/components/ui/separator";
 
 export function Header() {
   const t = useTranslations("Header");
+  const tPageTitles = useTranslations("PageTitles");
+  const pathname = usePathname();
   const { setTheme, theme } = useTheme();
   const { user, logout, isLoading } = useAuth();
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const [mounted, setMounted] = useState(false);
+
+  // Convert pathname to translation key (e.g., "/room-board" -> "roomBoard", "/" -> "dashboard")
+  const pageTitleKey = useMemo(() => {
+    const segment = pathname.replace(/^\//, '').split('/')[0];
+    if (!segment) return 'dashboard';
+    return segment.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+  }, [pathname]);
+
+  const pageTitle = tPageTitles(pageTitleKey);
 
   useLayoutEffect(() => {
     startTransition(() => {
@@ -62,10 +74,7 @@ export function Header() {
 
         <div className="flex items-center flex-1 min-w-0 overflow-hidden">
           <h1 className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-foreground truncate transition-all duration-200 ml-1 sm:ml-0">
-            <span className="hidden xs:inline sm:inline">
-              {t("hotelierSuite")}
-            </span>
-            <span className="xs:hidden sm:hidden">{t("hotelShort")}</span>
+            {pageTitle}
           </h1>
         </div>
 

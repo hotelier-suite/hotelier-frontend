@@ -247,34 +247,30 @@ export function Reservations({
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold">{t("title")}</h1>
-          <p className="text-muted-foreground">{t("description")}</p>
-          <div className="flex items-center space-x-4 mt-4">
-            <div className="relative flex-1 max-w-sm">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder={t("searchPlaceholder")}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder={t("allStatuses")} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">{t("allStatuses")}</SelectItem>
-                <SelectItem value="PENDING">{t("pending")}</SelectItem>
-                <SelectItem value="CONFIRMED">{t("confirmed")}</SelectItem>
-                <SelectItem value="CHECKED_IN">{t("checkedIn")}</SelectItem>
-                <SelectItem value="CHECKED_OUT">{t("checkedOut")}</SelectItem>
-                <SelectItem value="CANCELLED">{t("cancelled")}</SelectItem>
-              </SelectContent>
-            </Select>
+        <div className="flex items-center space-x-4">
+          <div className="relative flex-1 max-w-sm">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder={t("searchPlaceholder")}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10"
+            />
           </div>
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-48">
+              <SelectValue placeholder={t("allStatuses")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">{t("allStatuses")}</SelectItem>
+              <SelectItem value="PENDING">{t("pending")}</SelectItem>
+              <SelectItem value="CONFIRMED">{t("confirmed")}</SelectItem>
+              <SelectItem value="CHECKED_IN">{t("checkedIn")}</SelectItem>
+              <SelectItem value="CHECKED_OUT">{t("checkedOut")}</SelectItem>
+              <SelectItem value="CANCELLED">{t("cancelled")}</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <Button onClick={() => setNewReservationDialogOpen(true)}>
           <Plus className="mr-2 h-4 w-4" />

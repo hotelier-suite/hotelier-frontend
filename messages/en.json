@@ -999,8 +999,6 @@
     "tryAgain": "Try again"
   },
   "BillingDashboard": {
-    "title": "Billing & Payments",
-    "subtitle": "Invoice, payment, and financial report management",
     "monthlyRevenue": "Monthly Revenue",
     "vsLastMonth": "+12% vs last month",
     "invoicesIssued": "Invoices Issued",
@@ -1918,8 +1916,6 @@
     "validationPriorityRequired": "Please select the incident priority"
   },
   "ParkingDashboard": {
-    "title": "Parking Management",
-    "subtitle": "Vehicle, space and incident control",
     "occupiedSpaces": "Occupied Spaces",
     "ofSpaces": "Of {count} spaces",
     "availableSpaces": "Available Spaces",
@@ -3049,8 +3045,6 @@
     "contactBtn": "Contact"
   },
   "MaintenanceDashboard": {
-    "title": "Maintenance",
-    "subtitle": "Manage maintenance requests and schedules",
     "all": "All",
     "incidents": "Incidents",
     "scheduled": "Scheduled",
@@ -3416,14 +3410,16 @@
     "percentValue": "{value}%"
   },
   "Configuration": {
-    "title": "Configuration",
-    "description": "Manage hotel system settings",
     "loading": "Loading configuration...",
     "errorLoading": "Error loading configuration",
     "tryAgain": "Try Again",
     "hotelInfo": "Hotel Information",
     "policies": "Policies",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "settingsSaved": "Settings saved",
+    "settingsSavedDesc": "Your configuration has been updated successfully",
+    "error": "Error",
+    "errorSaving": "Could not save the configuration"
   },
   "HotelConfigForm": {
     "title": "Hotel Information",
@@ -4322,9 +4318,7 @@
     "userIdNotFound": "User ID not found",
     "profileUpdated": "Profile updated",
     "changesSaved": "Your changes have been saved.",
-    "couldNotUpdateProfile": "Could not update profile.",
-    "title": "My Profile",
-    "description": "Manage your personal information"
+    "couldNotUpdateProfile": "Could not update profile."
   },
   "GuestRequestsInterfaceComp": {
     "searchPlaceholder": "Search by guest, room or description...",
@@ -4839,27 +4833,28 @@
   },
   "PageTitles": {
     "dashboard": "Control Panel",
-    "reservations": "Reservations",
+    "reservations": "Reservations Management",
     "roomBoard": "Room Board",
-    "roomService": "Room Service",
-    "guests": "Guests",
-    "guestRequests": "Guest Requests",
-    "housekeeping": "Housekeeping",
-    "restaurant": "Restaurant",
-    "events": "Events",
-    "recreation": "Recreation",
-    "billing": "Billing",
-    "inventory": "Inventory",
-    "staff": "Staff",
-    "attendance": "Attendance",
-    "parking": "Parking",
+    "roomService": "Room Service Management",
+    "guests": "Guests Management",
+    "guestRequests": "Guest Requests Management",
+    "housekeeping": "Housekeeping Management",
+    "restaurant": "Restaurant Management",
+    "events": "Events Management",
+    "recreation": "Recreation Management",
+    "billing": "Billing & Payments",
+    "inventory": "Inventory Management",
+    "staff": "Staff Management",
+    "attendance": "Attendance Management",
+    "parking": "Parking Management",
     "parkingLot": "Parking Lot",
-    "maintenance": "Maintenance",
+    "maintenance": "Maintenance Management",
     "reports": "Reports",
     "settings": "Settings",
-    "audit": "Audit",
+    "users": "User Management",
+    "audit": "Audit Logs",
     "profile": "Profile",
     "myReservations": "My Reservations",
-    "shifts": "Shifts"
+    "shifts": "Shifts Management"
   }
 }

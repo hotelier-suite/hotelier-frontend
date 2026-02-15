@@ -123,11 +123,7 @@ export function RoomServiceOrderManagement({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">{t("title")}</h1>
-          <p className="text-muted-foreground">{t("description")}</p>
-        </div>
+      <div className="flex items-center justify-end">
         <Button onClick={() => setShowNewOrderDialog(true)}>
           <Plus className="h-4 w-4 mr-2" />
           {t("newOrder")}

@@ -184,10 +184,6 @@ export default function RoomBoardPage() {
   if (loading) {
     return (
       <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold">{t("title")}</h1>
-          <p className="text-muted-foreground">{t("loadingRoomStatus")}</p>
-        </div>
         <div className="animate-pulse bg-muted h-96 rounded-lg"></div>
       </div>
     );
@@ -195,11 +191,6 @@ export default function RoomBoardPage() {
 
   return (
     <div className="container mx-auto py-6">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold">{t("title")}</h1>
-        <p className="text-muted-foreground">{t("subtitle")}</p>
-      </div>
-
       {/* Status Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
         <Card>
