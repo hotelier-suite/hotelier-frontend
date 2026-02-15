@@ -3176,7 +3176,8 @@
   "OccupancyChartReport": {
     "title": "Ocupación por Tipo de Habitación",
     "description": "Distribución de ocupación de habitaciones por tipo",
-    "occupancy": "Ocupación"
+    "occupancy": "Ocupación",
+    "percentValue": "{value}%"
   },
   "OccupancyCharts": {
     "title": "Análisis de Ocupación",
@@ -3454,10 +3455,12 @@
     "title": "Lista de Usuarios",
     "description": "Gestionar usuarios del sistema",
     "addUser": "Agregar Usuario",
+    "user": "Usuario",
     "name": "Nombre",
     "email": "Correo",
     "roles": "Roles",
     "status": "Estado",
+    "lastAccess": "Último Acceso",
     "actions": "Acciones",
     "active": "Activo",
     "inactive": "Inactivo",
@@ -3471,6 +3474,8 @@
     "active": "Activo",
     "inactive": "Inactivo",
     "noRoles": "Sin roles",
+    "never": "Nunca",
+    "assignRoles": "Asignar Roles",
     "confirmDelete": "¿Está seguro de que desea eliminar este usuario?",
     "confirmDeleteDesc": "Esta acción no se puede deshacer.",
     "cancel": "Cancelar",
@@ -3609,9 +3614,13 @@
   "AssignRolesDialog": {
     "title": "Asignar Roles",
     "description": "Seleccionar roles para asignar a {userName}",
+    "selectRolesFor": "Seleccionar roles para",
     "noRolesAvailable": "No hay roles disponibles.",
+    "roleSelected": "rol seleccionado",
+    "rolesSelected": "roles seleccionados",
     "cancel": "Cancelar",
     "save": "Guardar",
+    "assignRoles": "Asignar Roles",
     "rolesAssigned": "Roles asignados",
     "rolesAssignedDesc": "Los roles han sido asignados exitosamente.",
     "errorAssigning": "Error al asignar roles"
@@ -3680,7 +3689,11 @@
   },
   "UsersPage": {
     "title": "Gestión de Usuarios",
-    "description": "Gestionar usuarios, roles y permisos"
+    "description": "Gestionar usuarios, roles y permisos",
+    "loading": "Cargando datos de usuarios...",
+    "usersTab": "Usuarios",
+    "rolesTab": "Roles",
+    "permissionsTab": "Permisos"
   },
   "UsersError": {
     "title": "Error",

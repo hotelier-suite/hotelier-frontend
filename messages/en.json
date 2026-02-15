@@ -3185,7 +3185,8 @@
   "OccupancyChartReport": {
     "title": "Occupancy by Room Type",
     "description": "Room occupancy distribution by type",
-    "occupancy": "Occupancy"
+    "occupancy": "Occupancy",
+    "percentValue": "{value}%"
   },
   "OccupancyCharts": {
     "title": "Occupancy Analysis",
