@@ -2053,7 +2053,12 @@
       "STANDARD": "Standard",
       "regular": "Regular",
       "handicapped": "Handicapped",
-      "vip": "VIP"
+      "vip": "VIP",
+      "Disabled": "Disabled",
+      "Employees": "Employees",
+      "Guests": "Guests",
+      "Loading/Unloading": "Loading/Unloading",
+      "Visitors": "Visitors"
     }
   },
   "VehicleRegistrationForm": {
