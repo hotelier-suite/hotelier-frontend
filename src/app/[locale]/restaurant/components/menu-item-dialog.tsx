@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -105,6 +106,9 @@ export function MenuItemDialog({
           <DialogTitle>
             {isEditing ? t("editTitle") : t("createTitle")}
           </DialogTitle>
+          <DialogDescription>
+            {isEditing ? t("editDescription") : t("createDescription")}
+          </DialogDescription>
         </DialogHeader>
 
         <MenuItemForm

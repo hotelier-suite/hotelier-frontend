@@ -4253,7 +4253,9 @@
     "itemNotFound": "Elemento no encontrado.",
     "error": "Error",
     "editTitle": "Editar Elemento del Menú",
-    "createTitle": "Crear Elemento del Menú"
+    "editDescription": "Modificar los detalles del elemento del menú",
+    "createTitle": "Crear Elemento del Menú",
+    "createDescription": "Agregar un nuevo elemento al menú"
   },
   "MenuItemFormComp": {
     "category": "Categoría",
