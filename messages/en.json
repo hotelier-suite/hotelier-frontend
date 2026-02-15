@@ -4836,5 +4836,30 @@
     "total": "Total",
     "orders": "Orders",
     "average": "Average"
+  },
+  "PageTitles": {
+    "dashboard": "Control Panel",
+    "reservations": "Reservations",
+    "roomBoard": "Room Board",
+    "roomService": "Room Service",
+    "guests": "Guests",
+    "guestRequests": "Guest Requests",
+    "housekeeping": "Housekeeping",
+    "restaurant": "Restaurant",
+    "events": "Events",
+    "recreation": "Recreation",
+    "billing": "Billing",
+    "inventory": "Inventory",
+    "staff": "Staff",
+    "attendance": "Attendance",
+    "parking": "Parking",
+    "parkingLot": "Parking Lot",
+    "maintenance": "Maintenance",
+    "reports": "Reports",
+    "settings": "Settings",
+    "audit": "Audit",
+    "profile": "Profile",
+    "myReservations": "My Reservations",
+    "shifts": "Shifts"
   }
 }

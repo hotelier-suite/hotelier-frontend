@@ -4838,5 +4838,30 @@
     "total": "Total",
     "orders": "Órdenes",
     "average": "Promedio"
+  },
+  "PageTitles": {
+    "dashboard": "Panel de Control",
+    "reservations": "Reservaciones",
+    "roomBoard": "Tablero de Habitaciones",
+    "roomService": "Servicio de Habitación",
+    "guests": "Huéspedes",
+    "guestRequests": "Solicitudes de Huéspedes",
+    "housekeeping": "Limpieza",
+    "restaurant": "Restaurante",
+    "events": "Eventos",
+    "recreation": "Recreación",
+    "billing": "Facturación",
+    "inventory": "Inventario",
+    "staff": "Personal",
+    "attendance": "Asistencia",
+    "parking": "Estacionamiento",
+    "parkingLot": "Lote de Estacionamiento",
+    "maintenance": "Mantenimiento",
+    "reports": "Reportes",
+    "settings": "Configuración",
+    "audit": "Auditoría",
+    "profile": "Perfil",
+    "myReservations": "Mis Reservaciones",
+    "shifts": "Turnos"
   }
 }

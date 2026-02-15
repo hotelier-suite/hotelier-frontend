@@ -22,8 +22,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "Metadata" });
+  const pageT = await getTranslations({ locale, namespace: "PageTitles" });
 
   return {
+    title: {
+      template: "Hotelier %s",
+      default: `Hotelier ${pageT("dashboard")}`,
+    },
     description: t("description"),
     openGraph: {
       title: "Hotelier",

@@ -29,7 +29,7 @@ interface RoomWithStatus extends Room {
   };
 }
 
-export default function RoomStatusBoardPage() {
+export default function RoomBoardPage() {
   const t = useTranslations("RoomBoardPageComp");
   const { user, isLoading: authLoading } = useAuthContext();
   const router = useRouter();

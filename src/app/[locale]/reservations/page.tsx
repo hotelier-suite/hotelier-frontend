@@ -2,14 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 import { type Reservation } from "@/lib/features/reservations/types";
 import { reservationsService } from "@/lib/features/reservations/service";
 import { type Room } from "@/lib/features/rooms/types";
@@ -64,26 +56,12 @@ export default function ReservationsPage() {
   }
 
   return (
-    <>
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/">{t("dashboard")}</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>{t("title")}</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-
-      <div className="space-y-6">
-        <Reservations
-          initialReservations={reservations}
-          rooms={rooms}
-          currencyCode={currency}
-        />
-      </div>
-    </>
+    <div className="space-y-6">
+      <Reservations
+        initialReservations={reservations}
+        rooms={rooms}
+        currencyCode={currency}
+      />
+    </div>
   );
 }

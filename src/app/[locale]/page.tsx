@@ -27,7 +27,7 @@ interface Reservation {
   room?: { number: string };
 }
 
-export default function Dashboard() {
+export default function DashboardPage() {
   const t = useTranslations("Dashboard");
   const locale = useLocale();
   const [reservations, setReservations] = useState<Reservation[]>([]);
@@ -285,3 +285,4 @@ export default function Dashboard() {
     </div>
   );
 }
+

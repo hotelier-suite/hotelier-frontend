@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Car, MapPin, AlertTriangle } from "lucide-react";
 
-export default async function ParkingOverviewPage() {
+export default async function ParkingLotPage() {
   const t = await getTranslations("ParkingLotPage");
   const [parkingSpaces, incidents] = await Promise.all([
     parkingService.getParkingSpaces().catch(() => []),

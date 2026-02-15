@@ -6,7 +6,7 @@ import Configuration from "./components/configuration";
 import { configurationService } from "@/lib/features/configuration/service";
 import type { HotelConfig } from "@/lib/features/configuration/types";
 
-export default function ConfigurationPage() {
+export default function SettingsPage() {
   const t = useTranslations("SettingsPage");
   const [hotelConfig, setHotelConfig] = useState<HotelConfig | null>(null);
   const [error, setError] = useState<string | null>(null);
