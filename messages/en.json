@@ -3184,6 +3184,7 @@
   },
   "OccupancyChartReport": {
     "title": "Occupancy by Room Type",
+    "description": "Room occupancy distribution by type",
     "occupancy": "Occupancy"
   },
   "OccupancyCharts": {
@@ -3336,7 +3337,8 @@
       "Client": "Client",
       "Administrator": "Administrator",
       "Maintenance Staff": "Maintenance Staff",
-      "Restaurant Staff": "Restaurant Staff"
+      "Restaurant Staff": "Restaurant Staff",
+      "Laundry Attendant": "Laundry Attendant"
     },
     "percentValue": "{value}%"
   },
@@ -3398,6 +3400,10 @@
   "RevenueBreakdownChart": {
     "title": "Revenue Breakdown",
     "description": "Revenue by department",
+    "rooms": "Rooms",
+    "restaurant": "Restaurant",
+    "services": "Services",
+    "events": "Events",
     "percentValue": "{value}%"
   },
   "Configuration": {

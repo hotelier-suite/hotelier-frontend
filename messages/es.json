@@ -3175,6 +3175,7 @@
   },
   "OccupancyChartReport": {
     "title": "Ocupación por Tipo de Habitación",
+    "description": "Distribución de ocupación de habitaciones por tipo",
     "occupancy": "Ocupación"
   },
   "OccupancyCharts": {
@@ -3327,7 +3328,8 @@
       "Client": "Cliente",
       "Administrator": "Administrador",
       "Maintenance Staff": "Personal de Mantenimiento",
-      "Restaurant Staff": "Personal de Restaurante"
+      "Restaurant Staff": "Personal de Restaurante",
+      "Laundry Attendant": "Encargado de Lavandería"
     },
     "percentValue": "{value}%"
   },
@@ -3389,6 +3391,10 @@
   "RevenueBreakdownChart": {
     "title": "Desglose de Ingresos",
     "description": "Ingresos por departamento",
+    "rooms": "Habitaciones",
+    "restaurant": "Restaurante",
+    "services": "Servicios",
+    "events": "Eventos",
     "percentValue": "{value}%"
   },
   "Configuration": {
