@@ -120,7 +120,8 @@ export function PersonalInfoForm({
       .split(" ")
       .map((n: string) => n[0])
       .join("")
-      .toUpperCase();
+      .toUpperCase()
+      .slice(0, 2);
   };
 
   return (
@@ -133,8 +134,7 @@ export function PersonalInfoForm({
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
           <div className="flex items-center space-x-4">
             <Avatar className="h-20 w-20">
-              <AvatarImage src={userAvatar || "/placeholder.svg"} />
-              <AvatarFallback className="text-lg">
+              <AvatarFallback className="text-lg font-semibold bg-primary/10 text-primary" delayMs={0}>
                 {getInitials()}
               </AvatarFallback>
             </Avatar>

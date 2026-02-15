@@ -111,12 +111,13 @@ export function Header() {
                 className="relative h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 rounded-full"
               >
                 <Avatar className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8">
-                  <AvatarImage
-                    src={user?.avatar || "/placeholder.svg"}
-                    alt={user?.name}
-                  />
-                  <AvatarFallback className="bg-primary text-primary-foreground text-[10px] sm:text-xs md:text-sm">
-                    {user?.name?.charAt(0) || "U"}
+                  <AvatarFallback className="bg-primary/10 text-primary text-[10px] sm:text-xs md:text-sm font-semibold" delayMs={0}>
+                    {user?.name
+                      ?.split(" ")
+                      .map((n) => n[0])
+                      .join("")
+                      .toUpperCase()
+                      .slice(0, 2) || "U"}
                   </AvatarFallback>
                 </Avatar>
               </Button>
