@@ -1,13 +1,11 @@
 "use client";
 
-import { useTheme } from "next-themes";
-import { useLayoutEffect, useState, startTransition } from "react";
-
 interface HotelierLogoProps {
   className?: string;
   size?: "sm" | "md" | "lg" | "xl";
   variant?: "icon" | "modern" | "full";
   showBackground?: boolean;
+  showText?: boolean;
 }
 
 const sizeClasses = {
@@ -24,48 +22,34 @@ const fullLogoSizes = {
   xl: "h-20 w-60",
 };
 
+const textSizeClasses = {
+  sm: "text-lg",
+  md: "text-xl",
+  lg: "text-3xl",
+  xl: "text-4xl",
+};
+
+const taglineSizeClasses = {
+  sm: "text-[10px]",
+  md: "text-xs",
+  lg: "text-sm",
+  xl: "text-base",
+};
+
 export function HotelierLogo({
   className = "",
   size = "md",
   variant = "icon",
   showBackground = false,
+  showText = true,
 }: HotelierLogoProps) {
-  const { theme, resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useLayoutEffect(() => {
-    startTransition(() => {
-      setMounted(true);
-    });
-  }, []);
-
-  const getLogoSrc = () => {
-    // If not mounted yet, return default logo to prevent hydration mismatch
-    if (!mounted) {
-      return "/logo.png";
-    }
-
-    // Determine if we should show dark version
-    const isDarkMode =
-      resolvedTheme === "dark" ||
-      (theme === "system" && resolvedTheme === "dark");
-
-    switch (variant) {
-      case "full":
-        return isDarkMode ? "/logo-black.png" : "/logo.png";
-      case "modern":
-        return isDarkMode ? "/logo-black.png" : "/logo.png";
-      default:
-        return isDarkMode ? "/logo-black.png" : "/logo.png";
-    }
-  };
-
   const getSizeClass = () => {
     return variant === "full" ? fullLogoSizes[size] : sizeClasses[size];
   };
 
-  const logoSrc = getLogoSrc();
   const sizeClass = getSizeClass();
+  const textSizeClass = textSizeClasses[size];
+  const taglineSizeClass = taglineSizeClasses[size];
 
   const backgroundClass = showBackground
     ? "bg-linear-to-br from-indigo-500 via-blue-500 via-cyan-500 to-emerald-500 rounded-lg p-1"
@@ -73,14 +57,24 @@ export function HotelierLogo({
 
   return (
     <div
-      className={`flex items-center justify-center ${backgroundClass} ${className}`}
+      className={`flex items-center gap-3 ${backgroundClass} ${className}`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={logoSrc}
+        src="/logo.png"
         alt="Hotelier"
         className={`${sizeClass} object-contain`}
       />
+      {showText && (
+        <div className="flex flex-col">
+          <span className={`font-bold ${textSizeClass} text-foreground leading-tight`}>
+            Hotelier
+          </span>
+          <span className={`${taglineSizeClass} text-muted-foreground`}>
+            Management Simplified
+          </span>
+        </div>
+      )}
     </div>
   );
 }
