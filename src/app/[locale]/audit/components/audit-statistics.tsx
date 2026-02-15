@@ -357,7 +357,7 @@ export function AuditStatistics() {
             {statistics.userStats.slice(0, 10).map((user, index) => (
               <div
                 key={user.userId}
-                className="flex items-center justify-between p-3 rounded-lg bg-gray-50"
+                className="flex items-center justify-between p-3 rounded-lg bg-muted/50 dark:bg-muted/20"
               >
                 <div className="flex items-center gap-3">
                   <Badge
