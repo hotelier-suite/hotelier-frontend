@@ -4701,5 +4701,16 @@
   "Metadata": {
     "description": "Comprehensive hotel management system. Simplify your hotel administration with modern and efficient tools.",
     "ogDescription": "Comprehensive hotel management system"
+  },
+  "SalesTableComp": {
+    "title": "Sales Table",
+    "description": "Daily sales breakdown by service",
+    "date": "Date",
+    "roomService": "Room Service",
+    "restaurant": "Restaurant",
+    "bar": "Bar",
+    "total": "Total",
+    "orders": "Orders",
+    "average": "Average"
   }
 }

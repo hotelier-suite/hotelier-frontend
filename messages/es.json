@@ -4680,5 +4680,16 @@
   "Metadata": {
     "description": "Sistema integral de gestión hotelera. Simplifica la administración de tu hotel con herramientas modernas y eficientes.",
     "ogDescription": "Sistema integral de gestión hotelera"
+  },
+  "SalesTableComp": {
+    "title": "Tabla de Ventas",
+    "description": "Desglose diario de ventas por servicio",
+    "date": "Fecha",
+    "roomService": "Servicio a Habitación",
+    "restaurant": "Restaurante",
+    "bar": "Bar",
+    "total": "Total",
+    "orders": "Órdenes",
+    "average": "Promedio"
   }
 }
