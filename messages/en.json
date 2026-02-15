@@ -429,7 +429,9 @@
       "FITNESS_CENTER": "Fitness Center",
       "POOL_BAR": "Pool Bar",
       "KIDS_CLUB": "Kids Club",
-      "MEDITATION_ROOM": "Meditation Room"
+      "MEDITATION_ROOM": "Meditation Room",
+      "BUSINESS_CENTER": "Business Center",
+      "KIDS_PLAY_AREA": "Kids Play Area"
     }
   },
   "RestaurantPage": {
@@ -1587,7 +1589,8 @@
     "priorityHigh": "High",
     "priorityNormal": "Normal",
     "priorityMaintenance": "Maintenance",
-    "hoursUnit": "h"
+    "hoursUnit": "h",
+    "openMenu": "Open menu"
   },
   "FacilitiesManagement": {
     "title": "Facilities Management",

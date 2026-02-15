@@ -429,7 +429,9 @@
       "FITNESS_CENTER": "Centro de Fitness",
       "POOL_BAR": "Bar de Piscina",
       "KIDS_CLUB": "Club Infantil",
-      "MEDITATION_ROOM": "Sala de Meditación"
+      "MEDITATION_ROOM": "Sala de Meditación",
+      "BUSINESS_CENTER": "Centro de Negocios",
+      "KIDS_PLAY_AREA": "Área de Juegos Infantiles"
     }
   },
   "RestaurantPage": {
@@ -1587,7 +1589,8 @@
     "priorityHigh": "Alta",
     "priorityNormal": "Normal",
     "priorityMaintenance": "Mantenimiento",
-    "hoursUnit": "h"
+    "hoursUnit": "h",
+    "openMenu": "Abrir menú"
   },
   "FacilitiesManagement": {
     "title": "Gestión de Instalaciones",
