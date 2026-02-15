@@ -92,7 +92,7 @@ export function ReservationSelector({
               })
             )}
             {reservations.length === 0 && !loading && (
-              <SelectItem value="" disabled>
+              <SelectItem value="no-reservations" disabled>
                 {t("noReservationsPendingBilling")}
               </SelectItem>
             )}

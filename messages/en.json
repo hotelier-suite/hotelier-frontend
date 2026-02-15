@@ -323,13 +323,18 @@
   "StaffPage": {
     "title": "Staff",
     "loadingDescription": "Loading staff data...",
+    "loadingStaffData": "Loading staff data...",
+    "subtitle": "Staff and attendance management",
     "description": "Staff and attendance management",
     "totalStaff": "Total Staff",
     "registeredEmployees": "Registered employees",
     "activeStaff": "Active Staff",
+    "activeEmployees": "Active employees",
     "currentlyActive": "Currently active",
     "presentToday": "Present Today",
     "todayAttendance": "Today's attendance",
+    "todaysAttendance": "Today's attendance",
+    "averageAttendance": "Average attendance",
     "attendanceRate": "Attendance Rate",
     "currentPeriod": "Current period",
     "shifts": "Shifts",
@@ -2210,6 +2215,10 @@
       "Security": "Security",
       "Client": "Client",
       "Administrator": "Administrator",
+      "Head Waitress": "Head Waitress",
+      "Hotel Manager": "Hotel Manager",
+      "Laundry Attendant": "Laundry Attendant",
+      "Valet Attendant": "Valet Attendant",
       "Maintenance Staff": "Maintenance Staff",
       "Restaurant Staff": "Restaurant Staff"
     },
@@ -2218,7 +2227,10 @@
       "AFTERNOON": "Afternoon",
       "NIGHT": "Night",
       "EVENING": "Evening",
-      "DOUBLE": "Double"
+      "DOUBLE": "Double",
+      "Lunch": "Lunch",
+      "Full Time": "Full Time",
+      "Day": "Day"
     }
   },
   "AttendanceTab": {
@@ -2302,6 +2314,10 @@
       "Security": "Security",
       "Client": "Client",
       "Administrator": "Administrator",
+      "Head Waitress": "Head Waitress",
+      "Hotel Manager": "Hotel Manager",
+      "Laundry Attendant": "Laundry Attendant",
+      "Valet Attendant": "Valet Attendant",
       "Maintenance Staff": "Maintenance Staff",
       "Restaurant Staff": "Restaurant Staff"
     },
@@ -2378,6 +2394,10 @@
       "Security": "Security",
       "Client": "Client",
       "Administrator": "Administrator",
+      "Head Waitress": "Head Waitress",
+      "Hotel Manager": "Hotel Manager",
+      "Laundry Attendant": "Laundry Attendant",
+      "Valet Attendant": "Valet Attendant",
       "Maintenance Staff": "Maintenance Staff",
       "Restaurant Staff": "Restaurant Staff"
     }

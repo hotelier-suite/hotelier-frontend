@@ -323,13 +323,18 @@
   "StaffPage": {
     "title": "Personal",
     "loadingDescription": "Cargando datos del personal...",
+    "loadingStaffData": "Cargando datos del personal...",
+    "subtitle": "Gestión de personal y asistencia",
     "description": "Gestión de personal y asistencia",
     "totalStaff": "Personal Total",
     "registeredEmployees": "Empleados registrados",
     "activeStaff": "Personal Activo",
+    "activeEmployees": "Empleados activos",
     "currentlyActive": "Actualmente activos",
     "presentToday": "Presentes Hoy",
     "todayAttendance": "Asistencia de hoy",
+    "todaysAttendance": "Asistencia de hoy",
+    "averageAttendance": "Asistencia promedio",
     "attendanceRate": "Tasa de Asistencia",
     "currentPeriod": "Período actual",
     "shifts": "Turnos",
@@ -2210,6 +2215,10 @@
       "Security": "Seguridad",
       "Client": "Cliente",
       "Administrator": "Administrador",
+      "Head Waitress": "Jefa de Meseras",
+      "Hotel Manager": "Gerente de Hotel",
+      "Laundry Attendant": "Asistente de Lavandería",
+      "Valet Attendant": "Asistente de Valet",
       "Maintenance Staff": "Personal de Mantenimiento",
       "Restaurant Staff": "Personal de Restaurante"
     },
@@ -2218,7 +2227,10 @@
       "AFTERNOON": "Tarde",
       "NIGHT": "Noche",
       "EVENING": "Vespertino",
-      "DOUBLE": "Doble"
+      "DOUBLE": "Doble",
+      "Lunch": "Almuerzo",
+      "Full Time": "Tiempo Completo",
+      "Day": "Día"
     }
   },
   "AttendanceTab": {
@@ -2302,6 +2314,10 @@
       "Security": "Seguridad",
       "Client": "Cliente",
       "Administrator": "Administrador",
+      "Head Waitress": "Jefa de Meseras",
+      "Hotel Manager": "Gerente de Hotel",
+      "Laundry Attendant": "Asistente de Lavandería",
+      "Valet Attendant": "Asistente de Valet",
       "Maintenance Staff": "Personal de Mantenimiento",
       "Restaurant Staff": "Personal de Restaurante"
     },
@@ -2378,6 +2394,10 @@
       "Security": "Seguridad",
       "Client": "Cliente",
       "Administrator": "Administrador",
+      "Head Waitress": "Jefa de Meseras",
+      "Hotel Manager": "Gerente de Hotel",
+      "Laundry Attendant": "Asistente de Lavandería",
+      "Valet Attendant": "Asistente de Valet",
       "Maintenance Staff": "Personal de Mantenimiento",
       "Restaurant Staff": "Personal de Restaurante"
     }
