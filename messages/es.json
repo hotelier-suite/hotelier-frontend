@@ -1992,7 +1992,10 @@
       "sedan": "Sedán",
       "SUV": "SUV",
       "truck": "Camión",
-      "motorcycle": "Motocicleta"
+      "motorcycle": "Motocicleta",
+      "Van": "Camioneta",
+      "Motorcycle": "Motocicleta",
+      "Car": "Auto"
     }
   },
   "VehicleRegistrationDialog": {
