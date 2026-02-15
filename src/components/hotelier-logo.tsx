@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 interface HotelierLogoProps {
   className?: string;
   size?: "sm" | "md" | "lg" | "xl";
@@ -13,6 +15,13 @@ const sizeClasses = {
   md: "h-8 w-8",
   lg: "h-12 w-12",
   xl: "h-16 w-16",
+};
+
+const sizePixels = {
+  sm: 24,
+  md: 32,
+  lg: 48,
+  xl: 64,
 };
 
 const fullLogoSizes = {
@@ -48,6 +57,7 @@ export function HotelierLogo({
   };
 
   const sizeClass = getSizeClass();
+  const sizeInPixels = sizePixels[size];
   const textSizeClass = textSizeClasses[size];
   const taglineSizeClass = taglineSizeClasses[size];
 
@@ -59,10 +69,11 @@ export function HotelierLogo({
     <div
       className={`flex items-center gap-3 ${backgroundClass} ${className}`}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src="/logo.png"
         alt="Hotelier"
+        width={sizeInPixels}
+        height={sizeInPixels}
         className={`${sizeClass} object-contain`}
       />
       {showText && (
