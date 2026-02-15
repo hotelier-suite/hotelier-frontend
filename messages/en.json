@@ -4075,7 +4075,7 @@
     "days90": "90 days",
     "year1": "1 year",
     "totalRecords": "Total Records",
-    "inLastDays": "In the last {days} days",
+    "inLastDays": "In the last {period} days",
     "activeUsers": "Active Users",
     "usersWithActivity": "Users with activity",
     "dailyAverage": "Daily Average",
