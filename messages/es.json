@@ -1961,7 +1961,12 @@
       "STANDARD": "Estándar",
       "regular": "Regular",
       "handicapped": "Discapacitados",
-      "vip": "VIP"
+      "vip": "VIP",
+      "Disabled": "Discapacitados",
+      "Employees": "Empleados",
+      "Guests": "Huéspedes",
+      "Loading/Unloading": "Carga/Descarga",
+      "Visitors": "Visitantes"
     }
   },
   "VehicleManagement": {
