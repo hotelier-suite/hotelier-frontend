@@ -1138,7 +1138,13 @@
     "approved": "Aprobado",
     "methodCard": "Tarjeta",
     "methodCash": "Efectivo",
-    "methodTransfer": "Transferencia"
+    "methodTransfer": "Transferencia",
+    "methodCASH": "Efectivo",
+    "methodCREDIT_CARD": "Tarjeta de Crédito",
+    "methodDEBIT_CARD": "Tarjeta de Débito",
+    "methodBANK_TRANSFER": "Transferencia Bancaria",
+    "methodCHECK": "Cheque",
+    "methodOTHER": "Otro"
   },
   "ReservationSelector": {
     "loadingReservations": "Cargando reservaciones...",
