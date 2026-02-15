@@ -27,8 +27,6 @@ interface Reservation {
   room?: { number: string };
 }
 
-// Using the proper Room type from API
-
 export default function Dashboard() {
   const t = useTranslations("Dashboard");
   const locale = useLocale();
